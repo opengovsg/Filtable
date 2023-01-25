@@ -1,7 +1,8 @@
 {
-  "name": "filters-sg",
+  "name": "filtable",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "build": "next build",
     "dev": "next dev",
@@ -15,6 +16,7 @@
     "npm": "^9.3.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-markdown": "^6.0.3",
     "zod": "^3.20.2"
   },
   "devDependencies": {
