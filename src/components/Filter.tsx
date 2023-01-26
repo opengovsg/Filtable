@@ -1,9 +1,9 @@
 import type { Dispatch, FC, SetStateAction } from "react";
-import type { HeadingConfig } from "../types/configurations";
+import type { HeadingConfig } from "../types/configuration";
 import {
   extractFilters,
   processExtractedFilters,
-} from "../utils/configurations";
+} from "../utils/configuration";
 
 type Props = {
   filter: Record<string, boolean>;

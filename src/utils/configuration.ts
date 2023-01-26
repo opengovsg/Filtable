@@ -1,10 +1,10 @@
 import type { ZodTypeAny } from "zod";
 import { z } from "zod";
-import type { Headings } from "../types/headingsx";
-import { headings } from "../types/headingsx";
-import { mandatoryHeadings, optionalHeadings } from "../types/headingsx";
-import type { FilterKeywords } from "../types/configurations";
-import { filterKeywords, type HeadingConfig } from "../types/configurations";
+import type { Headings } from "../types/headings";
+import { headings } from "../types/headings";
+import { mandatoryHeadings, optionalHeadings } from "../types/headings";
+import type { FilterKeywords } from "../types/configuration";
+import { filterKeywords, type HeadingConfig } from "../types/configuration";
 import {
   extractFirstToken,
   isFilterKeyword,

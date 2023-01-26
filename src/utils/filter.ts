@@ -1,5 +1,5 @@
-import type { FilterKeywords } from "../types/configurations";
-import { filterKeywords } from "../types/configurations";
+import type { FilterKeywords } from "../types/configuration";
+import { filterKeywords } from "../types/configuration";
 
 export const initUnselectedFilters = (
   processedExtractedFilters?: Record<FilterKeywords, Array<string>>

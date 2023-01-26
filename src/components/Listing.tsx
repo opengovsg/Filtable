@@ -1,8 +1,8 @@
 import { Box, Text } from "@chakra-ui/react";
 import { BxRightArrowAlt, Link, Tag } from "@opengovsg/design-system-react";
 import type { FC } from "react";
-import type { HeadingConfig } from "../types/configurations";
-import { extractTags } from "../utils/configurations";
+import type { HeadingConfig } from "../types/configuration";
+import { extractTags } from "../utils/configuration";
 import { doesListingPassFilter, isFilterAllUnselected } from "../utils/filter";
 import { extractUrlHost, isValidLink } from "../utils/strings";
 

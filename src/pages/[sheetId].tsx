@@ -12,11 +12,11 @@ import {
   extractFilters,
   initEmptyHeadingConfig,
   processExtractedFilters,
-} from "../utils/configurations";
+} from "../utils/configuration";
 import { initUnselectedFilters } from "../utils/filter";
 // Types
 import type { NextPage } from "next";
-import type { HeadingConfig } from "../types/configurations";
+import type { HeadingConfig } from "../types/configuration";
 import { ConfigurationResponse, GoogleSheetResponse } from "../zodSchemas";
 
 const FilterPage: NextPage = () => {
