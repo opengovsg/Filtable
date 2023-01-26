@@ -1,4 +1,4 @@
-import type { MandatoryHeadings, OptionalHeadings } from "./headings";
+import type { MandatoryHeadings, OptionalHeadings } from "./headingsx";
 
 export type HeadingConfig = {
   [Property in MandatoryHeadings]: string;

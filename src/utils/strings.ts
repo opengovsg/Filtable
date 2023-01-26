@@ -1,4 +1,4 @@
-import { filterKeywords } from "../types/configuration";
+import { filterKeywords } from "../types/configurations";
 
 export const isFilterKeyword = (key: string | undefined): boolean => {
   if (key === undefined) {

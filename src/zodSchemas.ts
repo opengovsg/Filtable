@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { initZodHeadingConfig } from "./utils/configuration";
+import { initZodHeadingConfig } from "./utils/configurations";
 
 export const GoogleSheetResponse = z.array(z.object({}).catchall(z.string()));
 
