@@ -1,16 +1,15 @@
 import type { ZodTypeAny } from "zod";
 import { z } from "zod";
-import type { Headings } from "../types/Headings";
-import { headings } from "../types/Headings";
-import { mandatoryHeadings, optionalHeadings } from "../types/Headings";
-import type { FilterKeywords } from "../types/Configuration";
+import type { Headings } from "../types/headings";
+import { headings } from "../types/headings";
+import { mandatoryHeadings, optionalHeadings } from "../types/headings";
+import type { FilterKeywords } from "../types/configuration";
+import { filterKeywords, type HeadingConfig } from "../types/configuration";
 import {
-  filterClose,
-  filterKeywords,
-  filterOpen,
-  type HeadingConfig,
-} from "../types/Configuration";
-import { checkForKeyword } from "./strings";
+  extractFirstToken,
+  isFilterKeyword,
+  splitConcatenatedTags,
+} from "./strings";
 
 export const initEmptyHeadingConfig = (): HeadingConfig => {
   const temp: Record<string, string> = {};
@@ -32,21 +31,24 @@ export const initZodHeadingConfig = (): Record<Headings, ZodTypeAny> => {
   return temp;
 };
 
+/**
+ * Extract key-value pairs from the configuration such that the key's first word is a filter keyword
+ */
 export const extractFilters = (
   config: HeadingConfig
 ): Partial<HeadingConfig> => {
   const configArray = Object.entries(config);
   const filteredConfigArray = configArray.filter(([key]) => {
-    const open = key.split("").findIndex((char) => char == filterOpen);
-    const close = key.split("").findIndex((char) => char === filterClose);
-
-    return open < close;
+    return isFilterKeyword(extractFirstToken(key));
   });
   const filteredConfig = Object.fromEntries(filteredConfigArray);
 
   return filteredConfig;
 };
 
+/**
+ * Process config key-value pairs to return a new map where the key is a filter keyword and the value is an array of specified column headings to render as a filter type
+ */
 export const processExtractedFilters = (config: Partial<HeadingConfig>) => {
   const processedFilters: Record<
     FilterKeywords,
@@ -58,11 +60,34 @@ export const processExtractedFilters = (config: Partial<HeadingConfig>) => {
 
   const configArray = Object.entries(config);
   configArray.forEach(([key, val]) => {
-    const keyword = checkForKeyword(key);
-    if (keyword !== "") {
-      processedFilters[keyword].push(val);
+    const keyFirstToken = extractFirstToken(key);
+
+    if (isFilterKeyword(keyFirstToken)) {
+      processedFilters[keyFirstToken as FilterKeywords].push(val);
     }
   });
 
   return processedFilters;
+};
+
+export const extractTags = (
+  listing: Record<string, string>,
+  configuration: HeadingConfig
+): Array<Array<string>> => {
+  const processedExtractedFilters = processExtractedFilters(
+    extractFilters(configuration)
+  );
+
+  const collectionOfTags: Array<Array<string>> = [];
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  Object.entries(processedExtractedFilters).forEach(([_, columnHeadings]) => {
+    columnHeadings.forEach((columnHeading) => {
+      const concatenatedTags = listing[columnHeading];
+      const tags = splitConcatenatedTags(concatenatedTags);
+      collectionOfTags.push(tags);
+    });
+  });
+
+  return collectionOfTags;
 };

@@ -1,4 +1,4 @@
-import type { MandatoryHeadings, OptionalHeadings } from "./Headings";
+import type { MandatoryHeadings, OptionalHeadings } from "./headings";
 
 export type HeadingConfig = {
   [Property in MandatoryHeadings]: string;
@@ -6,8 +6,5 @@ export type HeadingConfig = {
   [Property in OptionalHeadings]+?: string;
 };
 
-export const filterOpen = "{";
-export const filterClose = "}";
-
-export const filterKeywords = ["checkbox"] as const;
+export const filterKeywords = ["Checkbox"] as const;
 export type FilterKeywords = (typeof filterKeywords)[number];

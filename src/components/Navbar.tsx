@@ -1,7 +1,23 @@
-import { Box, Heading } from "@chakra-ui/react";
+// Components
+import { ArrowBackIcon } from "@chakra-ui/icons";
+import { Box, Text } from "@chakra-ui/react";
+import { BxBulb } from "@opengovsg/design-system-react";
+// Utils
+import { useRouter } from "next/router";
+// Types
 import type { FC } from "react";
 
-const Navbar: FC = () => {
+type Props = {
+  filtableTitle?: string;
+};
+
+const Navbar: FC<Props> = ({ filtableTitle }) => {
+  const router = useRouter();
+
+  const handleBack = () => {
+    router.back();
+  };
+
   return (
     <Box
       as="nav"
@@ -11,16 +27,29 @@ const Navbar: FC = () => {
       borderColor="blue.100"
       px="24px"
       py="12px"
+      display="flex"
+      flexDir="row"
+      position="relative"
     >
-      <Heading
-        as="h6"
-        fontWeight={500}
-        lineHeight="1.5rem"
-        fontSize="1.125rem"
-        letterSpacing="-0.014em"
-      >
-        Filtable
-      </Heading>
+      {filtableTitle ? (
+        <>
+          <ArrowBackIcon
+            position="absolute"
+            left="24px"
+            top="0"
+            bottom="0"
+            my="auto"
+            onClick={handleBack}
+          />
+          <Text textStyle="body-2" mx="auto">
+            {filtableTitle}
+          </Text>
+        </>
+      ) : (
+        <>
+          <Text textStyle="h6">Filtable</Text>
+        </>
+      )}
     </Box>
   );
 };

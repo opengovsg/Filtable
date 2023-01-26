@@ -1,15 +1,22 @@
-import type { NextPage } from "next";
-import { useRouter } from "next/router";
+// React
 import { useEffect, useState } from "react";
-import Filter from "../components/Filter";
+// Components
+import { Box, Text } from "@chakra-ui/react";
+import { IconButton } from "@opengovsg/design-system-react";
+import BxFilterAlt from "../components/icons/BxFilterAlt";
+import BxShareAlt from "../components/icons/BxShareAlt";
 import Listing from "../components/Listing";
-import type { HeadingConfig } from "../types/Configuration";
+// Utils
+import { useRouter } from "next/router";
 import {
   extractFilters,
   initEmptyHeadingConfig,
   processExtractedFilters,
 } from "../utils/configuration";
 import { initUnselectedFilters } from "../utils/filter";
+// Types
+import type { NextPage } from "next";
+import type { HeadingConfig } from "../types/configuration";
 import { ConfigurationResponse, GoogleSheetResponse } from "../zodSchemas";
 
 const FilterPage: NextPage = () => {
@@ -77,14 +84,35 @@ const FilterPage: NextPage = () => {
   }
 
   return (
-    <div className="flex flex-col items-center">
-      <h1 className="mb-8 text-xl font-bold">Listings</h1>
-      <Filter
-        filter={filter}
-        setFilter={setFilter}
-        configuration={configuration}
-      />
-      <div className="flex w-[50vw] flex-col items-center gap-4">
+    <Box p="24px" backgroundColor="blue.50">
+      <Box display="flex" flexDir="row" w="full" gap="16px">
+        <Text textStyle="h5" noOfLines={2}>
+          {configuration["Filtable Title"]}
+        </Text>
+        <Box display="flex" flexDir="row" gap="8px" ml="auto">
+          <IconButton
+            aria-label="Share"
+            variant="outline"
+            colorScheme="" //TODO: FIND CORRECT COLOUR SCHEME
+            icon={<BxShareAlt />}
+          />
+          <IconButton
+            aria-label="Filter"
+            variant="outline"
+            //TODO: FIND CORRECT COLOUR SCHEME
+            icon={<BxFilterAlt />}
+          />
+        </Box>
+      </Box>
+      <Text textStyle="body-2" mt="16px" mb="12px">
+        {data.length} listing{data.length !== 1 ? "s" : ""}
+      </Text>
+      {/* <Filter
+          filter={filter}
+          setFilter={setFilter}
+          configuration={configuration}
+        /> */}
+      <Box display="flex" flexDir="column" alignItems="center" gap="12px">
         {data.map((listing, idx) => (
           <Listing
             listing={listing}
@@ -93,8 +121,8 @@ const FilterPage: NextPage = () => {
             key={idx}
           />
         ))}
-      </div>
-    </div>
+      </Box>
+    </Box>
   );
 };
 export default FilterPage;

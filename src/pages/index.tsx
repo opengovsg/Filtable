@@ -1,10 +1,10 @@
 import { useState } from "react";
 // Components
-import { AddIcon } from "@chakra-ui/icons";
-import { Box, Heading, Text } from "@chakra-ui/react";
-import { Button, Input } from "@opengovsg/design-system-react";
+import { Box, Text } from "@chakra-ui/react";
+import { Button, BxPlus, Input } from "@opengovsg/design-system-react";
+import Navbar from "../components/Navbar";
 // Utils
-import { extractSheetId, isInvalidLink } from "../utils/strings";
+import { extractSheetId, isValidLink } from "../utils/strings";
 import { useRouter } from "next/router";
 // Types
 import type { ChangeEvent } from "react";
@@ -21,59 +21,47 @@ const Home: NextPage = () => {
   };
 
   const handleFilter = () => {
-    if (isInvalidLink(sheetsLink)) {
-      return;
+    if (isValidLink(sheetsLink)) {
+      const sheetId = extractSheetId(sheetsLink);
+      void router.push(sheetId);
     }
-    const sheetId = extractSheetId(sheetsLink);
-    void router.push(sheetId);
   };
 
   return (
-    <Box
-      px="24px"
-      py="32px"
-      minH="calc(100vh - 82px)"
-      bg="brand.primary.50"
-      display="flex"
-      flexDir="column"
-      alignItems="center"
-      justifyContent="center"
-    >
-      <Box display="flex" flexDir="column" alignItems="center" mb="82px">
-        <Heading
-          textAlign="center"
-          as="h5"
-          fontWeight={600}
-          lineHeight="1.75rem"
-          fontSize="1.25rem"
-          letterSpacing="-0.014em"
-        >
-          Convert a google sheet into a filterable table in minutes.
-        </Heading>
-        <Input
-          value={sheetsLink}
-          onChange={handleChangeSheetsLink}
-          placeholder={PLACEHOLDER_SHEETS_LINK}
-          mt="32px"
-          mb="16px"
-        />
-        <Button
-          onClick={handleFilter}
-          background="brand.secondary.700"
-          leftIcon={<AddIcon />}
-          w="full"
-        >
-          <Text
-            fontWeight={500}
-            lineHeight="1.5rem"
-            fontSize="1rem"
-            letterSpacing="-0.006em"
-          >
-            Create new table
+    <>
+      <Navbar />
+      <Box
+        px="24px"
+        py="32px"
+        minH="calc(100vh - 82px)"
+        bg="brand.primary.50"
+        display="flex"
+        flexDir="column"
+        alignItems="center"
+        justifyContent="center"
+      >
+        <Box display="flex" flexDir="column" alignItems="center" mb="82px">
+          <Text textAlign="center" textStyle="h5">
+            Convert a google sheet into a filterable table in minutes.
           </Text>
-        </Button>
+          <Input
+            value={sheetsLink}
+            onChange={handleChangeSheetsLink}
+            placeholder={PLACEHOLDER_SHEETS_LINK}
+            mt="32px"
+            mb="16px"
+          />
+          <Button
+            onClick={handleFilter}
+            background="brand.secondary.700"
+            leftIcon={<BxPlus />}
+            w="full"
+          >
+            <Text textStyle="subhead-1">Create new table</Text>
+          </Button>
+        </Box>
       </Box>
-    </Box>
+    </>
   );
 };
 
