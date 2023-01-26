@@ -1,4 +1,3 @@
-import { Checkbox } from "@opengovsg/design-system-react";
 import type { Dispatch, FC, SetStateAction } from "react";
 import type { HeadingConfig } from "../types/configuration";
 import {

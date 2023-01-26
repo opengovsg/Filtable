@@ -1,7 +1,6 @@
 // Components
 import { ArrowBackIcon } from "@chakra-ui/icons";
 import { Box, Text } from "@chakra-ui/react";
-import { BxBulb } from "@opengovsg/design-system-react";
 // Utils
 import { useRouter } from "next/router";
 // Types
