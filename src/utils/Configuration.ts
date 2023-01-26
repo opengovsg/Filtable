@@ -3,14 +3,14 @@ import { z } from "zod";
 import type { Headings } from "../types/Headings";
 import { headings } from "../types/Headings";
 import { mandatoryHeadings, optionalHeadings } from "../types/Headings";
+import type { FilterKeywords } from "../types/Configuration";
 import {
   filterClose,
-  FilterKeywords,
   filterKeywords,
   filterOpen,
   type HeadingConfig,
 } from "../types/Configuration";
-import { checkForKeyword } from "./String";
+import { checkForKeyword } from "./strings";
 
 export const initEmptyHeadingConfig = (): HeadingConfig => {
   const temp: Record<string, string> = {};

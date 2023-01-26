@@ -14,3 +14,11 @@ export const checkForKeyword = (key: string): FilterKeywords | "" => {
 
   return "";
 };
+
+export const extractSheetId = (sheetsLink: string) => {
+  return sheetsLink.split("/")[5] || "";
+};
+
+export const isInvalidLink = (sheetsLink: string) => {
+  return sheetsLink === "";
+};

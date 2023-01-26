@@ -1,6 +1,6 @@
 import type { FC } from "react";
 import type { HeadingConfig } from "../types/Configuration";
-import { doesListingPassFilter, isFilterAllUnselected } from "../utils/Filter";
+import { doesListingPassFilter, isFilterAllUnselected } from "../utils/filter";
 
 type ListingProps = {
   listing: Record<string, string>;

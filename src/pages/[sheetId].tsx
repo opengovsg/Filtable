@@ -8,8 +8,8 @@ import {
   extractFilters,
   initEmptyHeadingConfig,
   processExtractedFilters,
-} from "../utils/Configuration";
-import { initUnselectedFilters } from "../utils/Filter";
+} from "../utils/configuration";
+import { initUnselectedFilters } from "../utils/filter";
 import { ConfigurationResponse, GoogleSheetResponse } from "../zodSchemas";
 
 const FilterPage: NextPage = () => {

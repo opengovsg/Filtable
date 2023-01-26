@@ -4,7 +4,7 @@ import type { HeadingConfig } from "../types/Configuration";
 import {
   extractFilters,
   processExtractedFilters,
-} from "../utils/Configuration";
+} from "../utils/configuration";
 
 type Props = {
   filter: Record<string, boolean>;

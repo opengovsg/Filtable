@@ -1,7 +1,16 @@
-import { type NextPage } from "next";
-import { useRouter } from "next/router";
-import type { ChangeEvent } from "react";
 import { useState } from "react";
+// Components
+import { AddIcon } from "@chakra-ui/icons";
+import { Box, Heading, Text } from "@chakra-ui/react";
+import { Button, Input } from "@opengovsg/design-system-react";
+// Utils
+import { extractSheetId, isInvalidLink } from "../utils/strings";
+import { useRouter } from "next/router";
+// Types
+import type { ChangeEvent } from "react";
+import { type NextPage } from "next";
+// Constants
+import { PLACEHOLDER_SHEETS_LINK } from "../utils/constants";
 
 const Home: NextPage = () => {
   const router = useRouter();
@@ -19,38 +28,52 @@ const Home: NextPage = () => {
     void router.push(sheetId);
   };
 
-  const isInvalidLink = (sheetsLink: string) => {
-    return sheetsLink === "";
-  };
-
-  const extractSheetId = (sheetsLink: string) => {
-    return sheetsLink.split("/")[5] || "";
-  };
-
   return (
-    <>
-      <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c]">
-        <div className="container flex flex-col items-center justify-center gap-12 px-4 py-16 ">
-          <h1 className="text-5xl font-extrabold tracking-tight text-white sm:text-[5rem]">
-            FiltersSG
-          </h1>
-          <div className="flex flex-col items-center gap-2 text-white">
-            <label>Enter your Google Sheets link here</label>
-            <input
-              value={sheetsLink}
-              onChange={handleChangeSheetsLink}
-              className="bg-white px-2 py-1 text-sm text-black"
-            />
-            <button
-              className="w-min rounded-md bg-blue-600 px-4 py-1 text-white"
-              onClick={handleFilter}
-            >
-              Filter
-            </button>
-          </div>
-        </div>
-      </main>
-    </>
+    <Box
+      px="24px"
+      py="32px"
+      minH="calc(100vh - 82px)"
+      bg="brand.primary.50"
+      display="flex"
+      flexDir="column"
+      alignItems="center"
+      justifyContent="center"
+    >
+      <Box display="flex" flexDir="column" alignItems="center" mb="82px">
+        <Heading
+          textAlign="center"
+          as="h5"
+          fontWeight={600}
+          lineHeight="1.75rem"
+          fontSize="1.25rem"
+          letterSpacing="-0.014em"
+        >
+          Convert a google sheet into a filterable table in minutes.
+        </Heading>
+        <Input
+          value={sheetsLink}
+          onChange={handleChangeSheetsLink}
+          placeholder={PLACEHOLDER_SHEETS_LINK}
+          mt="32px"
+          mb="16px"
+        />
+        <Button
+          onClick={handleFilter}
+          background="brand.secondary.700"
+          leftIcon={<AddIcon />}
+          w="full"
+        >
+          <Text
+            fontWeight={500}
+            lineHeight="1.5rem"
+            fontSize="1rem"
+            letterSpacing="-0.006em"
+          >
+            Create new table
+          </Text>
+        </Button>
+      </Box>
+    </Box>
   );
 };
 
