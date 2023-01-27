@@ -206,80 +206,82 @@ const FilterPage: NextPage = () => {
           processedFilters={processedFilters}
         />
       </Box>
-      <Box p="24px" backgroundColor="blue.50">
-        <Box display="flex" flexDir="row" w="full" gap="16px">
-          <Text textStyle="h5" noOfLines={2}>
-            {configuration["Filtable Title"]}
+      <Box p="24px" backgroundColor="blue.50" display="flex" flexDir="row">
+        <Box maxW="912px" mx="auto">
+          <Box display="flex" flexDir="row" w="full" gap="16px">
+            <Text textStyle="h5" noOfLines={2}>
+              {configuration["Filtable Title"]}
+            </Text>
+            <Box display="flex" flexDir="row" gap="8px" ml="auto">
+              <IconButton
+                aria-label="Share"
+                variant="outline"
+                colorScheme="brand.secondary"
+                icon={<BxShareAlt />}
+                onClick={openShareModal}
+              />
+              <IconButton
+                aria-label="Filter"
+                variant={isAnyFilterSelected(filter) ? "solid" : "outline"}
+                colorScheme="brand.primary"
+                icon={<BxFilterAlt />}
+                onClick={openFilterModal}
+              />
+            </Box>
+          </Box>
+          {isAnyFilterSelected(filter) ? (
+            <Box
+              mt="16px"
+              display="flex"
+              flexDir="row"
+              gap="8px"
+              overflowY="scroll"
+              flexWrap="nowrap"
+            >
+              {currentlySelectedFilters(filter).map(
+                ([tag, colorScheme, heading]) => (
+                  <Tag
+                    key={tag}
+                    colorScheme={colorScheme}
+                    minW="fit-content"
+                    display="flex"
+                    flexDir="row"
+                    alignItems="center"
+                    gap="4px"
+                  >
+                    <Text textStyle="subhead-2">{tag}</Text>
+                    <BxX
+                      fontSize="xl"
+                      cursor="pointer"
+                      onClick={() =>
+                        setFilter(
+                          generateToggleOrChangeFilterOption(tag, heading)
+                        )
+                      }
+                    />
+                  </Tag>
+                )
+              )}
+            </Box>
+          ) : null}
+          <Text textStyle="body-2" mt="16px" mb="12px">
+            {generateShowingResults(filteredData.length)}
           </Text>
-          <Box display="flex" flexDir="row" gap="8px" ml="auto">
-            <IconButton
-              aria-label="Share"
-              variant="outline"
-              colorScheme="brand.secondary"
-              icon={<BxShareAlt />}
-              onClick={openShareModal}
-            />
-            <IconButton
-              aria-label="Filter"
-              variant={isAnyFilterSelected(filter) ? "solid" : "outline"}
-              colorScheme="brand.primary"
-              icon={<BxFilterAlt />}
-              onClick={openFilterModal}
-            />
-          </Box>
-        </Box>
-        {isAnyFilterSelected(filter) ? (
           <Box
-            mt="16px"
             display="flex"
-            flexDir="row"
-            gap="8px"
-            overflowY="scroll"
-            flexWrap="nowrap"
+            flexDir="column"
+            alignItems="center"
+            gap="12px"
+            minH="calc(100vh - 192px)" //TODO: 192px is the sum of height of (GovMastHead, Top Padding, Title, Tag height, Showing x results height)
           >
-            {currentlySelectedFilters(filter).map(
-              ([tag, colorScheme, heading]) => (
-                <Tag
-                  key={tag}
-                  colorScheme={colorScheme}
-                  minW="fit-content"
-                  display="flex"
-                  flexDir="row"
-                  alignItems="center"
-                  gap="4px"
-                >
-                  <Text textStyle="subhead-2">{tag}</Text>
-                  <BxX
-                    fontSize="xl"
-                    cursor="pointer"
-                    onClick={() =>
-                      setFilter(
-                        generateToggleOrChangeFilterOption(tag, heading)
-                      )
-                    }
-                  />
-                </Tag>
-              )
-            )}
+            {filteredData.map((listing) => (
+              <Listing
+                key={listing[configuration["Title"]]}
+                listing={listing}
+                configuration={configuration}
+              />
+            ))}
           </Box>
-        ) : null}
-        <Text textStyle="body-2" mt="16px" mb="12px">
-          {generateShowingResults(filteredData.length)}
-        </Text>
-        <Box
-          display="flex"
-          flexDir="column"
-          alignItems="center"
-          gap="12px"
-          minH="calc(100vh - 192px)" //TODO: 192px is the sum of height of (GovMastHead, Top Padding, Title, Tag height, Showing x results height)
-        >
-          {filteredData.map((listing) => (
-            <Listing
-              key={listing[configuration["Title"]]}
-              listing={listing}
-              configuration={configuration}
-            />
-          ))}
         </Box>
       </Box>
     </>
