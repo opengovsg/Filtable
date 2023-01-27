@@ -1,19 +1,18 @@
-import React from "react";
-import type { ZodTypeAny } from "zod";
+// Utils
 import { z } from "zod";
-import type { Headings } from "../types/headings";
-import { headings } from "../types/headings";
-import { mandatoryHeadings, optionalHeadings } from "../types/headings";
-import { type HeadingConfig } from "../types/configuration";
-import type { FilterKeywords } from "../types/filter";
-import { filterKeywords } from "../types/filter";
 import {
   extractFirstToken,
   isFilterKeyword,
   splitConcatenatedTags,
 } from "./strings";
-import { Tag } from "@opengovsg/design-system-react";
-import { Text } from "@chakra-ui/react";
+// Types
+import type { ZodTypeAny } from "zod";
+import type { Headings } from "../types/headings";
+import { type HeadingConfig } from "../types/configuration";
+import type { FilterKeywords } from "../types/filter";
+import { headings } from "../types/headings";
+import { mandatoryHeadings, optionalHeadings } from "../types/headings";
+import { filterKeywords } from "../types/filter";
 
 export const initEmptyHeadingConfig = (): HeadingConfig => {
   const temp: Record<string, string> = {};

@@ -12,7 +12,6 @@ import {
 import { BxRightArrowAlt, Tag } from "@opengovsg/design-system-react";
 // Utils
 import { isValidLink, extractUrlHost } from "../utils/strings";
-import { convertCollectionOfTags } from "../utils/configuration";
 
 type Props = {
   isOpen: boolean;
