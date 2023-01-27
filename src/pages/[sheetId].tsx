@@ -2,11 +2,12 @@
 import { useEffect, useState } from "react";
 // Components
 import { Box, Text } from "@chakra-ui/react";
-import { IconButton } from "@opengovsg/design-system-react";
+import { IconButton, Spinner } from "@opengovsg/design-system-react";
 import BxFilterAlt from "../components/icons/BxFilterAlt";
 import BxShareAlt from "../components/icons/BxShareAlt";
 import Listing from "../components/Listing";
 import ShareModal from "../components/ShareModal";
+import FilterModal from "../components/FilterModal";
 // Utils
 import { useRouter } from "next/router";
 import {
@@ -25,7 +26,6 @@ import type { NextPage } from "next";
 import type { HeadingConfig } from "../types/configuration";
 import type { Filter, FilterKeywords } from "../types/filter";
 import { ConfigurationResponse, GoogleSheetResponse } from "../zodSchemas";
-import FilterModal from "../components/FilterModal";
 
 const FilterPage: NextPage = () => {
   const router = useRouter();
@@ -119,7 +119,24 @@ const FilterPage: NextPage = () => {
   );
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return (
+      <Box
+        minH="calc(100vh - 32px)"
+        w="full"
+        display="grid"
+        placeItems="center"
+      >
+        <Box
+          display="flex"
+          flexDirection="column"
+          alignItems="center"
+          gap="8px"
+        >
+          <Spinner fontSize="8xl" />
+          Loading...
+        </Box>
+      </Box>
+    );
   }
 
   return (

@@ -1,4 +1,5 @@
 import type { FC } from "react";
+// Components
 import {
   Box,
   Link,
@@ -9,6 +10,7 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { BxRightArrowAlt, Tag } from "@opengovsg/design-system-react";
+// Utils
 import { isValidLink, extractUrlHost } from "../utils/strings";
 import { convertCollectionOfTags } from "../utils/configuration";
 

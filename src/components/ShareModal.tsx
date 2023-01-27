@@ -1,4 +1,5 @@
 import type { FC } from "react";
+// Components
 import {
   Box,
   Modal,
@@ -14,6 +15,7 @@ import {
   useToast,
 } from "@opengovsg/design-system-react";
 import BxCopy from "./icons/BxCopy";
+// Utils
 import { generateIFrame } from "../utils/strings";
 
 type Props = {

@@ -1,11 +1,15 @@
-import { Box, Text } from "@chakra-ui/react";
-import { BxRightArrowAlt, Link, Tag } from "@opengovsg/design-system-react";
+// React
 import type { FC } from "react";
 import { useMemo, useState } from "react";
-import type { HeadingConfig } from "../types/configuration";
-import { convertCollectionOfTags, extractTags } from "../utils/configuration";
-import { extractUrlHost, isValidLink } from "../utils/strings";
+// Components
+import { BxRightArrowAlt, Link, Tag } from "@opengovsg/design-system-react";
 import ListingModal from "./ListingModal";
+import { Box, Text } from "@chakra-ui/react";
+// Types
+import type { HeadingConfig } from "../types/configuration";
+// Utils
+import { extractUrlHost, isValidLink } from "../utils/strings";
+import { convertCollectionOfTags, extractTags } from "../utils/configuration";
 
 type ListingProps = {
   listing: Record<string, string>;

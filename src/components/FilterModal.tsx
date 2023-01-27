@@ -1,3 +1,4 @@
+// Components
 import {
   Modal,
   ModalOverlay,
@@ -7,10 +8,12 @@ import {
   Box,
 } from "@chakra-ui/react";
 import { Button, BxCheck, Tag } from "@opengovsg/design-system-react";
-import type { Dispatch, FC, SetStateAction } from "react";
-import type { Filter, FilterKeywords } from "../types/filter";
+// Utils
 import { getTagColorScheme } from "../utils/configuration";
 import { enumerateAllFilterOptions } from "../utils/filter";
+// Types
+import type { Dispatch, FC, SetStateAction } from "react";
+import type { Filter, FilterKeywords } from "../types/filter";
 
 type Props = {
   isOpen: boolean;
