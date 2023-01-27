@@ -109,14 +109,14 @@ const FilterPage: NextPage = () => {
             <IconButton
               aria-label="Share"
               variant="outline"
-              colorScheme="" //TODO: FIND CORRECT COLOUR SCHEME
+              colorScheme="brand.secondary"
               icon={<BxShareAlt />}
               onClick={openShareModal}
             />
             <IconButton
               aria-label="Filter"
               variant="outline"
-              //TODO: FIND CORRECT COLOUR SCHEME
+              colorScheme="brand.primary"
               icon={<BxFilterAlt />}
             />
           </Box>

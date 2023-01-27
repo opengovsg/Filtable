@@ -76,7 +76,7 @@ const ShareModal: FC<Props> = ({ isOpen, onClose, filtableTitle }) => {
               size="sm"
               icon={<BxCopy />}
               variant="outline"
-              colorScheme="" //TODO: Fix color scheme
+              colorScheme="brand.secondary"
               onClick={handleCopyUrl}
             />
           </Box>
@@ -90,7 +90,7 @@ const ShareModal: FC<Props> = ({ isOpen, onClose, filtableTitle }) => {
               size="sm"
               icon={<BxCopy />}
               variant="outline"
-              colorScheme="" //TODO: Fix color scheme
+              colorScheme="brand.secondary"
               onClick={handleCopyIFrame}
             />
           </Box>
