@@ -207,7 +207,7 @@ const FilterPage: NextPage = () => {
         />
       </Box>
       <Box p="24px" backgroundColor="blue.50" display="flex" flexDir="row">
-        <Box maxW="912px" mx="auto">
+        <Box maxW="912px" mx="auto" w="full">
           <Box display="flex" flexDir="row" w="full" gap="16px">
             <Text textStyle="h5" noOfLines={2}>
               {configuration["Filtable Title"]}
