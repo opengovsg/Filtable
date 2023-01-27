@@ -61,7 +61,7 @@ const FilterModal: FC<Props> = ({
   return (
     <Modal isOpen={isOpen} onClose={closeAndResetFilters} size="full">
       <ModalOverlay />
-      <ModalContent p="24px" pt="42px">
+      <ModalContent p="24px" pt="42px" minH={"fill-available"}>
         <ModalCloseButton top="42px" right="24px" />
         <Text textStyle="h5" mb="26px">
           All filters
