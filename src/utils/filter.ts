@@ -41,6 +41,16 @@ export const isFilterHeadingUnselected = (filter: Filter, heading: string) => {
   return x;
 };
 
+export const isAnyFilterSelected = (filter: Filter): boolean => {
+  for (const heading of Object.keys(filter["Checkbox"])) {
+    if (!isFilterHeadingUnselected(filter, heading)) {
+      return true;
+    }
+  }
+
+  return false;
+};
+
 export const doesListingPassFilter = (
   listing: Record<string, string>,
   filter: Filter

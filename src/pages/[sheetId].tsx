@@ -1,5 +1,5 @@
 // React
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 // Components
 import { Box, Text } from "@chakra-ui/react";
 import { IconButton, Spinner } from "@opengovsg/design-system-react";
@@ -20,6 +20,7 @@ import {
   doesListingPassFilter,
   initEmptyFilters,
   initUnselectedFilters,
+  isAnyFilterSelected,
 } from "../utils/filter";
 // Types
 import type { NextPage } from "next";
@@ -98,21 +99,21 @@ const FilterPage: NextPage = () => {
     }
   }, [sheetId]);
 
-  const openShareModal = () => {
+  const openShareModal = useCallback(() => {
     setIsShareModalOpen(true);
-  };
+  }, []);
 
-  const closeShareModal = () => {
+  const closeShareModal = useCallback(() => {
     setIsShareModalOpen(false);
-  };
+  }, []);
 
-  const openFilterModal = () => {
+  const openFilterModal = useCallback(() => {
     setIsFilterModalOpen(true);
-  };
+  }, []);
 
-  const closeFilterModal = () => {
+  const closeFilterModal = useCallback(() => {
     setIsFilterModalOpen(false);
-  };
+  }, []);
 
   const filteredData = data.filter((listing) =>
     doesListingPassFilter(listing, filter)
@@ -141,19 +142,21 @@ const FilterPage: NextPage = () => {
 
   return (
     <>
-      <ShareModal
-        isOpen={isShareModalOpen}
-        onClose={closeShareModal}
-        filtableTitle={configuration["Filtable Title"]}
-      />
-      <FilterModal
-        isOpen={isFilterModalOpen}
-        onClose={closeFilterModal}
-        listings={data}
-        filter={filter}
-        setFilter={setFilter}
-        processedFilters={processedFilters}
-      />
+      <Box>
+        <ShareModal
+          isOpen={isShareModalOpen}
+          onClose={closeShareModal}
+          filtableTitle={configuration["Filtable Title"]}
+        />
+        <FilterModal
+          isOpen={isFilterModalOpen}
+          onClose={closeFilterModal}
+          listings={data}
+          filter={filter}
+          setFilter={setFilter}
+          processedFilters={processedFilters}
+        />
+      </Box>
       <Box p="24px" backgroundColor="blue.50">
         <Box display="flex" flexDir="row" w="full" gap="16px">
           <Text textStyle="h5" noOfLines={2}>
@@ -169,7 +172,7 @@ const FilterPage: NextPage = () => {
             />
             <IconButton
               aria-label="Filter"
-              variant="outline"
+              variant={isAnyFilterSelected(filter) ? "solid" : "outline"}
               colorScheme="brand.primary"
               icon={<BxFilterAlt />}
               onClick={openFilterModal}
@@ -180,12 +183,11 @@ const FilterPage: NextPage = () => {
           {filteredData.length} listing{filteredData.length !== 1 ? "s" : ""}
         </Text>
         <Box display="flex" flexDir="column" alignItems="center" gap="12px">
-          {filteredData.map((listing, idx) => (
+          {filteredData.map((listing) => (
             <Listing
+              key={listing[configuration["Title"]]}
               listing={listing}
-              filter={filter}
               configuration={configuration}
-              key={idx}
             />
           ))}
         </Box>

@@ -19,7 +19,7 @@ type Props = {
   onClose: () => void;
   title: string;
   description: string | undefined;
-  collectionOfTags: Array<Array<string>>;
+  convertedCollectionOfTags: Array<Array<string>>;
   link: string | undefined;
 };
 
@@ -28,7 +28,7 @@ const ListingModal: FC<Props> = ({
   onClose,
   title,
   description,
-  collectionOfTags,
+  convertedCollectionOfTags,
   link,
 }) => {
   return (
@@ -45,21 +45,19 @@ const ListingModal: FC<Props> = ({
           </Text>
         ) : null}
         <Box display="flex" flexDir="row" flexWrap="wrap" gap="8px" mt="24px">
-          {convertCollectionOfTags(collectionOfTags).map(
-            ([tag, colorScheme]) => {
-              return (
-                <Tag
-                  key={tag as string}
-                  minW="fit-content"
-                  whiteSpace="nowrap"
-                  variant="subtle"
-                  colorScheme={colorScheme as string}
-                >
-                  <Text textStyle="body-2">{tag}</Text>
-                </Tag>
-              );
-            }
-          )}
+          {convertedCollectionOfTags.map(([tag, colorScheme]) => {
+            return (
+              <Tag
+                key={tag as string}
+                minW="fit-content"
+                whiteSpace="nowrap"
+                variant="subtle"
+                colorScheme={colorScheme as string}
+              >
+                <Text textStyle="body-2">{tag}</Text>
+              </Tag>
+            );
+          })}
         </Box>
         {isValidLink(link) ? (
           <Link

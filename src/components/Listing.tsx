@@ -1,5 +1,6 @@
 // React
 import type { FC } from "react";
+import React from "react";
 import { useMemo, useState } from "react";
 // Components
 import { BxRightArrowAlt, Link, Tag } from "@opengovsg/design-system-react";
@@ -16,6 +17,7 @@ type ListingProps = {
   configuration: HeadingConfig;
 };
 
+// eslint-disable-next-line react/display-name
 const Listing: FC<ListingProps> = ({ listing, configuration }) => {
   const [isExpanded, setIsExpanded] = useState(false);
 
@@ -27,10 +29,9 @@ const Listing: FC<ListingProps> = ({ listing, configuration }) => {
     ? listing[configuration["Link URL"]]
     : undefined;
 
-  const collectionOfTags: Array<Array<string>> = useMemo(
-    () => extractTags(listing, configuration),
-    [listing, configuration]
-  );
+  const convertedCollectionOfTags = useMemo(() => {
+    return convertCollectionOfTags(extractTags(listing, configuration));
+  }, [configuration, listing]);
 
   const openModal = () => {
     setIsExpanded(true);
@@ -47,7 +48,7 @@ const Listing: FC<ListingProps> = ({ listing, configuration }) => {
         onClose={closeModal}
         title={title}
         description={description}
-        collectionOfTags={collectionOfTags}
+        convertedCollectionOfTags={convertedCollectionOfTags}
         link={link}
       />
       <Box
@@ -78,21 +79,19 @@ const Listing: FC<ListingProps> = ({ listing, configuration }) => {
           overflow="hidden"
           maxHeight="64px"
         >
-          {convertCollectionOfTags(collectionOfTags).map(
-            ([tag, colorScheme]) => {
-              return (
-                <Tag
-                  key={tag as string}
-                  minW="fit-content"
-                  whiteSpace="nowrap"
-                  variant="subtle"
-                  colorScheme={colorScheme as string}
-                >
-                  <Text textStyle="body-2">{tag}</Text>
-                </Tag>
-              );
-            }
-          )}
+          {convertedCollectionOfTags.map(([tag, colorScheme]) => {
+            return (
+              <Tag
+                key={`${title}-${description ?? ""}-${tag as string}`}
+                minW="fit-content"
+                whiteSpace="nowrap"
+                variant="subtle"
+                colorScheme={colorScheme as string}
+              >
+                <Text textStyle="body-2">{tag}</Text>
+              </Tag>
+            );
+          })}
         </Box>
         {isValidLink(link) ? (
           <Link
@@ -115,4 +114,5 @@ const Listing: FC<ListingProps> = ({ listing, configuration }) => {
     </>
   );
 };
-export default Listing;
+
+export default React.memo(Listing);
