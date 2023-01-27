@@ -1,10 +1,12 @@
 import { Box, Text } from "@chakra-ui/react";
-import { BxRightArrowAlt, Link, Tag } from "@opengovsg/design-system-react";
+import { BxRightArrowAlt, Link } from "@opengovsg/design-system-react";
 import type { FC } from "react";
+import { useMemo, useState } from "react";
 import type { HeadingConfig } from "../types/configuration";
-import { extractTags } from "../utils/configuration";
+import { convertCollectionOfTags, extractTags } from "../utils/configuration";
 import { doesListingPassFilter, isFilterAllUnselected } from "../utils/filter";
 import { extractUrlHost, isValidLink } from "../utils/strings";
+import ListingModal from "./ListingModal";
 
 type ListingProps = {
   listing: Record<string, string>;
@@ -13,6 +15,8 @@ type ListingProps = {
 };
 
 const Listing: FC<ListingProps> = ({ listing, filter, configuration }) => {
+  const [isExpanded, setIsExpanded] = useState(false);
+
   const title = listing[configuration["Title"]] as string;
   const description = configuration["Description"]
     ? listing[configuration["Description"]]
@@ -21,15 +25,18 @@ const Listing: FC<ListingProps> = ({ listing, filter, configuration }) => {
     ? listing[configuration["Link URL"]]
     : undefined;
 
-  const collectionOfTags: Array<Array<string>> = extractTags(
-    listing,
-    configuration
+  const collectionOfTags: Array<Array<string>> = useMemo(
+    () => extractTags(listing, configuration),
+    [listing, configuration]
   );
-  const flattenedTags = collectionOfTags
-    .reduce((acc, val) => {
-      return [...acc, ...val];
-    }, [])
-    .filter((tag) => tag !== "");
+
+  const openModal = () => {
+    setIsExpanded(true);
+  };
+
+  const closeModal = () => {
+    setIsExpanded(false);
+  };
 
   if (
     !isFilterAllUnselected(filter) &&
@@ -40,6 +47,14 @@ const Listing: FC<ListingProps> = ({ listing, filter, configuration }) => {
 
   return (
     <>
+      <ListingModal
+        isOpen={isExpanded}
+        onClose={closeModal}
+        title={title}
+        description={description}
+        collectionOfTags={collectionOfTags}
+        link={link}
+      />
       <Box
         w="full"
         p="16px"
@@ -47,6 +62,7 @@ const Listing: FC<ListingProps> = ({ listing, filter, configuration }) => {
         borderColor="base.divider.medium"
         borderRadius="4px"
         backgroundColor="utility.ui"
+        onClick={openModal}
       >
         <Text textStyle="h6" noOfLines={2}>
           {title}
@@ -56,19 +72,30 @@ const Listing: FC<ListingProps> = ({ listing, filter, configuration }) => {
             {description}
           </Text>
         ) : null}
-        <Box display="flex" flexDir="row" flexWrap="wrap" gap="8px" mt="16px">
-          {flattenedTags.map((tag) => (
-            <Tag key={tag} w="fit-content" whiteSpace="nowrap">
-              {tag}
-            </Tag>
-          ))}
+
+        {/* PILL LOGIC */}
+        <Box
+          display="flex"
+          flexDir="row"
+          flexWrap="wrap"
+          gap="8px"
+          mt="16px"
+          overflow="hidden"
+          maxHeight="64px"
+        >
+          {convertCollectionOfTags(collectionOfTags)}
         </Box>
+
         {isValidLink(link) ? (
           <Link
             variant="standalone"
             href={link}
             p="0px"
             mt="16px"
+            display="flex"
+            flexDir="row"
+            alignItems="center"
+            gap="4px"
             rel="noreferrer"
             target="_blank"
           >
