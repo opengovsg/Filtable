@@ -5,6 +5,3 @@ export type HeadingConfig = {
 } & {
   [Property in OptionalHeadings]+?: string;
 };
-
-export const filterKeywords = ["Checkbox"] as const;
-export type FilterKeywords = (typeof filterKeywords)[number];

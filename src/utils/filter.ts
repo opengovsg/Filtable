@@ -1,41 +1,97 @@
-import type { FilterKeywords } from "../types/configuration";
-import { filterKeywords } from "../types/configuration";
+import type { Filter, FilterKeywords } from "../types/filter";
+import { filterKeywords } from "../types/filter";
+import { splitConcatenatedTags } from "./strings";
 
 export const initUnselectedFilters = (
-  processedExtractedFilters?: Record<FilterKeywords, Array<string>>
-): Record<string, boolean> => {
-  const init: Record<string, boolean> = {};
+  listings: Array<Record<string, string>>,
+  processedFilters: Record<FilterKeywords, Array<string>>
+): Filter => {
+  const init = initEmptyFilters();
 
-  if (processedExtractedFilters) {
-    for (const [keyword, values] of Object.entries(processedExtractedFilters)) {
-      switch (keyword) {
-        // Checkbox
-        case filterKeywords[0]:
-          values.forEach((value) => (init[value] = false));
-          break;
+  const allFilterOptions = enumerateAllFilterOptions(
+    listings,
+    processedFilters
+  );
 
-        default:
-          break;
-      }
+  Object.entries(allFilterOptions["Checkbox"] ?? {}).forEach(
+    ([heading, options]) => {
+      init["Checkbox"][heading] = {};
+
+      Array.from(options as Set<string>).forEach(
+        (option) => (((init["Checkbox"] ?? {})[heading] ?? {})[option] = false)
+      );
     }
-  }
-
+  );
   return init;
 };
 
-export const isFilterAllUnselected = (filter: Record<string, boolean>) => {
-  return Object.values(filter).reduce((acc, val) => acc && !val, true);
+export const initEmptyFilters = () => {
+  return filterKeywords.reduce(
+    (acc, keyword) => ({ ...acc, [keyword]: {} }),
+    {}
+  ) as Filter;
+};
+
+export const isFilterHeadingUnselected = (filter: Filter, heading: string) => {
+  const x = Object.values(filter["Checkbox"][heading] ?? {}).reduce(
+    (acc, val) => acc && !val,
+    true
+  );
+
+  return x;
 };
 
 export const doesListingPassFilter = (
   listing: Record<string, string>,
-  filter: Record<string, boolean>
+  filter: Filter
 ) => {
-  return Object.entries(filter).reduce((acc, [keyword, isSelected]) => {
-    if (isSelected) {
-      return acc && listing[keyword]?.toLowerCase() === "true";
-    } else {
-      return acc;
-    }
-  }, true);
+  //TODO: CLEANUP
+  return Object.entries(filter["Checkbox"]).reduce(
+    (acc, [heading, recordOfOptionToBool]) => {
+      if (isFilterHeadingUnselected(filter, heading)) {
+        return acc;
+      }
+
+      let isMatchingAtLeastOne = false;
+      Object.entries(recordOfOptionToBool).forEach(([option, bool]) => {
+        const tags = splitConcatenatedTags(listing[heading]);
+        tags.forEach((tag) => {
+          if (bool && tag === option) {
+            isMatchingAtLeastOne = true;
+          }
+        });
+      });
+
+      return acc && isMatchingAtLeastOne;
+    },
+    true
+  );
+};
+
+export const enumerateAllFilterOptions = (
+  listings: Array<Record<string, string>>,
+  processedFilters: Record<FilterKeywords, Array<string>>
+) => {
+  //TODO: CLEAN UP
+  const x = Object.fromEntries(
+    Object.entries(processedFilters).map(([key, value]) => [
+      key,
+      value.reduce((acc, val) => ({ ...acc, [val]: new Set() }), {}),
+    ])
+  );
+
+  listings.forEach((listing) => {
+    processedFilters["Checkbox"].forEach((checkboxName) => {
+      const tags = splitConcatenatedTags(listing[checkboxName]);
+      tags.forEach((tag) => {
+        (
+          (x["Checkbox"] as Record<string, Set<string>>)[
+            checkboxName
+          ] as Set<string>
+        ).add(tag.trim());
+      });
+    });
+  });
+
+  return x;
 };

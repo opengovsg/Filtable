@@ -4,15 +4,16 @@ import { z } from "zod";
 import type { Headings } from "../types/headings";
 import { headings } from "../types/headings";
 import { mandatoryHeadings, optionalHeadings } from "../types/headings";
-import type { FilterKeywords } from "../types/configuration";
-import { filterKeywords, type HeadingConfig } from "../types/configuration";
+import { type HeadingConfig } from "../types/configuration";
+import type { FilterKeywords } from "../types/filter";
+import { filterKeywords } from "../types/filter";
 import {
   extractFirstToken,
   isFilterKeyword,
   splitConcatenatedTags,
 } from "./strings";
 import { Tag } from "@opengovsg/design-system-react";
-import { Box } from "@chakra-ui/react";
+import { Text } from "@chakra-ui/react";
 
 export const initEmptyHeadingConfig = (): HeadingConfig => {
   const temp: Record<string, string> = {};
@@ -73,6 +74,13 @@ export const processExtractedFilters = (config: Partial<HeadingConfig>) => {
   return processedFilters;
 };
 
+export const initEmptyProcessedFilters = () => {
+  return filterKeywords.reduce(
+    (acc, keyword) => ({ ...acc, [keyword]: [] }),
+    {}
+  ) as Record<FilterKeywords, Array<string>>;
+};
+
 export const extractTags = (
   listing: Record<string, string>,
   configuration: HeadingConfig
@@ -87,8 +95,7 @@ export const extractTags = (
     columnHeadings.forEach((columnHeading) => {
       const concatenatedTags = listing[columnHeading];
       const tags = splitConcatenatedTags(concatenatedTags);
-      const filteredTags = tags.filter((tag) => tag !== "");
-      collectionOfTags.push(filteredTags);
+      collectionOfTags.push(tags);
     });
   });
 
@@ -97,30 +104,22 @@ export const extractTags = (
 
 export const convertCollectionOfTags = (
   collectionOfTags: Array<Array<string>>
-): Array<JSX.Element> => {
-  const convertedTags: Array<JSX.Element> = [];
-
-  const tagColorSchemes = ["yellow", "green", "purple"];
+): Array<Array<string>> => {
+  const convertedTags: Array<Array<string>> = [];
 
   collectionOfTags.forEach((tags, idx) => {
     tags.forEach((tag) => {
-      convertedTags.push(
-        <Tag
-          key={tag}
-          minW="fit-content"
-          whiteSpace="nowrap"
-          // Utilize the last color scheme if the number of tags > number of color schemes
-          colorScheme={
-            idx < tagColorSchemes.length
-              ? tagColorSchemes[idx]
-              : tagColorSchemes[tagColorSchemes.length - 1]
-          }
-        >
-          {tag}
-        </Tag>
-      );
+      convertedTags.push([tag, getTagColorScheme(idx)]);
     });
   });
 
   return convertedTags;
+};
+
+export const tagColorSchemes = ["yellow", "green", "purple"];
+export const getTagColorScheme = (idx: number): string => {
+  return (
+    tagColorSchemes[idx] ??
+    (tagColorSchemes[tagColorSchemes.length - 1] as string)
+  );
 };

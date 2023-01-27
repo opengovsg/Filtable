@@ -12,24 +12,41 @@ import { useRouter } from "next/router";
 import {
   extractFilters,
   initEmptyHeadingConfig,
+  initEmptyProcessedFilters,
   processExtractedFilters,
 } from "../utils/configuration";
-import { initUnselectedFilters } from "../utils/filter";
+import {
+  doesListingPassFilter,
+  initEmptyFilters,
+  initUnselectedFilters,
+} from "../utils/filter";
 // Types
 import type { NextPage } from "next";
 import type { HeadingConfig } from "../types/configuration";
+import type { Filter, FilterKeywords } from "../types/filter";
 import { ConfigurationResponse, GoogleSheetResponse } from "../zodSchemas";
+import FilterModal from "../components/FilterModal";
 
 const FilterPage: NextPage = () => {
   const router = useRouter();
   const { sheetId } = router.query;
+
   const [isShareModalOpen, setIsShareModalOpen] = useState(false);
+  const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-  const [data, setData] = useState<Record<string, string>[]>([]);
+
+  const [filter, setFilter] = useState<Filter>(initEmptyFilters());
+  const [data, setData] = useState<Array<Record<string, string>>>([]);
   const [configuration, setConfiguration] = useState<HeadingConfig>(
     initEmptyHeadingConfig()
   );
-  const [filter, setFilter] = useState<Record<string, boolean>>({});
+  const [processedFilters, setProcessedFilters] = useState<
+    Record<FilterKeywords, Array<string>>
+  >(
+    //TODO:
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-argument
+    initEmptyProcessedFilters()
+  );
 
   useEffect(() => {
     try {
@@ -62,12 +79,12 @@ const FilterPage: NextPage = () => {
           )[0] as HeadingConfig;
 
           // Setting up initial filters
-          setFilter(
-            initUnselectedFilters(
-              processExtractedFilters(extractFilters(validatedConfiguration))
-            )
+          const processedFilters = processExtractedFilters(
+            extractFilters(validatedConfiguration)
           );
 
+          setFilter(initUnselectedFilters(validatedData, processedFilters));
+          setProcessedFilters(processedFilters);
           setData(validatedData);
           setConfiguration(validatedConfiguration);
           setIsLoading(false);
@@ -89,6 +106,18 @@ const FilterPage: NextPage = () => {
     setIsShareModalOpen(false);
   };
 
+  const openFilterModal = () => {
+    setIsFilterModalOpen(true);
+  };
+
+  const closeFilterModal = () => {
+    setIsFilterModalOpen(false);
+  };
+
+  const filteredData = data.filter((listing) =>
+    doesListingPassFilter(listing, filter)
+  );
+
   if (isLoading) {
     return <div>Loading...</div>;
   }
@@ -99,6 +128,14 @@ const FilterPage: NextPage = () => {
         isOpen={isShareModalOpen}
         onClose={closeShareModal}
         filtableTitle={configuration["Filtable Title"]}
+      />
+      <FilterModal
+        isOpen={isFilterModalOpen}
+        onClose={closeFilterModal}
+        listings={data}
+        filter={filter}
+        setFilter={setFilter}
+        processedFilters={processedFilters}
       />
       <Box p="24px" backgroundColor="blue.50">
         <Box display="flex" flexDir="row" w="full" gap="16px">
@@ -118,19 +155,15 @@ const FilterPage: NextPage = () => {
               variant="outline"
               colorScheme="brand.primary"
               icon={<BxFilterAlt />}
+              onClick={openFilterModal}
             />
           </Box>
         </Box>
         <Text textStyle="body-2" mt="16px" mb="12px">
-          {data.length} listing{data.length !== 1 ? "s" : ""}
+          {filteredData.length} listing{filteredData.length !== 1 ? "s" : ""}
         </Text>
-        {/* <Filter
-          filter={filter}
-          setFilter={setFilter}
-          configuration={configuration}
-        /> */}
         <Box display="flex" flexDir="column" alignItems="center" gap="12px">
-          {data.map((listing, idx) => (
+          {filteredData.map((listing, idx) => (
             <Listing
               listing={listing}
               filter={filter}

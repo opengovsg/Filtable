@@ -1,4 +1,4 @@
-import { filterKeywords } from "../types/configuration";
+import { filterKeywords } from "../types/filter";
 
 export const isFilterKeyword = (key: string | undefined): boolean => {
   if (key === undefined) {
@@ -46,7 +46,7 @@ export const splitConcatenatedTags = (concatenatedTags: string | undefined) => {
     return [];
   }
 
-  return concatenatedTags.split(";");
+  return concatenatedTags.split(";").filter((tag) => tag !== "");
 };
 
 export const generateIFrame = (url: string, title: string) => {

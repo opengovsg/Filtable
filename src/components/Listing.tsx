@@ -1,20 +1,18 @@
 import { Box, Text } from "@chakra-ui/react";
-import { BxRightArrowAlt, Link } from "@opengovsg/design-system-react";
+import { BxRightArrowAlt, Link, Tag } from "@opengovsg/design-system-react";
 import type { FC } from "react";
 import { useMemo, useState } from "react";
 import type { HeadingConfig } from "../types/configuration";
 import { convertCollectionOfTags, extractTags } from "../utils/configuration";
-import { doesListingPassFilter, isFilterAllUnselected } from "../utils/filter";
 import { extractUrlHost, isValidLink } from "../utils/strings";
 import ListingModal from "./ListingModal";
 
 type ListingProps = {
   listing: Record<string, string>;
-  filter: Record<string, boolean>;
   configuration: HeadingConfig;
 };
 
-const Listing: FC<ListingProps> = ({ listing, filter, configuration }) => {
+const Listing: FC<ListingProps> = ({ listing, configuration }) => {
   const [isExpanded, setIsExpanded] = useState(false);
 
   const title = listing[configuration["Title"]] as string;
@@ -37,13 +35,6 @@ const Listing: FC<ListingProps> = ({ listing, filter, configuration }) => {
   const closeModal = () => {
     setIsExpanded(false);
   };
-
-  if (
-    !isFilterAllUnselected(filter) &&
-    !doesListingPassFilter(listing, filter)
-  ) {
-    return <></>;
-  }
 
   return (
     <>
@@ -74,7 +65,6 @@ const Listing: FC<ListingProps> = ({ listing, filter, configuration }) => {
           </Text>
         ) : null}
 
-        {/* PILL LOGIC */}
         <Box
           display="flex"
           flexDir="row"
@@ -84,9 +74,22 @@ const Listing: FC<ListingProps> = ({ listing, filter, configuration }) => {
           overflow="hidden"
           maxHeight="64px"
         >
-          {convertCollectionOfTags(collectionOfTags)}
+          {convertCollectionOfTags(collectionOfTags).map(
+            ([tag, colorScheme]) => {
+              return (
+                <Tag
+                  key={tag as string}
+                  minW="fit-content"
+                  whiteSpace="nowrap"
+                  variant="subtle"
+                  colorScheme={colorScheme as string}
+                >
+                  <Text textStyle="body-2">{tag}</Text>
+                </Tag>
+              );
+            }
+          )}
         </Box>
-
         {isValidLink(link) ? (
           <Link
             variant="standalone"
