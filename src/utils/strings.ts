@@ -54,3 +54,7 @@ export const generateIFrame = (url: string, title: string) => {
 
   return iframeTag;
 };
+
+export const generateShowingResults = (count: number) => {
+  return `Showing ${count} result${count !== 1 ? "s" : ""}`;
+};

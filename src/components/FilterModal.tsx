@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 // Components
 import {
   Modal,
@@ -11,7 +11,10 @@ import {
 import { Button, BxCheck, Tag } from "@opengovsg/design-system-react";
 // Utils
 import { getTagColorScheme } from "../utils/configuration";
-import { enumerateAllFilterOptions } from "../utils/filter";
+import {
+  enumerateAllFilterOptions,
+  generateToggleOrChangeFilterOption,
+} from "../utils/filter";
 // Types
 import type { Dispatch, FC, SetStateAction } from "react";
 import type { Filter, FilterKeywords } from "../types/filter";
@@ -50,6 +53,11 @@ const FilterModal: FC<Props> = ({
     onClose();
   };
 
+  // So that when (1) Filters are enabled; (2) Filters are turned off by pressing 'X' on the tag; (3) The filter modal is opened; The `temporaryFilter` is updated instead of being stuck on the old state
+  useEffect(() => {
+    setTemporaryFilter(filter);
+  }, [filter, isOpen]);
+
   return (
     <Modal isOpen={isOpen} onClose={closeAndResetFilters} size="full">
       <ModalOverlay />
@@ -60,36 +68,27 @@ const FilterModal: FC<Props> = ({
         </Text>
         {Object.entries(allFilterOptions["Checkbox"] ?? {}).map(
           (entries, idx) => {
-            const [checkboxName, set] = entries;
+            const [heading, set] = entries;
             return (
-              <Box key={checkboxName} py="16px">
+              <Box key={heading} py="16px">
                 <>
                   <Text textStyle="subhead-2" mb="8px">
-                    {checkboxName}
+                    {heading}
                   </Text>
                   <Box display="flex" flexDir="row" flexWrap="wrap" gap="8px">
                     {Array.from(set as Set<string>).map((option) => {
                       const isSelected = ((temporaryFilter["Checkbox"] ?? {})[
-                        checkboxName
+                        heading
                       ] ?? {})[option];
                       const handleToggle = () => {
-                        setTemporaryFilter((tempFilter) => ({
-                          ...tempFilter,
-                          Checkbox: {
-                            ...tempFilter["Checkbox"],
-                            [checkboxName]: {
-                              ...tempFilter["Checkbox"][checkboxName],
-                              [option]: !((tempFilter["Checkbox"] ?? {})[
-                                checkboxName
-                              ] ?? {})[option],
-                            },
-                          },
-                        }));
+                        setTemporaryFilter(
+                          generateToggleOrChangeFilterOption(option, heading)
+                        );
                       };
 
                       return (
                         <Tag
-                          key={`${checkboxName}-${option}`}
+                          key={`${heading}-${option}`}
                           variant={isSelected ? "solid" : "subtle"}
                           minW="fit-content"
                           whiteSpace="nowrap"

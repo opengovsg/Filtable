@@ -33,7 +33,7 @@ const Home: NextPage = () => {
       <Box
         px="24px"
         py="32px"
-        minH="calc(100vh - 82px)"
+        minH="calc(100vh - 82px)" // TODO: 82px is the sum of the govmastheight + navbar height
         bg="brand.primary.50"
         display="flex"
         flexDir="column"

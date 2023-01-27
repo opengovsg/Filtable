@@ -5,8 +5,10 @@ import { Box, Text } from "@chakra-ui/react";
 import {
   Button,
   BxChevronLeft,
+  BxX,
   IconButton,
   Spinner,
+  Tag,
 } from "@opengovsg/design-system-react";
 import BxFilterAlt from "../components/icons/BxFilterAlt";
 import BxShareAlt from "../components/icons/BxShareAlt";
@@ -22,7 +24,9 @@ import {
   processExtractedFilters,
 } from "../utils/configuration";
 import {
+  currentlySelectedFilters,
   doesListingPassFilter,
+  generateToggleOrChangeFilterOption,
   initEmptyFilters,
   initUnselectedFilters,
   isAnyFilterSelected,
@@ -33,6 +37,7 @@ import type { NextPage } from "next";
 import type { HeadingConfig } from "../types/configuration";
 import type { Filter, FilterKeywords } from "../types/filter";
 import { ConfigurationResponse, GoogleSheetResponse } from "../zodSchemas";
+import { generateShowingResults } from "../utils/strings";
 
 const FilterPage: NextPage = () => {
   const router = useRouter();
@@ -134,7 +139,7 @@ const FilterPage: NextPage = () => {
     return (
       <Box
         p="24px"
-        minH="calc(100vh - 32px)"
+        minH="calc(100vh - 32px)" // TODO: 32px is the gov mast height
         w="full"
         display="grid"
         placeItems="center"
@@ -166,7 +171,7 @@ const FilterPage: NextPage = () => {
   if (isLoading) {
     return (
       <Box
-        minH="calc(100vh - 32px)"
+        minH="calc(100vh - 32px)" // TODO: 32px is the GovMast height
         w="full"
         display="grid"
         placeItems="center"
@@ -223,10 +228,51 @@ const FilterPage: NextPage = () => {
             />
           </Box>
         </Box>
+        {isAnyFilterSelected(filter) ? (
+          <Box
+            mt="16px"
+            display="flex"
+            flexDir="row"
+            gap="8px"
+            overflowY="scroll"
+            flexWrap="nowrap"
+          >
+            {currentlySelectedFilters(filter).map(
+              ([tag, colorScheme, heading]) => (
+                <Tag
+                  key={tag}
+                  colorScheme={colorScheme}
+                  minW="fit-content"
+                  display="flex"
+                  flexDir="row"
+                  alignItems="center"
+                  gap="4px"
+                >
+                  <Text textStyle="subhead-2">{tag}</Text>
+                  <BxX
+                    fontSize="xl"
+                    cursor="pointer"
+                    onClick={() =>
+                      setFilter(
+                        generateToggleOrChangeFilterOption(tag, heading)
+                      )
+                    }
+                  />
+                </Tag>
+              )
+            )}
+          </Box>
+        ) : null}
         <Text textStyle="body-2" mt="16px" mb="12px">
-          {filteredData.length} listing{filteredData.length !== 1 ? "s" : ""}
+          {generateShowingResults(filteredData.length)}
         </Text>
-        <Box display="flex" flexDir="column" alignItems="center" gap="12px">
+        <Box
+          display="flex"
+          flexDir="column"
+          alignItems="center"
+          gap="12px"
+          minH="calc(100vh - 192px)" //TODO: 192px is the sum of height of (GovMastHead, Top Padding, Title, Tag height, Showing x results height)
+        >
           {filteredData.map((listing) => (
             <Listing
               key={listing[configuration["Title"]]}
