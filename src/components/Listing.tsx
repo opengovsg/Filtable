@@ -62,6 +62,7 @@ const Listing: FC<ListingProps> = ({ listing, filter, configuration }) => {
         borderColor="base.divider.medium"
         borderRadius="4px"
         backgroundColor="utility.ui"
+        cursor="pointer"
         onClick={openModal}
       >
         <Text textStyle="h6" noOfLines={2}>

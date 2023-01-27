@@ -48,3 +48,9 @@ export const splitConcatenatedTags = (concatenatedTags: string | undefined) => {
 
   return concatenatedTags.split(";");
 };
+
+export const generateIFrame = (url: string, title: string) => {
+  const iframeTag = `<iframe width="560" height="315" src=${url} title=${`Filtable - ${title}`} frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>`;
+
+  return iframeTag;
+};

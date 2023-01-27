@@ -6,6 +6,7 @@ import { IconButton } from "@opengovsg/design-system-react";
 import BxFilterAlt from "../components/icons/BxFilterAlt";
 import BxShareAlt from "../components/icons/BxShareAlt";
 import Listing from "../components/Listing";
+import ShareModal from "../components/ShareModal";
 // Utils
 import { useRouter } from "next/router";
 import {
@@ -22,6 +23,7 @@ import { ConfigurationResponse, GoogleSheetResponse } from "../zodSchemas";
 const FilterPage: NextPage = () => {
   const router = useRouter();
   const { sheetId } = router.query;
+  const [isShareModalOpen, setIsShareModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [data, setData] = useState<Record<string, string>[]>([]);
   const [configuration, setConfiguration] = useState<HeadingConfig>(
@@ -79,50 +81,66 @@ const FilterPage: NextPage = () => {
     }
   }, [sheetId]);
 
+  const openShareModal = () => {
+    setIsShareModalOpen(true);
+  };
+
+  const closeShareModal = () => {
+    setIsShareModalOpen(false);
+  };
+
   if (isLoading) {
     return <div>Loading...</div>;
   }
 
   return (
-    <Box p="24px" backgroundColor="blue.50">
-      <Box display="flex" flexDir="row" w="full" gap="16px">
-        <Text textStyle="h5" noOfLines={2}>
-          {configuration["Filtable Title"]}
-        </Text>
-        <Box display="flex" flexDir="row" gap="8px" ml="auto">
-          <IconButton
-            aria-label="Share"
-            variant="outline"
-            colorScheme="" //TODO: FIND CORRECT COLOUR SCHEME
-            icon={<BxShareAlt />}
-          />
-          <IconButton
-            aria-label="Filter"
-            variant="outline"
-            //TODO: FIND CORRECT COLOUR SCHEME
-            icon={<BxFilterAlt />}
-          />
+    <>
+      <ShareModal
+        isOpen={isShareModalOpen}
+        onClose={closeShareModal}
+        filtableTitle={configuration["Filtable Title"]}
+      />
+      <Box p="24px" backgroundColor="blue.50">
+        <Box display="flex" flexDir="row" w="full" gap="16px">
+          <Text textStyle="h5" noOfLines={2}>
+            {configuration["Filtable Title"]}
+          </Text>
+          <Box display="flex" flexDir="row" gap="8px" ml="auto">
+            <IconButton
+              aria-label="Share"
+              variant="outline"
+              colorScheme="" //TODO: FIND CORRECT COLOUR SCHEME
+              icon={<BxShareAlt />}
+              onClick={openShareModal}
+            />
+            <IconButton
+              aria-label="Filter"
+              variant="outline"
+              //TODO: FIND CORRECT COLOUR SCHEME
+              icon={<BxFilterAlt />}
+            />
+          </Box>
         </Box>
-      </Box>
-      <Text textStyle="body-2" mt="16px" mb="12px">
-        {data.length} listing{data.length !== 1 ? "s" : ""}
-      </Text>
-      {/* <Filter
+        <Text textStyle="body-2" mt="16px" mb="12px">
+          {data.length} listing{data.length !== 1 ? "s" : ""}
+        </Text>
+        {/* <Filter
           filter={filter}
           setFilter={setFilter}
           configuration={configuration}
         /> */}
-      <Box display="flex" flexDir="column" alignItems="center" gap="12px">
-        {data.map((listing, idx) => (
-          <Listing
-            listing={listing}
-            filter={filter}
-            configuration={configuration}
-            key={idx}
-          />
-        ))}
+        <Box display="flex" flexDir="column" alignItems="center" gap="12px">
+          {data.map((listing, idx) => (
+            <Listing
+              listing={listing}
+              filter={filter}
+              configuration={configuration}
+              key={idx}
+            />
+          ))}
+        </Box>
       </Box>
-    </Box>
+    </>
   );
 };
 export default FilterPage;
