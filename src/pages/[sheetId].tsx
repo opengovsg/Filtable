@@ -2,7 +2,12 @@
 import { useCallback, useEffect, useState } from "react";
 // Components
 import { Box, Text } from "@chakra-ui/react";
-import { IconButton, Spinner } from "@opengovsg/design-system-react";
+import {
+  Button,
+  BxChevronLeft,
+  IconButton,
+  Spinner,
+} from "@opengovsg/design-system-react";
 import BxFilterAlt from "../components/icons/BxFilterAlt";
 import BxShareAlt from "../components/icons/BxShareAlt";
 import Listing from "../components/Listing";
@@ -22,6 +27,7 @@ import {
   initUnselectedFilters,
   isAnyFilterSelected,
 } from "../utils/filter";
+import { generateErrorMessage } from "../utils/errors";
 // Types
 import type { NextPage } from "next";
 import type { HeadingConfig } from "../types/configuration";
@@ -36,6 +42,7 @@ const FilterPage: NextPage = () => {
   const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
+  const [errorMessage, setErrorMessage] = useState("");
   const [filter, setFilter] = useState<Filter>(initEmptyFilters());
   const [data, setData] = useState<Array<Record<string, string>>>([]);
   const [configuration, setConfiguration] = useState<HeadingConfig>(
@@ -50,9 +57,9 @@ const FilterPage: NextPage = () => {
   );
 
   useEffect(() => {
-    try {
-      const fetchData = async () => {
-        if (sheetId) {
+    const fetchData = async () => {
+      if (sheetId) {
+        try {
           const dataFetch = fetch(
             `${
               process.env.NEXT_PUBLIC_OPEN_SHEET_API ?? ""
@@ -68,6 +75,11 @@ const FilterPage: NextPage = () => {
             dataFetch,
             configFetch,
           ]);
+
+          if (dataResponse.status === 400) {
+            throw "unauthorized";
+          }
+
           // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
           const [data, configuration] = await Promise.all([
             dataResponse.json(),
@@ -89,14 +101,13 @@ const FilterPage: NextPage = () => {
           setData(validatedData);
           setConfiguration(validatedConfiguration);
           setIsLoading(false);
+        } catch (error) {
+          setErrorMessage(generateErrorMessage(error));
         }
-      };
+      }
+    };
 
-      void fetchData();
-    } catch (error) {
-      alert("An error has occurred while fetching the data");
-    } finally {
-    }
+    void fetchData();
   }, [sheetId]);
 
   const openShareModal = useCallback(() => {
@@ -118,6 +129,39 @@ const FilterPage: NextPage = () => {
   const filteredData = data.filter((listing) =>
     doesListingPassFilter(listing, filter)
   );
+
+  if (errorMessage !== "") {
+    return (
+      <Box
+        p="24px"
+        minH="calc(100vh - 32px)"
+        w="full"
+        display="grid"
+        placeItems="center"
+      >
+        <Box
+          display="flex"
+          flexDirection="column"
+          alignItems="center"
+          gap="8px"
+        >
+          <Text textStyle="h5" textAlign="center">
+            {errorMessage}
+          </Text>
+          <Button
+            leftIcon={<BxChevronLeft />}
+            background="brand.secondary.700"
+            w="full"
+            mt="24px"
+          >
+            <Text textStyle="subhead-1" onClick={() => router.back()}>
+              Try again
+            </Text>
+          </Button>
+        </Box>
+      </Box>
+    );
+  }
 
   if (isLoading) {
     return (
