@@ -61,9 +61,21 @@ const ShareModal: FC<Props> = ({ isOpen, onClose, filtableTitle }) => {
 
   return (
     <>
-      <Modal isOpen={isOpen} onClose={onClose} size="full">
+      <Modal
+        isOpen={isOpen}
+        onClose={onClose}
+        size={{
+          base: "full",
+          md: "sm",
+        }}
+      >
         <ModalOverlay />
-        <ModalContent p="24px" pt="42px">
+        <ModalContent
+          p="24px"
+          pt="42px"
+          minH={"fill-available"}
+          h={{ base: "100%", md: "fit-content" }}
+        >
           <ModalCloseButton top="42px" right="24px" />
           <Text textStyle="h5" mb="26px">
             Share this Filtable

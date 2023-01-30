@@ -33,7 +33,7 @@ const ListingModal: FC<Props> = ({
   return (
     <Modal isOpen={isOpen} onClose={onClose} motionPreset="slideInBottom">
       <ModalOverlay />
-      <ModalContent w="100vw" mt="auto" mb="0" p="24px">
+      <ModalContent w="100vw" mt="auto" mb={{ base: "0", md: "auto" }} p="24px">
         <ModalCloseButton top="24px" right="24px" />
         <Text textStyle="h6" noOfLines={2} mr="32px">
           {title}
