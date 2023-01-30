@@ -25,7 +25,10 @@ const Navbar: FC<Props> = ({ filtableTitle }) => {
       bg="blue.50"
       border={{ base: "1px", md: "0" }}
       borderColor="blue.100"
-      px="24px"
+      px={{
+        base: "24px",
+        md: "64px",
+      }}
       py={{ base: "12px", md: "92px" }}
       display="flex"
       flexDir="row"

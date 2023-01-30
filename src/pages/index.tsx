@@ -41,7 +41,7 @@ const Home: NextPage = () => {
       <Navbar />
       {/* DESKTOP LANDING PAGE */}
       <Show above="md">
-        <Box bg="brand.primary.50" display="flex" flexDir="row">
+        <Box bg="brand.primary.50" display="flex" flexDir="row" px="64px">
           <Box maxW="912px" w="full" mx="auto" display="flex" flexDir="column">
             <Grid templateColumns="repeat(2 ,1fr)" pt="32px" pb="96px">
               <GridItem
