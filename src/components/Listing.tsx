@@ -21,7 +21,9 @@ type ListingProps = {
 const Listing: FC<ListingProps> = ({ listing, configuration }) => {
   const [isExpanded, setIsExpanded] = useState(false);
 
-  const title = listing[configuration["Title"]] as string;
+  const title = configuration["Title"]
+    ? listing[configuration["Title"]]
+    : undefined;
   const description = configuration["Description"]
     ? listing[configuration["Description"]]
     : undefined;
@@ -82,7 +84,7 @@ const Listing: FC<ListingProps> = ({ listing, configuration }) => {
           {convertedCollectionOfTags.map(([tag, colorScheme]) => {
             return (
               <Tag
-                key={`${title}-${description ?? ""}-${tag as string}`}
+                key={`${title ?? ""}-${description ?? ""}-${tag as string}`}
                 minW="fit-content"
                 whiteSpace="nowrap"
                 variant="subtle"

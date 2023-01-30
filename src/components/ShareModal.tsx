@@ -21,7 +21,7 @@ import { generateIFrame } from "../utils/strings";
 type Props = {
   isOpen: boolean;
   onClose: () => void;
-  filtableTitle: string;
+  filtableTitle: string | undefined;
 };
 
 const ShareModal: FC<Props> = ({ isOpen, onClose, filtableTitle }) => {

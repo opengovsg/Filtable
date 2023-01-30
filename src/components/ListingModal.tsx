@@ -16,7 +16,7 @@ import { isValidLink, extractUrlHost } from "../utils/strings";
 type Props = {
   isOpen: boolean;
   onClose: () => void;
-  title: string;
+  title: string | undefined;
   description: string | undefined;
   convertedCollectionOfTags: Array<Array<string>>;
   link: string | undefined;

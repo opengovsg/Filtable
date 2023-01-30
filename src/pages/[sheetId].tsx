@@ -274,9 +274,9 @@ const FilterPage: NextPage = () => {
             gap="12px"
             minH="calc(100vh - 192px)" //TODO: 192px is the sum of height of (GovMastHead, Top Padding, Title, Tag height, Showing x results height)
           >
-            {filteredData.map((listing) => (
+            {filteredData.map((listing, idx) => (
               <Listing
-                key={listing[configuration["Title"]]}
+                key={idx}
                 listing={listing}
                 configuration={configuration}
               />
