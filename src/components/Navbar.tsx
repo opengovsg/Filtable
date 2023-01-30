@@ -1,10 +1,11 @@
 // Components
 import { ArrowBackIcon } from "@chakra-ui/icons";
-import { Box, Text } from "@chakra-ui/react";
+import { Box, Hide, Show, Text } from "@chakra-ui/react";
 // Utils
 import { useRouter } from "next/router";
 // Types
 import type { FC } from "react";
+import FiltableIcon from "./icons/FiltableIcon";
 
 type Props = {
   filtableTitle?: string;
@@ -22,33 +23,46 @@ const Navbar: FC<Props> = ({ filtableTitle }) => {
       as="nav"
       w="full"
       bg="blue.50"
-      border="1px"
+      border={{ base: "1px", md: "0" }}
       borderColor="blue.100"
       px="24px"
-      py="12px"
+      py={{ base: "12px", md: "92px" }}
       display="flex"
       flexDir="row"
-      position="relative"
     >
-      {filtableTitle ? (
-        <>
-          <ArrowBackIcon
-            position="absolute"
-            left="24px"
-            top="0"
-            bottom="0"
-            my="auto"
-            onClick={handleBack}
-          />
-          <Text textStyle="body-2" mx="auto">
-            {filtableTitle}
-          </Text>
-        </>
-      ) : (
-        <>
-          <Text textStyle="h6">Filtable</Text>
-        </>
-      )}
+      <Box
+        maxW="912px"
+        w="full"
+        display="flex"
+        flexDir="row"
+        position="relative"
+        mx="auto"
+      >
+        {filtableTitle ? (
+          <>
+            <ArrowBackIcon
+              position="absolute"
+              left="24px"
+              top="0"
+              bottom="0"
+              my="auto"
+              onClick={handleBack}
+            />
+            <Text textStyle="body-2" mx="auto">
+              {filtableTitle}
+            </Text>
+          </>
+        ) : (
+          <>
+            <Hide above="md">
+              <FiltableIcon size="sm" />
+            </Hide>
+            <Show above="md">
+              <FiltableIcon size="lg" />
+            </Show>
+          </>
+        )}
+      </Box>
     </Box>
   );
 };
