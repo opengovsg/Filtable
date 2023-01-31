@@ -7,7 +7,7 @@ const MyHead: FC = () => {
       <title>Filtable</title>
       <meta
         name="description"
-        content="Filtable by Open Government Products (OGP)"
+        content="Turn tables into into filterable lists. Filtable is built by Open Government Products (OGP)."
       />
       <link rel="icon" href="/Filtable_Favicon.svg" />
     </Head>
