@@ -1,10 +1,12 @@
 // Components
 import { ArrowBackIcon } from "@chakra-ui/icons";
 import { Box, Hide, Show, Text } from "@chakra-ui/react";
+import { Link, Tag } from "@opengovsg/design-system-react";
 // Utils
 import { useRouter } from "next/router";
 // Types
 import type { FC } from "react";
+import { TEMPLATE_LINK } from "../utils/constants";
 import FiltableIcon from "./icons/FiltableIcon";
 
 type Props = {
@@ -27,20 +29,13 @@ const Navbar: FC<Props> = ({ filtableTitle }) => {
       borderColor="blue.100"
       px={{
         base: "24px",
-        md: "64px",
+        md: "148px",
       }}
       py={{ base: "12px", md: "92px" }}
       display="flex"
       flexDir="row"
     >
-      <Box
-        maxW="912px"
-        w="full"
-        display="flex"
-        flexDir="row"
-        position="relative"
-        mx="auto"
-      >
+      <Box w="full" display="flex" flexDir="row" position="relative" mx="auto">
         {filtableTitle ? (
           <>
             <ArrowBackIcon
@@ -61,7 +56,19 @@ const Navbar: FC<Props> = ({ filtableTitle }) => {
               <FiltableIcon size="sm" />
             </Hide>
             <Show above="md">
-              <FiltableIcon size="lg" />
+              <Box display="flex" alignItems="center" gap="16px" w="full">
+                <FiltableIcon size="lg" />
+                <Tag variant="solid">BETA</Tag>
+                <Link
+                  ml="auto"
+                  href={TEMPLATE_LINK}
+                  target="_blank"
+                  rel="noreferrer"
+                  variant="standalone"
+                >
+                  Google sheets template
+                </Link>
+              </Box>
             </Show>
           </>
         )}
