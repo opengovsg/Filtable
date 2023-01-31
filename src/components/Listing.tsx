@@ -11,6 +11,7 @@ import type { HeadingConfig } from "../types/configuration";
 // Utils
 import { extractUrlHost, isValidLink } from "../utils/strings";
 import { convertCollectionOfTags, extractTags } from "../utils/configuration";
+import Overflow from "rc-overflow";
 
 type ListingProps = {
   listing: Record<string, string>;
@@ -72,28 +73,33 @@ const Listing: FC<ListingProps> = ({ listing, configuration }) => {
           </Text>
         ) : null}
 
-        <Box
-          display="flex"
-          flexDir="row"
-          flexWrap="wrap"
-          gap="8px"
-          mt="16px"
-          overflow="hidden"
-          maxHeight="64px"
-        >
-          {convertedCollectionOfTags.map(([tag, colorScheme]) => {
-            return (
-              <Tag
-                key={`${title ?? ""}-${description ?? ""}-${tag as string}`}
-                minW="fit-content"
-                whiteSpace="nowrap"
-                variant="subtle"
-                colorScheme={colorScheme as string}
-              >
-                <Text textStyle="body-2">{tag}</Text>
-              </Tag>
-            );
-          })}
+        <Box mt="16px">
+          <Overflow
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              flexWrap: "wrap",
+              gap: "8px",
+              maxHeight: "64px",
+            }}
+            data={convertedCollectionOfTags}
+            renderItem={([tag, colorScheme]) => {
+              return (
+                <Tag
+                  minW="fit-content"
+                  whiteSpace="nowrap"
+                  variant="subtle"
+                  colorScheme={colorScheme as string}
+                >
+                  <Text textStyle="body-2">{tag}</Text>
+                </Tag>
+              );
+            }}
+            renderRest={(remainingCollectionOfTags) => {
+              return <Tag>+{remainingCollectionOfTags.length} more</Tag>;
+            }}
+            maxCount={2}
+          />
         </Box>
         {isValidLink(link) ? (
           <Link
