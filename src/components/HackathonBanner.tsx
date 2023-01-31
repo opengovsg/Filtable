@@ -1,27 +1,13 @@
-import { Box, Text } from "@chakra-ui/react";
+import { Banner } from "@opengovsg/design-system-react";
 import type { FC } from "react";
+import { H4PG_LINK } from "../utils/constants";
 
 const HackathonBanner: FC = () => {
   return (
-    <Box
-      bg="black"
-      py="1"
-      px="8"
-      display="flex"
-      flexDir="row"
-      justifyContent="center"
-      alignItems="center"
-    >
-      <Text
-        textStyle="body-2"
-        textColor="white"
-        textAlign="center"
-        fontSize="xs"
-      >
-        Filtable is a work-in-progress hackathon project for OGP&apos;s Hack for
-        Public Good
-      </Text>
-    </Box>
+    <Banner useMarkdown isDismissable>
+      {`Filtable is a work-in-progess project for Open Government Product’s [Hack
+      for Public Good 2023](${H4PG_LINK}).`}
+    </Banner>
   );
 };
 export default HackathonBanner;
