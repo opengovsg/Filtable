@@ -1,16 +1,7 @@
 import { useState } from "react";
 // Components
-import {
-  Box,
-  Grid,
-  GridItem,
-  Hide,
-  ListItem,
-  OrderedList,
-  Show,
-  Text,
-} from "@chakra-ui/react";
-import { Button, BxPlus, Input } from "@opengovsg/design-system-react";
+import { Box, Grid, GridItem, Hide, Show, Text } from "@chakra-ui/react";
+import { Button, BxPlus, Input, Link } from "@opengovsg/design-system-react";
 import Navbar from "../components/Navbar";
 // Utils
 import { extractSheetId, isValidLink } from "../utils/strings";
@@ -19,7 +10,12 @@ import { useRouter } from "next/router";
 import type { ChangeEvent } from "react";
 import { type NextPage } from "next";
 // Constants
-import { PLACEHOLDER_SHEETS_LINK } from "../utils/constants";
+import {
+  H4PG_LINK,
+  PLACEHOLDER_SHEETS_LINK,
+  TEMPLATE_LINK,
+} from "../utils/constants";
+import LandingSection from "../components/LandingSection";
 
 const Home: NextPage = () => {
   const router = useRouter();
@@ -41,88 +37,117 @@ const Home: NextPage = () => {
       <Navbar />
       {/* DESKTOP LANDING PAGE */}
       <Show above="md">
-        <Box bg="brand.primary.50" display="flex" flexDir="row" px="64px">
-          <Box maxW="912px" w="full" mx="auto" display="flex" flexDir="column">
-            <Grid templateColumns="repeat(2 ,1fr)" pt="32px" pb="96px">
+        <Box bg="brand.primary.50" display="flex" flexDir="column" px="64px">
+          <Box maxW="1144px" w="full" mx="auto" display="flex" flexDir="column">
+            <Grid templateColumns="repeat(2 ,1fr)">
               <GridItem
                 colSpan={1}
                 display="flex"
                 flexDir="column"
+                justifyContent="center"
                 gap="32px"
-                mr="32px"
+                pr="40px"
               >
                 <Text textStyle="h1">Turn tables into filterable lists</Text>
                 <Box display="flex" gap="8px">
                   <Input
                     value={sheetsLink}
                     onChange={handleChangeSheetsLink}
-                    placeholder={PLACEHOLDER_SHEETS_LINK}
+                    placeholder="Paste a google sheets link"
                   />
                   <Button onClick={handleFilter}>Make me filtable</Button>
                 </Box>
               </GridItem>
-              <GridItem
-                colSpan={1}
-                display="grid"
-                placeItems="center"
-                ml="74px"
-              >
-                <Text textStyle="h1">IMAGE</Text>
-              </GridItem>
-            </Grid>
-            <Grid templateColumns="repeat(2 ,1fr)" py="74px">
-              <GridItem
-                colSpan={1}
-                display="grid"
-                placeItems="center"
-                mr="74px"
-              >
-                <Text textStyle="h1">IMAGE</Text>
-              </GridItem>
-              <GridItem colSpan={1} display="flex" flexDir="column">
-                <Text textStyle="h2" mb="16px">
-                  How to get started
-                </Text>
-                <OrderedList>
-                  <ListItem>
-                    Setup a “database” in a Google Sheet by copying your data
-                    into the first sheet
-                  </ListItem>
-                  <ListItem>
-                    Create a second sheet to setup your columns by following
-                    this Template
-                  </ListItem>
-                  <ListItem>
-                    Enable general access such that Anyone with the link can
-                    view the sheet
-                  </ListItem>
-
-                  <ListItem>
-                    Copy the link to the sheet and paste it in the link above!
-                  </ListItem>
-                </OrderedList>
-              </GridItem>
-            </Grid>
-            <Grid templateColumns="repeat(2 ,1fr)" py="74px">
-              <GridItem colSpan={1} display="flex" flexDir="column">
-                <Text textStyle="h2" mb="16px">
-                  Who we are
-                </Text>
-                <Text>
-                  We’re a team from Open Government Products. Filtable is a
-                  product under our #Hackforpublicgood
-                </Text>
-              </GridItem>
-              <GridItem
-                colSpan={1}
-                display="grid"
-                placeItems="center"
-                ml="74px"
-              >
-                <Text textStyle="h1">IMAGE</Text>
+              <GridItem colSpan={1} display="grid" placeItems="center">
+                <img src="landing-page-1.png" alt="Sheets Image" />
               </GridItem>
             </Grid>
           </Box>
+        </Box>
+        <Box bg="white" display="flex" flexDir="column" px="64px">
+          <Box
+            maxW="912px"
+            mx="auto"
+            display="flex"
+            flexDir="column"
+            alignItems="center"
+            bg="white"
+          >
+            <Text textStyle="h2" mx="auto" mt="64px">
+              Get started
+            </Text>
+            <LandingSection
+              contentSide="right"
+              heading="Setup your 'database' in google sheets"
+              imgUrl="landing-page-2.png"
+              contentBody={
+                <>
+                  <Text textStyle="body-1">
+                    Duplicate this <Link href={TEMPLATE_LINK}>template</Link> to
+                    get started. Make sure to follow the formatting!
+                  </Text>
+                  <Text textStyle="caption-2">
+                    *The BETA version of Filtable only supports 1 Title column,
+                    1 Description column, 1 link column, and any amount of
+                    Filter columns. In the future, we hope to allow users to add
+                    as many content columns as they’d need!
+                  </Text>
+                </>
+              }
+            />
+            <LandingSection
+              contentSide="left"
+              heading="Make it publicly viewable"
+              imgUrl="landing-page-3.png"
+              contentBody={
+                <Text>
+                  Change your permissions so that “Anyone with the link” can
+                  view the google sheet.
+                </Text>
+              }
+            />
+            <LandingSection
+              contentSide="right"
+              heading="Copy and paste the link above"
+              imgUrl="landing-page-4.png"
+              contentBody={
+                <Text>
+                  We’ll do the work for you! Any new changes to your google
+                  sheet will be automatically updated to the Filtable.
+                </Text>
+              }
+            />
+            <LandingSection
+              contentSide="left"
+              heading="Share or embed"
+              imgUrl="landing-page-5.png"
+              contentBody={
+                <Text>
+                  Your Filtable is up and running! Share the link with others,
+                  or embed it into a website using an iframe.
+                </Text>
+              }
+            />
+          </Box>
+        </Box>
+        <Box
+          bg="brand.primary.50"
+          display="flex"
+          flexDir="column"
+          justifyContent="center"
+          alignItems="center"
+          py="74px"
+        >
+          <Text textStyle="h2" mb="16px" textAlign="center">
+            Meet the team
+          </Text>
+          <Text textStyle="body-1" textAlign="center" whiteSpace="pre-wrap">
+            Filtable is a project under Open Government Products’{"\n"}
+            <Link href={H4PG_LINK} target="_blank" rel="noreferrer">
+              Hack for Public Good 2023
+            </Link>
+            .
+          </Text>
         </Box>
       </Show>
 
