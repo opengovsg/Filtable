@@ -38,6 +38,7 @@ import type { HeadingConfig } from "../types/configuration";
 import type { Filter, FilterKeywords } from "../types/filter";
 import { ConfigurationResponse, GoogleSheetResponse } from "../zodSchemas";
 import { generateShowingResults } from "../utils/strings";
+import BxRefresh from "../components/icons/BxRefresh";
 
 const FilterPage: NextPage = () => {
   const router = useRouter();
@@ -153,16 +154,36 @@ const FilterPage: NextPage = () => {
           <Text textStyle="h5" textAlign="center">
             {errorMessage}
           </Text>
-          <Button
-            leftIcon={<BxChevronLeft />}
-            background="brand.secondary.700"
-            w="full"
-            mt="24px"
+          <Box
+            display={{
+              base: "flex",
+            }}
+            flexDir={{ base: "column-reverse", md: "row" }}
+            gap="8px"
+            mt="16px"
           >
-            <Text textStyle="subhead-1" onClick={() => router.back()}>
-              Try again
-            </Text>
-          </Button>
+            <Button
+              leftIcon={<BxChevronLeft />}
+              variant="outline"
+              display="flex"
+              justifyContent="center"
+              alignItems="center"
+            >
+              <Text textStyle="subhead-1" onClick={() => router.back()}>
+                Back
+              </Text>
+            </Button>
+            <Button
+              leftIcon={<BxRefresh />}
+              display="flex"
+              justifyContent="center"
+              alignItems="center"
+            >
+              <Text textStyle="subhead-1" onClick={() => router.reload()}>
+                Try again
+              </Text>
+            </Button>
+          </Box>
         </Box>
       </Box>
     );
