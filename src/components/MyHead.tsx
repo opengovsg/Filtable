@@ -9,7 +9,7 @@ const MyHead: FC = () => {
         name="description"
         content="Filtable by Open Government Products (OGP)"
       />
-      <link rel="icon" href="/favicon.ico" />
+      <link rel="icon" href="/Filtable_Favicon.svg" />
     </Head>
   );
 };
