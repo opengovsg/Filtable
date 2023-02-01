@@ -1,120 +1,44 @@
 // React
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 // Components
 import { Box, Text } from "@chakra-ui/react";
-import {
-  Button,
-  BxChevronLeft,
-  BxX,
-  IconButton,
-  Spinner,
-  Tag,
-} from "@opengovsg/design-system-react";
+import { BxX, IconButton, Tag } from "@opengovsg/design-system-react";
 import BxFilterAlt from "../components/icons/BxFilterAlt";
 import BxShareAlt from "../components/icons/BxShareAlt";
 import Listing from "../components/Listing";
 import ShareModal from "../components/ShareModal";
 import FilterModal from "../components/FilterModal";
+import ErrorPage from "../components/ErrorPage";
 // Utils
+import useGoogleSheet from "../api/useGoogleSheet";
 import { useRouter } from "next/router";
 import {
-  extractFilters,
-  initEmptyHeadingConfig,
-  initEmptyProcessedFilters,
-  processExtractedFilters,
-} from "../utils/configuration";
-import {
   currentlySelectedFilters,
-  doesListingPassFilter,
   generateToggleOrChangeFilterOption,
-  initEmptyFilters,
-  initUnselectedFilters,
   isAnyFilterSelected,
 } from "../utils/filter";
-import { generateErrorMessage } from "../utils/errors";
 // Types
 import type { NextPage } from "next";
-import type { HeadingConfig } from "../types/configuration";
-import type { Filter, FilterKeywords } from "../types/filter";
-import { ConfigurationResponse, GoogleSheetResponse } from "../zodSchemas";
 import { generateShowingResults } from "../utils/strings";
-import BxRefresh from "../components/icons/BxRefresh";
+import LoadingPage from "../components/LoadingPage";
 
 const FilterPage: NextPage = () => {
   const router = useRouter();
   const { sheetId } = router.query;
 
+  const {
+    isLoading,
+    errorMessage,
+    filter,
+    setFilter,
+    data,
+    filteredData,
+    configuration,
+    processedFilters,
+  } = useGoogleSheet(sheetId);
+
   const [isShareModalOpen, setIsShareModalOpen] = useState(false);
   const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
-
-  const [errorMessage, setErrorMessage] = useState("");
-  const [filter, setFilter] = useState<Filter>(initEmptyFilters());
-  const [data, setData] = useState<Array<Record<string, string>>>([]);
-  const [configuration, setConfiguration] = useState<HeadingConfig>(
-    initEmptyHeadingConfig()
-  );
-  const [processedFilters, setProcessedFilters] = useState<
-    Record<FilterKeywords, Array<string>>
-  >(
-    //TODO:
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-argument
-    initEmptyProcessedFilters()
-  );
-
-  useEffect(() => {
-    const fetchData = async () => {
-      if (sheetId) {
-        try {
-          const dataFetch = fetch(
-            `${
-              process.env.NEXT_PUBLIC_OPEN_SHEET_API ?? ""
-            }/${sheetId.toString()}/1`
-          );
-          const configFetch = fetch(
-            `${
-              process.env.NEXT_PUBLIC_OPEN_SHEET_API ?? ""
-            }/${sheetId.toString()}/2`
-          );
-
-          const [dataResponse, configurationResponse] = await Promise.all([
-            dataFetch,
-            configFetch,
-          ]);
-
-          if (dataResponse.status === 400) {
-            throw "unauthorized";
-          }
-
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-          const [data, configuration] = await Promise.all([
-            dataResponse.json(),
-            configurationResponse.json(),
-          ]);
-
-          const validatedData = GoogleSheetResponse.parse(data);
-          const validatedConfiguration = ConfigurationResponse.parse(
-            configuration
-          )[0] as HeadingConfig;
-
-          // Setting up initial filters
-          const processedFilters = processExtractedFilters(
-            extractFilters(validatedConfiguration)
-          );
-
-          setFilter(initUnselectedFilters(validatedData, processedFilters));
-          setProcessedFilters(processedFilters);
-          setData(validatedData);
-          setConfiguration(validatedConfiguration);
-          setIsLoading(false);
-        } catch (error) {
-          setErrorMessage(generateErrorMessage(error));
-        }
-      }
-    };
-
-    void fetchData();
-  }, [sheetId]);
 
   const openShareModal = useCallback(() => {
     setIsShareModalOpen(true);
@@ -132,82 +56,10 @@ const FilterPage: NextPage = () => {
     setIsFilterModalOpen(false);
   }, []);
 
-  const filteredData = data.filter((listing) =>
-    doesListingPassFilter(listing, filter)
-  );
-
   if (errorMessage !== "") {
-    return (
-      <Box
-        p="24px"
-        minH="calc(100vh - 32px)" // TODO: 32px is the gov mast height
-        w="full"
-        display="grid"
-        placeItems="center"
-      >
-        <Box
-          display="flex"
-          flexDirection="column"
-          alignItems="center"
-          gap="8px"
-        >
-          <Text textStyle="h5" textAlign="center">
-            {errorMessage}
-          </Text>
-          <Box
-            display={{
-              base: "flex",
-            }}
-            flexDir={{ base: "column-reverse", md: "row" }}
-            gap="8px"
-            mt="16px"
-          >
-            <Button
-              leftIcon={<BxChevronLeft />}
-              variant="outline"
-              display="flex"
-              justifyContent="center"
-              alignItems="center"
-            >
-              <Text textStyle="subhead-1" onClick={() => router.back()}>
-                Back
-              </Text>
-            </Button>
-            <Button
-              leftIcon={<BxRefresh />}
-              display="flex"
-              justifyContent="center"
-              alignItems="center"
-            >
-              <Text textStyle="subhead-1" onClick={() => router.reload()}>
-                Try again
-              </Text>
-            </Button>
-          </Box>
-        </Box>
-      </Box>
-    );
-  }
-
-  if (isLoading) {
-    return (
-      <Box
-        minH="calc(100vh - 32px)" // TODO: 32px is the GovMast height
-        w="full"
-        display="grid"
-        placeItems="center"
-      >
-        <Box
-          display="flex"
-          flexDirection="column"
-          alignItems="center"
-          gap="8px"
-        >
-          <Spinner fontSize="8xl" />
-          Loading...
-        </Box>
-      </Box>
-    );
+    return <ErrorPage errorMessage={errorMessage} />;
+  } else if (isLoading) {
+    return <LoadingPage />;
   }
 
   return (
