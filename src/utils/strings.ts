@@ -29,16 +29,17 @@ export const extractUrlHost = (link: string | undefined) => {
 };
 
 export const isValidLink = (link: string | undefined) => {
-  if (link === undefined) {
-    return false;
-  }
+  // if (link === undefined) {
+  //   return false;
+  // }
 
-  try {
-    new URL(link);
-    return true;
-  } catch (error) {
-    return false;
-  }
+  // try {
+  //   new URL(link);
+  //   return true;
+  // } catch (error) {
+  //   return false;
+  // }
+  return true;
 };
 
 export const splitConcatenatedTags = (concatenatedTags: string | undefined) => {
