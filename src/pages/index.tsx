@@ -4,15 +4,18 @@ import Navbar from "../components/Navbar";
 import DesktopLandingPage from "../components/DesktopLandingPage";
 import MobileLandingPage from "../components/MobileLandingPage";
 // Utils
-import { extractSheetId, isValidLink } from "../utils/strings";
+import { extractId, isValidLink } from "../utils/strings";
 import { useRouter } from "next/router";
 // Types
 import type { ChangeEvent } from "react";
 import { type NextPage } from "next";
+import useTest from "../hooks/useTest";
 
 const Home: NextPage = () => {
   const router = useRouter();
   const [sheetsLink, setSheetsLink] = useState("");
+
+  useTest();
 
   const handleChangeSheetsLink = (event: ChangeEvent<HTMLInputElement>) => {
     setSheetsLink(event.target.value);
@@ -20,7 +23,7 @@ const Home: NextPage = () => {
 
   const handleFilter = () => {
     if (isValidLink(sheetsLink)) {
-      const sheetId = extractSheetId(sheetsLink);
+      const sheetId = extractId(sheetsLink);
       void router.push(sheetId);
     }
   };
