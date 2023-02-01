@@ -67,7 +67,9 @@ const useGoogleSheet = (
           setConfiguration(validatedConfiguration);
           setIsLoading(false);
         } catch (error) {
-          setErrorMessage(generateErrorMessage(error));
+          setErrorMessage(
+            generateErrorMessage(error, { displayErrorMessage: true })
+          );
         }
       }
     };
