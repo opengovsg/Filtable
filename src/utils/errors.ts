@@ -8,7 +8,10 @@ export const generateErrorMessage = (
 ) => {
   let returnErrorMessage = "";
 
-  if (error === "unauthorized") {
+  if (error === "not found") {
+    returnErrorMessage =
+      "Oh no! This is not a valid Google Sheets link. Please input a valid link and try again.";
+  } else if (error === "unauthorized") {
     returnErrorMessage =
       "Oh no! This Google Sheets link is not publicly visible. Change the viewing permissions to 'Anyone with the link'.";
   } else if (

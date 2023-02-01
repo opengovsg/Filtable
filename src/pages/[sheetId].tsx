@@ -24,7 +24,7 @@ import type { NextPage } from "next";
 
 const FilterPage: NextPage = () => {
   const router = useRouter();
-  const { sheetId } = router.query;
+  const { sheetId, isSingle } = router.query;
 
   const {
     isLoading,
@@ -35,7 +35,9 @@ const FilterPage: NextPage = () => {
     filteredData,
     configuration,
     processedFilters,
-  } = useGoogleSheet(sheetId, { isSingleSheet: false });
+  } = useGoogleSheet(sheetId, {
+    isSingleSheet: isSingle === "true" ? true : false,
+  });
 
   const [isShareModalOpen, setIsShareModalOpen] = useState(false);
   const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);

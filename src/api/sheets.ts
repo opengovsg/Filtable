@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 //TODO: FIX TYPE ERRORS
 import { GOOGLE_API_URL } from "../utils/constants";
-import { checkDataAndConfigForErrors, ERRORS } from "../utils/errors";
+import { checkDataAndConfigForErrors } from "../utils/errors";
 import {
   formatSheetsToDataAndConfig,
   formatSingleSheetToDataAndConfig,
@@ -18,9 +18,13 @@ export const fetchSingleSheetDataAndConfig = async (id: string) => {
       process.env.NEXT_PUBLIC_GOOGLE_API_KEY ?? ""
     }`
   );
+
   if (res.status === 403) {
     throw "unauthorized";
+  } else if (res.status === 404) {
+    throw "not found";
   }
+
   const data: any = await res.json();
 
   const sheetTitle: string = data.sheets[0].properties.title as string;
@@ -42,9 +46,13 @@ export const fetchSheetDataAndConfig = async (id: string) => {
       process.env.NEXT_PUBLIC_GOOGLE_API_KEY ?? ""
     }`
   );
+
   if (res.status === 403) {
     throw "unauthorized";
+  } else if (res.status === 404) {
+    throw "not found";
   }
+
   const data: any = await res.json();
 
   const dataSheetTitle: string = data.sheets[0].properties.title as string;

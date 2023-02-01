@@ -17,6 +17,7 @@ import {
   initEmptyFilters,
   initUnselectedFilters,
 } from "../utils/filter";
+import { stripQueryParams } from "../utils/strings";
 import { GoogleSheetResponse, ConfigurationResponse } from "../zodSchemas";
 
 const useGoogleSheet = (
@@ -46,10 +47,12 @@ const useGoogleSheet = (
   useEffect(() => {
     const fetchData = async () => {
       if (sheetId) {
+        const strippedSheetId = stripQueryParams(String(sheetId));
+        console.log(strippedSheetId);
         try {
           const { data, configuration } = await (isSingleSheet
-            ? fetchSingleSheetDataAndConfig(String(sheetId))
-            : fetchSheetDataAndConfig(String(sheetId)));
+            ? fetchSingleSheetDataAndConfig(String(strippedSheetId))
+            : fetchSheetDataAndConfig(String(strippedSheetId)));
 
           const validatedData = GoogleSheetResponse.parse(data);
           const validatedConfiguration = ConfigurationResponse.parse(

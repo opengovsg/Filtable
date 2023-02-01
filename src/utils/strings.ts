@@ -69,3 +69,7 @@ export const generateIFrame = (url: string, title: string | undefined) => {
 export const generateShowingResults = (count: number) => {
   return `Showing ${count} result${count !== 1 ? "s" : ""}`;
 };
+
+export const stripQueryParams = (link: string) => {
+  return link.split("?")[0];
+};
