@@ -52,7 +52,10 @@ export const splitConcatenatedTags = (concatenatedTags: string | undefined) => {
     return [];
   }
 
-  return concatenatedTags.split(";").filter((tag) => tag !== "");
+  return concatenatedTags
+    .split(";")
+    .filter((tag) => tag !== "")
+    .map((tag) => tag.trim());
 };
 
 export const generateIFrame = (url: string, title: string | undefined) => {
