@@ -12,7 +12,7 @@ export const extractFirstToken = (word: string) => {
   return word.split(" ")[0];
 };
 
-export const extractSheetId = (sheetsLink: string) => {
+export const extractId = (sheetsLink: string) => {
   return sheetsLink.split("/")[5] || "";
 };
 
