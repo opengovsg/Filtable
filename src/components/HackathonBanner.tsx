@@ -4,7 +4,7 @@ import { H4PG_LINK } from "../utils/constants";
 
 const HackathonBanner: FC = () => {
   return (
-    <Banner isDismissable>
+    <Banner isDismissable useMarkdown>
       {`Filtable is a work-in-progess project for Open Government Product’s [Hack
       for Public Good 2023](${H4PG_LINK}).`}
     </Banner>
