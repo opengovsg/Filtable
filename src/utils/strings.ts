@@ -12,7 +12,7 @@ export const extractFirstToken = (word: string) => {
   return word.split(" ")[0];
 };
 
-export const extractSheetId = (sheetsLink: string) => {
+export const extractId = (sheetsLink: string) => {
   return sheetsLink.split("/")[5] || "";
 };
 
@@ -68,4 +68,8 @@ export const generateIFrame = (url: string, title: string | undefined) => {
 
 export const generateShowingResults = (count: number) => {
   return `Showing ${count} result${count !== 1 ? "s" : ""}`;
+};
+
+export const stripQueryParams = (link: string) => {
+  return link.split("?")[0];
 };

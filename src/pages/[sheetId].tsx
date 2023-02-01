@@ -9,22 +9,22 @@ import Listing from "../components/Listing";
 import ShareModal from "../components/ShareModal";
 import FilterModal from "../components/FilterModal";
 import ErrorPage from "../components/ErrorPage";
+import LoadingPage from "../components/LoadingPage";
 // Utils
-import useGoogleSheet from "../api/useGoogleSheet";
+import useGoogleSheet from "../hooks/useGoogleSheet";
 import { useRouter } from "next/router";
 import {
   currentlySelectedFilters,
   generateToggleOrChangeFilterOption,
   isAnyFilterSelected,
 } from "../utils/filter";
+import { generateShowingResults } from "../utils/strings";
 // Types
 import type { NextPage } from "next";
-import { generateShowingResults } from "../utils/strings";
-import LoadingPage from "../components/LoadingPage";
 
 const FilterPage: NextPage = () => {
   const router = useRouter();
-  const { sheetId } = router.query;
+  const { sheetId, isSingle } = router.query;
 
   const {
     isLoading,
@@ -35,7 +35,9 @@ const FilterPage: NextPage = () => {
     filteredData,
     configuration,
     processedFilters,
-  } = useGoogleSheet(sheetId);
+  } = useGoogleSheet(sheetId, {
+    isSingleSheet: isSingle === "true" ? true : false,
+  });
 
   const [isShareModalOpen, setIsShareModalOpen] = useState(false);
   const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);

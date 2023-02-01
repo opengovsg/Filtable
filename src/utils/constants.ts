@@ -7,3 +7,5 @@ export const TEMPLATE_LINK =
   "https://docs.google.com/spreadsheets/d/10WgNq9tggb3bKl2eYerLuumNqOHe1KQcqhpxDgUvzcM/edit#gid=1039941824";
 
 export const H4PG_LINK = "http://hack.gov.sg/";
+
+export const GOOGLE_API_URL = "https://sheets.googleapis.com/v4/spreadsheets";

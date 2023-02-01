@@ -1,4 +1,8 @@
 import { useEffect, useState } from "react";
+import {
+  fetchSheetDataAndConfig,
+  fetchSingleSheetDataAndConfig,
+} from "../api/sheets";
 import type { HeadingConfig } from "../types/configuration";
 import type { Filter, FilterKeywords } from "../types/filter";
 import {
@@ -13,9 +17,17 @@ import {
   initEmptyFilters,
   initUnselectedFilters,
 } from "../utils/filter";
+import { stripQueryParams } from "../utils/strings";
 import { GoogleSheetResponse, ConfigurationResponse } from "../zodSchemas";
 
-const useGoogleSheet = (sheetId: string | string[] | undefined) => {
+const useGoogleSheet = (
+  sheetId: string | string[] | undefined,
+  config?: {
+    isSingleSheet?: boolean;
+  }
+) => {
+  const isSingleSheet = Boolean(config?.isSingleSheet);
+
   const [isLoading, setIsLoading] = useState(true);
 
   const [errorMessage, setErrorMessage] = useState("");
@@ -35,32 +47,12 @@ const useGoogleSheet = (sheetId: string | string[] | undefined) => {
   useEffect(() => {
     const fetchData = async () => {
       if (sheetId) {
+        const strippedSheetId = stripQueryParams(String(sheetId));
+        console.log(strippedSheetId);
         try {
-          const dataFetch = fetch(
-            `${
-              process.env.NEXT_PUBLIC_OPEN_SHEET_API ?? ""
-            }/${sheetId.toString()}/1`
-          );
-          const configFetch = fetch(
-            `${
-              process.env.NEXT_PUBLIC_OPEN_SHEET_API ?? ""
-            }/${sheetId.toString()}/2`
-          );
-
-          const [dataResponse, configurationResponse] = await Promise.all([
-            dataFetch,
-            configFetch,
-          ]);
-
-          if (dataResponse.status === 400) {
-            throw "unauthorized";
-          }
-
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-          const [data, configuration] = await Promise.all([
-            dataResponse.json(),
-            configurationResponse.json(),
-          ]);
+          const { data, configuration } = await (isSingleSheet
+            ? fetchSingleSheetDataAndConfig(String(strippedSheetId))
+            : fetchSheetDataAndConfig(String(strippedSheetId)));
 
           const validatedData = GoogleSheetResponse.parse(data);
           const validatedConfiguration = ConfigurationResponse.parse(
@@ -78,13 +70,15 @@ const useGoogleSheet = (sheetId: string | string[] | undefined) => {
           setConfiguration(validatedConfiguration);
           setIsLoading(false);
         } catch (error) {
-          setErrorMessage(generateErrorMessage(error));
+          setErrorMessage(
+            generateErrorMessage(error, { displayErrorMessage: true })
+          );
         }
       }
     };
 
     void fetchData();
-  }, [sheetId]);
+  }, [isSingleSheet, sheetId]);
 
   const filteredData = data.filter((listing) =>
     doesListingPassFilter(listing, filter)
