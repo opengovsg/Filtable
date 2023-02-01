@@ -1,13 +1,46 @@
 import type { ZodError } from "zod";
 
-export const generateErrorMessage = (error: unknown) => {
+export const generateErrorMessage = (
+  error: unknown,
+  displayErrorMessage?: boolean
+) => {
+  let returnErrorMessage = "";
+
   if (error === "unauthorized") {
-    return "Oh no! This Google Sheets link is not publicly visible. Change the viewing permissions to 'Anyone with the link'.";
+    returnErrorMessage =
+      "Oh no! This Google Sheets link is not publicly visible. Change the viewing permissions to 'Anyone with the link'.";
   } else if (
-    (error as ZodError).issues[0]?.message === "Expected array, received object"
+    ((error as ZodError).issues &&
+      (error as ZodError).issues[0]?.message ===
+        "Expected array, received object") ||
+    "no data" ||
+    "no config"
   ) {
-    return "It seems like your Google Sheet isn't formatted properly. Follow our template and try again.";
+    returnErrorMessage =
+      "It seems like your Google Sheet isn't formatted properly. Follow our template and try again.";
   } else {
-    return "Oops, something went wrong. Try doing this action again later.";
+    returnErrorMessage =
+      "Oops, something went wrong. Try doing this action again later.";
+  }
+
+  if (displayErrorMessage) {
+    returnErrorMessage += ` (Error: ${String(error)})`;
+  }
+  console.error(error);
+
+  return returnErrorMessage;
+};
+
+export const checkDataAndConfigForErrors = ({
+  data,
+  configuration,
+}: {
+  data: Array<Record<string, string>>;
+  configuration: Array<Record<string, string>>;
+}) => {
+  if (!data || data.length === 0) {
+    throw "no data";
+  } else if (!configuration || configuration.length === 0) {
+    throw "no config";
   }
 };

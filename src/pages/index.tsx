@@ -9,13 +9,10 @@ import { useRouter } from "next/router";
 // Types
 import type { ChangeEvent } from "react";
 import { type NextPage } from "next";
-import useTest from "../hooks/useTest";
 
 const Home: NextPage = () => {
   const router = useRouter();
   const [sheetsLink, setSheetsLink] = useState("");
-
-  useTest();
 
   const handleChangeSheetsLink = (event: ChangeEvent<HTMLInputElement>) => {
     setSheetsLink(event.target.value);
