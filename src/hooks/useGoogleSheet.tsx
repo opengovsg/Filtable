@@ -1,5 +1,8 @@
 import { useEffect, useState } from "react";
-import { fetchFirstSheet } from "../api/sheets";
+import {
+  fetchSheetDataAndConfig,
+  fetchSingleSheetDataAndConfig,
+} from "../api/sheets";
 import type { HeadingConfig } from "../types/configuration";
 import type { Filter, FilterKeywords } from "../types/filter";
 import {
@@ -16,7 +19,14 @@ import {
 } from "../utils/filter";
 import { GoogleSheetResponse, ConfigurationResponse } from "../zodSchemas";
 
-const useGoogleSheet = (sheetId: string | string[] | undefined) => {
+const useGoogleSheet = (
+  sheetId: string | string[] | undefined,
+  config?: {
+    isSingleSheet?: boolean;
+  }
+) => {
+  const isSingleSheet = Boolean(config?.isSingleSheet);
+
   const [isLoading, setIsLoading] = useState(true);
 
   const [errorMessage, setErrorMessage] = useState("");
@@ -37,9 +47,9 @@ const useGoogleSheet = (sheetId: string | string[] | undefined) => {
     const fetchData = async () => {
       if (sheetId) {
         try {
-          const { data, configuration } = await fetchFirstSheet(
-            String(sheetId)
-          );
+          const { data, configuration } = await (isSingleSheet
+            ? fetchSingleSheetDataAndConfig(String(sheetId))
+            : fetchSheetDataAndConfig(String(sheetId)));
 
           const validatedData = GoogleSheetResponse.parse(data);
           const validatedConfiguration = ConfigurationResponse.parse(
@@ -63,7 +73,7 @@ const useGoogleSheet = (sheetId: string | string[] | undefined) => {
     };
 
     void fetchData();
-  }, [sheetId]);
+  }, [isSingleSheet, sheetId]);
 
   const filteredData = data.filter((listing) =>
     doesListingPassFilter(listing, filter)

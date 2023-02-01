@@ -18,9 +18,9 @@ import {
   generateToggleOrChangeFilterOption,
   isAnyFilterSelected,
 } from "../utils/filter";
+import { generateShowingResults } from "../utils/strings";
 // Types
 import type { NextPage } from "next";
-import { generateShowingResults } from "../utils/strings";
 
 const FilterPage: NextPage = () => {
   const router = useRouter();
@@ -35,7 +35,7 @@ const FilterPage: NextPage = () => {
     filteredData,
     configuration,
     processedFilters,
-  } = useGoogleSheet(sheetId);
+  } = useGoogleSheet(sheetId, { isSingleSheet: false });
 
   const [isShareModalOpen, setIsShareModalOpen] = useState(false);
   const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
