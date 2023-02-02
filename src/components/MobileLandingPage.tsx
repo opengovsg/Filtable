@@ -6,13 +6,13 @@ import { PLACEHOLDER_SHEETS_LINK } from "../utils/constants";
 type Props = {
   sheetsLink: string;
   handleChangeSheetsLink: ChangeEventHandler<HTMLInputElement>;
-  handleFilter: () => void;
+  createFiltableFromLink: () => void;
 };
 
 const MobileLandingPage: FC<Props> = ({
   sheetsLink,
   handleChangeSheetsLink,
-  handleFilter,
+  createFiltableFromLink,
 }) => {
   return (
     <Hide above="md">
@@ -38,7 +38,7 @@ const MobileLandingPage: FC<Props> = ({
             mb="16px"
           />
           <Button
-            onClick={handleFilter}
+            onClick={createFiltableFromLink}
             background="brand.secondary.700"
             leftIcon={<BxPlus />}
             w="full"

@@ -1,18 +1,17 @@
 // React
+import type { Dispatch, FC, SetStateAction } from "react";
 import { useCallback, useState } from "react";
 // Components
 import { Box, Text } from "@chakra-ui/react";
 import { BxX, IconButton, Tag } from "@opengovsg/design-system-react";
-import BxFilterAlt from "../components/icons/BxFilterAlt";
-import BxShareAlt from "../components/icons/BxShareAlt";
-import Listing from "../components/Listing";
-import ShareModal from "../components/ShareModal";
-import FilterModal from "../components/FilterModal";
-import ErrorPage from "../components/ErrorPage";
-import LoadingPage from "../components/LoadingPage";
+import BxFilterAlt from "./icons/BxFilterAlt";
+import BxShareAlt from "./icons/BxShareAlt";
+import Listing from "./Listing";
+import ShareModal from "./ShareModal";
+import FilterModal from "./FilterModal";
+import ErrorPage from "./ErrorPage";
+import LoadingPage from "./LoadingPage";
 // Utils
-import useGoogleSheet from "../hooks/useGoogleSheet";
-import { useRouter } from "next/router";
 import {
   currentlySelectedFilters,
   generateToggleOrChangeFilterOption,
@@ -20,25 +19,30 @@ import {
 } from "../utils/filter";
 import { generateShowingResults } from "../utils/strings";
 // Types
-import type { NextPage } from "next";
+import type { Filter, FilterKeywords } from "../types/filter";
+import type { HeadingConfig } from "../types/configuration";
 
-const FilterPage: NextPage = () => {
-  const router = useRouter();
-  const { sheetId, isSingle } = router.query;
+type Props = {
+  isLoading: boolean;
+  errorMessage: string;
+  filter: Filter;
+  setFilter: Dispatch<SetStateAction<Filter>>;
+  data: Array<Record<string, string>>;
+  filteredData: Array<Record<string, string>>;
+  configuration: HeadingConfig;
+  processedFilters: Record<FilterKeywords, Array<string>>;
+};
 
-  const {
-    isLoading,
-    errorMessage,
-    filter,
-    setFilter,
-    data,
-    filteredData,
-    configuration,
-    processedFilters,
-  } = useGoogleSheet(sheetId, {
-    isSingleSheet: isSingle === "true" ? true : false,
-  });
-
+const FiltablePage: FC<Props> = ({
+  isLoading,
+  errorMessage,
+  filter,
+  setFilter,
+  data,
+  filteredData,
+  configuration,
+  processedFilters,
+}) => {
   const [isShareModalOpen, setIsShareModalOpen] = useState(false);
   const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
 
@@ -162,4 +166,4 @@ const FilterPage: NextPage = () => {
     </>
   );
 };
-export default FilterPage;
+export default FiltablePage;

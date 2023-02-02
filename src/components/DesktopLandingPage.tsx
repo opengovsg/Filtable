@@ -15,13 +15,19 @@ import LandingSection from "./LandingSection";
 type Props = {
   sheetsLink: string;
   handleChangeSheetsLink: ChangeEventHandler<HTMLInputElement>;
-  handleFilter: () => void;
+  createFiltableFromLink: () => void;
+  file: File | undefined;
+  handleUploadFile: ChangeEventHandler<HTMLInputElement>;
+  createFiltableFromCsv: Promise<() => void>;
 };
 
 const DesktopLandingPage: FC<Props> = ({
   sheetsLink,
   handleChangeSheetsLink,
-  handleFilter,
+  createFiltableFromLink,
+  file,
+  handleUploadFile,
+  createFiltableFromCsv,
 }) => {
   return (
     <Show above="md">
@@ -37,13 +43,23 @@ const DesktopLandingPage: FC<Props> = ({
               pr="40px"
             >
               <Text textStyle="h1">Turn tables into filterable lists</Text>
-              <Box display="flex" gap="8px">
-                <Input
-                  value={sheetsLink}
-                  onChange={handleChangeSheetsLink}
-                  placeholder="Paste a google sheets link"
-                />
-                <Button onClick={handleFilter}>Make me filtable</Button>
+              <Box display="flex" flexDir="column" gap="16px">
+                <Box display="flex" gap="8px">
+                  <Input
+                    value={sheetsLink}
+                    onChange={handleChangeSheetsLink}
+                    placeholder="Paste a google sheets link"
+                  />
+                  <Button onClick={createFiltableFromLink}>
+                    Make me filtable
+                  </Button>
+                </Box>
+                <Box display="flex" gap="8px">
+                  <Input type="file" onChange={handleUploadFile} />
+                  <Button onClick={void createFiltableFromCsv}>
+                    Upload CSV
+                  </Button>
+                </Box>
               </Box>
             </GridItem>
             <GridItem colSpan={1} display="grid" placeItems="center">

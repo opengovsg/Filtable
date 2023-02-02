@@ -7,21 +7,39 @@ import MobileLandingPage from "../components/MobileLandingPage";
 import { extractId, isValidLink } from "../utils/strings";
 import { useRouter } from "next/router";
 // Types
-import type { ChangeEvent } from "react";
+import type { ChangeEvent, ChangeEventHandler } from "react";
 import { type NextPage } from "next";
+import { uploadCsvFile } from "../api/csv";
+import { ROUTES } from "../utils/routes";
 
 const Home: NextPage = () => {
   const router = useRouter();
   const [sheetsLink, setSheetsLink] = useState("");
+  const [file, setFile] = useState<File | undefined>(undefined);
 
   const handleChangeSheetsLink = (event: ChangeEvent<HTMLInputElement>) => {
     setSheetsLink(event.target.value);
   };
 
-  const handleFilter = () => {
+  const createFiltableFromLink = () => {
     if (isValidLink(sheetsLink)) {
       const sheetId = extractId(sheetsLink);
-      void router.push(sheetId);
+      void router.push(`${ROUTES.GOOGLE_SHEETS}/${sheetId}`);
+    }
+  };
+
+  const handleUploadFile: ChangeEventHandler<HTMLInputElement> = (e) => {
+    setFile(e.target.files ? e.target.files[0] : undefined);
+  };
+
+  const createFiltableFromCsv = async () => {
+    try {
+      if (file) {
+        const key = await uploadCsvFile(file);
+        void router.push(`${ROUTES.CSV}/${key}`);
+      }
+    } catch (error) {
+      alert("Error");
     }
   };
 
@@ -31,12 +49,15 @@ const Home: NextPage = () => {
       <DesktopLandingPage
         sheetsLink={sheetsLink}
         handleChangeSheetsLink={handleChangeSheetsLink}
-        handleFilter={handleFilter}
+        createFiltableFromLink={createFiltableFromLink}
+        file={file}
+        handleUploadFile={handleUploadFile}
+        createFiltableFromCsv={createFiltableFromCsv}
       />
       <MobileLandingPage
         sheetsLink={sheetsLink}
         handleChangeSheetsLink={handleChangeSheetsLink}
-        handleFilter={handleFilter}
+        createFiltableFromLink={createFiltableFromLink}
       />
     </>
   );
