@@ -13,7 +13,7 @@
   "dependencies": {
     "@chakra-ui/icons": "^2.0.17",
     "@chakra-ui/react": "^2.4.9",
-    "@opengovsg/design-system-react": "^0.1.0-alpha.2",
+    "@opengovsg/design-system-react": "^0.1.0-alpha.8",
     "aws-sdk": "^2.1307.0",
     "csv-parser": "^3.0.0",
     "next": "13.1.1",
