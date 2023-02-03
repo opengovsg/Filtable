@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unsafe-return */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 // Utils
 import { z } from "zod";
 import {
@@ -121,4 +123,18 @@ export const getTagColorScheme = (idx: number): string => {
     tagColorSchemes[idx] ??
     (tagColorSchemes[tagColorSchemes.length - 1] as string)
   );
+};
+
+export const encodeConfig = (config: Array<Record<string, string>>) => {
+  const stringifiedConfig = JSON.stringify(config);
+  const encodedUrlConfig = btoa(stringifiedConfig);
+
+  return encodedUrlConfig;
+};
+
+export const decodeUrlConfig = (urlConfig: string) => {
+  const decodedUrlConfig = atob(urlConfig);
+  const parsedConfig = JSON.parse(decodedUrlConfig);
+
+  return parsedConfig as Record<string, string>;
 };

@@ -5,3 +5,5 @@ export type HeadingConfig = {
 } & {
   [Property in OptionalHeadings]+?: string;
 };
+
+export type ConfigLocation = "url" | "secondSheet" | "singleSheet";

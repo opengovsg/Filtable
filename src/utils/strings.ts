@@ -70,6 +70,6 @@ export const generateShowingResults = (count: number) => {
   return `Showing ${count} result${count !== 1 ? "s" : ""}`;
 };
 
-export const stripQueryParams = (link: string) => {
-  return link.split("?")[0];
+export const stripQueryParams = (link: string | string[]) => {
+  return String(link).split("?")[0] ?? "";
 };

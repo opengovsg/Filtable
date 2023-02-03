@@ -2,6 +2,11 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 // TODO: Fix TypeScript errors
 
+import { decodeUrlConfig } from "./configuration";
+
+/**
+ * For Google Sheet Data + Same Sheet Config
+ */
 export const formatSingleSheetToDataAndConfig = (sheetData: any) => {
   const values = sheetData.values as Array<Array<string>>;
 
@@ -13,9 +18,15 @@ export const formatSingleSheetToDataAndConfig = (sheetData: any) => {
   const rows = values.slice(1);
   const dataArrayOfRecords = formatRawValuesToArrayOfRecords(rows);
 
-  return { configuration: configArrayOfRecords, data: dataArrayOfRecords };
+  return {
+    configuration: configArrayOfRecords,
+    data: dataArrayOfRecords,
+  };
 };
 
+/**
+ * For Google Sheet Data + 2nd Sheet Config
+ */
 export const formatSheetsToDataAndConfig = (
   sheetData: any,
   configData: any
@@ -33,6 +44,38 @@ export const formatSheetsToDataAndConfig = (
   };
 };
 
+/**
+ * For Google Sheet Data + URL Config
+ */
+export const formatDataSheetWithUrlConfig = (
+  sheetData: any,
+  urlConfig: string
+) => {
+  const sheetDataArrayOfRecords = formatRawValuesToArrayOfRecords(
+    sheetData.values
+  );
+
+  const decodedConfiguration = [decodeUrlConfig(urlConfig)];
+
+  return { data: sheetDataArrayOfRecords, configuration: decodedConfiguration };
+};
+
+/**
+ * To extract headings and first row of data from Google Sheets 2d array
+ */
+export const extractSheetHeadingsAndFirstRow = (sheetData: any) => {
+  const values = sheetData.values as Array<Array<string>>;
+
+  if (!values[0] || !values[0].length || !values[1] || !values[1].length) {
+    throw "no data";
+  }
+
+  return { headings: values[0], firstRowArray: values[1] };
+};
+
+/**
+ * To convert a 2d array of cells into an array of JSON where each object has key value pairs where key is column heading and value is row cell value
+ */
 export const formatRawValuesToArrayOfRecords = (
   rawValues: Array<Array<string>>
 ) => {

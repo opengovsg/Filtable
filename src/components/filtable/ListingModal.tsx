@@ -11,7 +11,7 @@ import {
 } from "@chakra-ui/react";
 import { BxRightArrowAlt, Tag } from "@opengovsg/design-system-react";
 // Utils
-import { isValidLink, extractUrlHost } from "../utils/strings";
+import { isValidLink, extractUrlHost } from "../../utils/strings";
 
 type Props = {
   isOpen: boolean;
@@ -27,7 +27,7 @@ const ListingModal: FC<Props> = ({
   onClose,
   title,
   description,
-  convertedCollectionOfTags,
+  convertedCollectionOfTags = [],
   link,
 }) => {
   return (

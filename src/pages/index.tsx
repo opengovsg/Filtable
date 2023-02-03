@@ -1,8 +1,8 @@
 import { useState } from "react";
 // Components
-import Navbar from "../components/Navbar";
-import DesktopLandingPage from "../components/DesktopLandingPage";
-import MobileLandingPage from "../components/MobileLandingPage";
+import Navbar from "../components/landing/Navbar";
+import DesktopLandingPage from "../components/landing/DesktopLandingPage";
+import MobileLandingPage from "../components/landing/MobileLandingPage";
 // Utils
 import { extractId, isValidLink } from "../utils/strings";
 import { useRouter } from "next/router";
@@ -24,7 +24,7 @@ const Home: NextPage = () => {
   const createFiltableFromLink = () => {
     if (isValidLink(sheetsLink)) {
       const sheetId = extractId(sheetsLink);
-      void router.push(`${ROUTES.GOOGLE_SHEETS}/${sheetId}`);
+      void router.push(`${ROUTES.GOOGLE_SHEETS}/${sheetId}/configure`);
     }
   };
 

@@ -9,8 +9,8 @@ import {
 } from "@chakra-ui/react";
 import { Input } from "@opengovsg/design-system-react";
 import type { ChangeEventHandler, FC } from "react";
-import { TEMPLATE_LINK, H4PG_LINK } from "../utils/constants";
-import LandingSection from "./LandingSection";
+import { TEMPLATE_LINK, H4PG_LINK } from "../../utils/constants";
+import LandingSection from "../LandingSection";
 
 type Props = {
   sheetsLink: string;
@@ -18,7 +18,7 @@ type Props = {
   createFiltableFromLink: () => void;
   file: File | undefined;
   handleUploadFile: ChangeEventHandler<HTMLInputElement>;
-  createFiltableFromCsv: Promise<() => void>;
+  createFiltableFromCsv: () => Promise<void>;
 };
 
 const DesktopLandingPage: FC<Props> = ({

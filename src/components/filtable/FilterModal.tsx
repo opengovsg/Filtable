@@ -10,14 +10,14 @@ import {
 } from "@chakra-ui/react";
 import { Button, BxCheck, Tag } from "@opengovsg/design-system-react";
 // Utils
-import { getTagColorScheme } from "../utils/configuration";
+import { getTagColorScheme } from "../../utils/configuration";
 import {
   enumerateAllFilterOptions,
   generateToggleOrChangeFilterOption,
-} from "../utils/filter";
+} from "../../utils/filter";
 // Types
 import type { Dispatch, FC, SetStateAction } from "react";
-import type { Filter, FilterKeywords } from "../types/filter";
+import type { Filter, FilterKeywords } from "../../types/filter";
 
 type Props = {
   isOpen: boolean;

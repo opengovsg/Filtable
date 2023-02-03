@@ -4,8 +4,8 @@ import {
   ThemeProvider,
 } from "@opengovsg/design-system-react";
 import "inter-ui/inter.css";
-import HackathonBanner from "../components/HackathonBanner";
-import MyHead from "../components/MyHead";
+import HackathonBanner from "../components/shared/HackathonBanner";
+import MyHead from "../components/shared/MyHead";
 // Constants
 import { APP_URL } from "../utils/constants";
 // Types

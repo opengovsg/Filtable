@@ -6,8 +6,8 @@ import { Link, Tag } from "@opengovsg/design-system-react";
 import { useRouter } from "next/router";
 // Types
 import type { FC } from "react";
-import { TEMPLATE_LINK } from "../utils/constants";
-import FiltableIcon from "./icons/FiltableIcon";
+import { TEMPLATE_LINK } from "../../utils/constants";
+import FiltableIcon from "../icons/FiltableIcon";
 
 type Props = {
   filtableTitle?: string;

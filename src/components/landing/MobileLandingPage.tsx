@@ -1,7 +1,7 @@
 import { Hide, Box, Button, Text } from "@chakra-ui/react";
 import { BxPlus, Input } from "@opengovsg/design-system-react";
 import type { ChangeEventHandler, FC } from "react";
-import { PLACEHOLDER_SHEETS_LINK } from "../utils/constants";
+import { PLACEHOLDER_SHEETS_LINK } from "../../utils/constants";
 
 type Props = {
   sheetsLink: string;

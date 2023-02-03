@@ -4,23 +4,23 @@ import { useCallback, useState } from "react";
 // Components
 import { Box, Text } from "@chakra-ui/react";
 import { BxX, IconButton, Tag } from "@opengovsg/design-system-react";
-import BxFilterAlt from "./icons/BxFilterAlt";
-import BxShareAlt from "./icons/BxShareAlt";
+import BxFilterAlt from "../icons/BxFilterAlt";
+import BxShareAlt from "../icons/BxShareAlt";
 import Listing from "./Listing";
 import ShareModal from "./ShareModal";
 import FilterModal from "./FilterModal";
-import ErrorPage from "./ErrorPage";
-import LoadingPage from "./LoadingPage";
+import ErrorPage from "../emptyStates/ErrorPage";
+import LoadingPage from "../emptyStates/LoadingPage";
 // Utils
 import {
   currentlySelectedFilters,
   generateToggleOrChangeFilterOption,
   isAnyFilterSelected,
-} from "../utils/filter";
-import { generateShowingResults } from "../utils/strings";
+} from "../../utils/filter";
+import { generateShowingResults } from "../../utils/strings";
 // Types
-import type { Filter, FilterKeywords } from "../types/filter";
-import type { HeadingConfig } from "../types/configuration";
+import type { Filter, FilterKeywords } from "../../types/filter";
+import type { HeadingConfig } from "../../types/configuration";
 
 type Props = {
   isLoading: boolean;
@@ -86,7 +86,7 @@ const FiltablePage: FC<Props> = ({
         />
       </Box>
       <Box p="24px" backgroundColor="blue.50" display="flex" flexDir="row">
-        <Box maxW="912px" mx="auto" w="full">
+        <Box maxW="1144px" mx="auto" w="full">
           <Box display="flex" flexDir="row" w="full" gap="16px">
             <Text textStyle="h5" noOfLines={2}>
               {configuration["Filtable Title"]}

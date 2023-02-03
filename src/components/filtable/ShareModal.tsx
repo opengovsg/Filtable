@@ -14,9 +14,9 @@ import {
   IconButton,
   useToast,
 } from "@opengovsg/design-system-react";
-import BxCopy from "./icons/BxCopy";
+import BxCopy from "../icons/BxCopy";
 // Utils
-import { generateIFrame } from "../utils/strings";
+import { generateIFrame } from "../../utils/strings";
 
 type Props = {
   isOpen: boolean;

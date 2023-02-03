@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import {
   fetchSheetDataAndConfig,
+  fetchSheetDataAndDecodeUrlConfig,
   fetchSingleSheetDataAndConfig,
 } from "../api/sheets";
-import type { HeadingConfig } from "../types/configuration";
+import type { ConfigLocation, HeadingConfig } from "../types/configuration";
 import type { Filter, FilterKeywords } from "../types/filter";
 import {
   processExtractedFilters,
@@ -20,14 +21,15 @@ import {
 import { stripQueryParams } from "../utils/strings";
 import { GoogleSheetResponse, ConfigurationResponse } from "../zodSchemas";
 
-const useGoogleSheet = (
-  sheetId: string | string[] | undefined,
-  config?: {
-    isSingleSheet?: boolean;
-  }
-) => {
-  const isSingleSheet = Boolean(config?.isSingleSheet);
-
+const useGoogleSheet = ({
+  configLocation,
+  googleSheetId,
+  urlConfig,
+}: {
+  configLocation: ConfigLocation;
+  googleSheetId: string | string[] | undefined;
+  urlConfig?: string;
+}) => {
   const [isLoading, setIsLoading] = useState(true);
 
   const [errorMessage, setErrorMessage] = useState("");
@@ -45,14 +47,34 @@ const useGoogleSheet = (
   );
 
   useEffect(() => {
+    const getDataAndConfig = async (
+      configLocation: ConfigLocation,
+      strippedSheetId: string
+    ) => {
+      switch (configLocation) {
+        case "secondSheet":
+          return await fetchSheetDataAndConfig(strippedSheetId);
+        case "singleSheet":
+          return await fetchSingleSheetDataAndConfig(strippedSheetId);
+        case "url":
+          return await fetchSheetDataAndDecodeUrlConfig(
+            strippedSheetId,
+            urlConfig
+          );
+      }
+
+      throw "unable to fetch data and config";
+    };
+
     const fetchData = async () => {
-      if (sheetId) {
-        const strippedSheetId = stripQueryParams(String(sheetId));
-        console.log(strippedSheetId);
+      if (googleSheetId) {
+        const strippedSheetId = stripQueryParams(googleSheetId);
+
         try {
-          const { data, configuration } = await (isSingleSheet
-            ? fetchSingleSheetDataAndConfig(String(strippedSheetId))
-            : fetchSheetDataAndConfig(String(strippedSheetId)));
+          const { data, configuration } = await getDataAndConfig(
+            configLocation,
+            strippedSheetId
+          );
 
           const validatedData = GoogleSheetResponse.parse(data);
           const validatedConfiguration = ConfigurationResponse.parse(
@@ -71,14 +93,14 @@ const useGoogleSheet = (
           setIsLoading(false);
         } catch (error) {
           setErrorMessage(
-            generateErrorMessage(error, { displayErrorMessage: true })
+            generateErrorMessage(error, { displayErrorMessage: false })
           );
         }
       }
     };
 
     void fetchData();
-  }, [isSingleSheet, sheetId]);
+  }, [configLocation, googleSheetId, urlConfig]);
 
   const filteredData = data.filter((listing) =>
     doesListingPassFilter(listing, filter)

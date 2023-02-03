@@ -1,6 +1,6 @@
 import { Banner } from "@opengovsg/design-system-react";
 import type { FC } from "react";
-import { H4PG_LINK } from "../utils/constants";
+import { H4PG_LINK } from "../../utils/constants";
 
 const HackathonBanner: FC = () => {
   return (

@@ -7,10 +7,13 @@ import { BxRightArrowAlt, Link, Tag } from "@opengovsg/design-system-react";
 import ListingModal from "./ListingModal";
 import { Box, Text } from "@chakra-ui/react";
 // Types
-import type { HeadingConfig } from "../types/configuration";
+import type { HeadingConfig } from "../../types/configuration";
 // Utils
-import { extractUrlHost, isValidLink } from "../utils/strings";
-import { convertCollectionOfTags, extractTags } from "../utils/configuration";
+import { extractUrlHost, isValidLink } from "../../utils/strings";
+import {
+  convertCollectionOfTags,
+  extractTags,
+} from "../../utils/configuration";
 import Overflow from "rc-overflow";
 
 type ListingProps = {

@@ -50,9 +50,9 @@ export const checkDataAndConfigForErrors = ({
   } else if (!configuration || configuration.length === 0) {
     throw "no config";
   }
-
   let isAllUndefined = true;
   const actualHeadingsSet = new Set(Object.keys(data[0] ?? {}));
+
   configuration[0] &&
     Object.values(configuration[0]).forEach((configHeading) => {
       if (actualHeadingsSet.has(configHeading)) {

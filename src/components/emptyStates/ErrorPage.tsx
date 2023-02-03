@@ -2,7 +2,7 @@ import { Box, Button, Text } from "@chakra-ui/react";
 import { BxChevronLeft } from "@opengovsg/design-system-react";
 import router from "next/router";
 import type { FC } from "react";
-import BxRefresh from "./icons/BxRefresh";
+import BxRefresh from "../icons/BxRefresh";
 
 type Props = { errorMessage: string };
 
