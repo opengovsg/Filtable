@@ -14,13 +14,13 @@ const s3 = new S3({
 
 export default function csv(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === "GET") {
-    const { id } = req.query;
+    const { key } = req.query;
 
     const BUCKET_NAME = process.env.S3_BUCKET_NAME;
 
     const params = {
       Bucket: String(BUCKET_NAME),
-      Key: `${String(id)}`,
+      Key: `${String(key)}`,
     };
 
     s3.getObject(params, function (error: unknown, data: any) {
