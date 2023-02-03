@@ -106,9 +106,17 @@ const ConfigureFiltablePage: FC<Props> = ({
     const config = mergeCheckboxesWithConfig(configuration, checkboxes);
     const urlConfig = encodeConfig(config);
 
-    void router.push(
-      `/${ROUTES.GOOGLE_SHEETS}/${String(googleSheetId)}?urlConfig=${urlConfig}`
-    );
+    if (googleSheetId) {
+      void router.push(
+        `/${ROUTES.GOOGLE_SHEETS}/${String(
+          googleSheetId
+        )}?urlConfig=${urlConfig}`
+      );
+    } else if (csvKey) {
+      void router.push(
+        `/${ROUTES.CSV}/${String(csvKey)}?urlConfig=${urlConfig}`
+      );
+    }
   };
 
   const convertedCollectionOfTags = useMemo(() => {

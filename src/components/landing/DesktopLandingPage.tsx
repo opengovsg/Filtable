@@ -6,9 +6,11 @@ import {
   Button,
   Text,
   Link,
+  Divider,
 } from "@chakra-ui/react";
-import { Input } from "@opengovsg/design-system-react";
+import { Attachment, Input } from "@opengovsg/design-system-react";
 import type { ChangeEventHandler, FC } from "react";
+import { useState } from "react";
 import { TEMPLATE_LINK, H4PG_LINK } from "../../utils/constants";
 import LandingSection from "./LandingSection";
 
@@ -17,7 +19,7 @@ type Props = {
   handleChangeSheetsLink: ChangeEventHandler<HTMLInputElement>;
   createFiltableFromLink: () => void;
   file: File | undefined;
-  handleUploadFile: ChangeEventHandler<HTMLInputElement>;
+  handleUploadFile: (file?: File | undefined) => void;
   createFiltableFromCsv: () => Promise<void>;
 };
 
@@ -29,6 +31,20 @@ const DesktopLandingPage: FC<Props> = ({
   handleUploadFile,
   createFiltableFromCsv,
 }) => {
+  const [fileUploadError, setFileUploadError] = useState("");
+
+  const handleFileValidation = (file: File) => {
+    if (file.type !== "text/csv") {
+      return "Please upload a .CSV file";
+    }
+    setFileUploadError("");
+    return null;
+  };
+
+  const handleFileUploadError = (error: string) => {
+    setFileUploadError(error);
+  };
+
   return (
     <Show above="md">
       <Box bg="brand.primary.50" display="flex" flexDir="column" px="64px">
@@ -43,26 +59,81 @@ const DesktopLandingPage: FC<Props> = ({
               pr="40px"
             >
               <Text textStyle="h1">Turn tables into filterable lists</Text>
-              <Box display="flex" flexDir="column" gap="16px">
-                <Box display="flex" gap="8px">
-                  <Input
-                    value={sheetsLink}
-                    onChange={handleChangeSheetsLink}
-                    placeholder="Paste a google sheets link"
-                  />
-                  <Button onClick={createFiltableFromLink}>
-                    Make me filtable
-                  </Button>
+              <Box
+                display="flex"
+                bg="white"
+                p="24px"
+                rounded="16px"
+                flexDir="column"
+                shadow="sm"
+                mb="128px"
+              >
+                <Box>
+                  <Text mb="12px" textStyle="subhead-1">
+                    Paste a google sheets link
+                  </Text>
+                  <Box display="flex" gap="8px">
+                    <Input
+                      value={sheetsLink}
+                      onChange={handleChangeSheetsLink}
+                      placeholder="docs.google.com/spreadsheets/"
+                    />
+                    <Button onClick={createFiltableFromLink}>
+                      Make me filtable
+                    </Button>
+                  </Box>
                 </Box>
-                <Box display="flex" gap="8px">
-                  <Input type="file" onChange={handleUploadFile} />
-                  <Button onClick={void createFiltableFromCsv}>
-                    Upload CSV
-                  </Button>
+
+                <Box
+                  color="slate.200"
+                  display="flex"
+                  alignItems="center"
+                  gap="24px"
+                  my="32px"
+                >
+                  <Divider border="1px" />
+                  <Text textStyle="subhead-3">OR</Text>
+                  <Divider border="1px" />
+                </Box>
+
+                <Box display="flex" flexDir="column">
+                  <Box display="flex" justifyContent="space-between">
+                    <Text textStyle="subhead-1" mb="12px">
+                      Upload a .CSV file
+                    </Text>
+                    {fileUploadError ? (
+                      <Text color="red.400">{fileUploadError}</Text>
+                    ) : null}
+                  </Box>
+                  <Attachment
+                    name="file"
+                    value={file}
+                    onChange={handleUploadFile}
+                    onFileValidation={handleFileValidation}
+                    onError={handleFileUploadError}
+                  />
+                  {file ? (
+                    <Button
+                      mt="12px"
+                      onClick={() => {
+                        void createFiltableFromCsv();
+                      }}
+                    >
+                      Upload .CSV file
+                    </Button>
+                  ) : (
+                    <Text
+                      textStyle="body-2"
+                      color="base.content.medium"
+                      mt="8px"
+                    >
+                      Maximum file size: 20 MB
+                    </Text>
+                  )}
                 </Box>
               </Box>
             </GridItem>
-            <GridItem colSpan={1} display="grid" placeItems="center">
+            <GridItem colSpan={1} display="grid" placeItems="flex-start">
               <img src="landing-page-1.png" alt="Sheets Image" />
             </GridItem>
           </Grid>

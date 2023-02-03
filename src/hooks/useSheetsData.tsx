@@ -37,6 +37,7 @@ const useSheetsData = ({
         return await fetchGoogleSheetsData(strippedGoogleSheetId);
       } else if (csvKey) {
         const strippedCsvKey = stripQueryParams(csvKey);
+        console.log(strippedCsvKey);
         return await fetchCsvData(strippedCsvKey);
       }
 
@@ -44,7 +45,7 @@ const useSheetsData = ({
     };
 
     const fetchData = async () => {
-      if (googleSheetId) {
+      if (googleSheetId || csvKey) {
         try {
           const { data, headings, firstRow } = await getCorrespondingData({
             googleSheetId,

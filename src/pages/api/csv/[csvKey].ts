@@ -27,8 +27,6 @@ export default function csv(req: NextApiRequest, res: NextApiResponse) {
       if (error) {
         res.status(400).json(error);
       } else {
-        // const arrays = data.Body;
-        // res.status(200).json(arrays);
         const results: Array<Record<string, string>> = [];
 
         const dataBody: string = data.Body;

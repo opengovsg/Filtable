@@ -28,15 +28,15 @@ const Home: NextPage = () => {
     }
   };
 
-  const handleUploadFile: ChangeEventHandler<HTMLInputElement> = (e) => {
-    setFile(e.target.files ? e.target.files[0] : undefined);
+  const handleUploadFile = (file?: File | undefined) => {
+    setFile(file);
   };
 
   const createFiltableFromCsv = async () => {
     try {
       if (file) {
         const key = await uploadCsvFile(file);
-        void router.push(`${ROUTES.CSV}/${key}`);
+        void router.push(`${ROUTES.CSV}/${key}/configure`);
       }
     } catch (error) {
       alert("Error");

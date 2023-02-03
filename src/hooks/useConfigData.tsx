@@ -67,30 +67,28 @@ const useConfigData = ({
     };
 
     const fetchData = async () => {
-      if (googleSheetId) {
-        try {
-          const { configuration } = await getCorrespondingConfig({
-            configLocation,
-            googleSheetId,
-            urlConfig,
-          });
+      try {
+        const { configuration } = await getCorrespondingConfig({
+          configLocation,
+          googleSheetId,
+          urlConfig,
+        });
 
-          const validatedConfiguration = ConfigurationResponse.parse(
-            configuration
-          )[0] as HeadingConfig;
+        const validatedConfiguration = ConfigurationResponse.parse(
+          configuration
+        )[0] as HeadingConfig;
 
-          const processedFilters = processExtractedFilters(
-            extractFilters(validatedConfiguration)
-          );
+        const processedFilters = processExtractedFilters(
+          extractFilters(validatedConfiguration)
+        );
 
-          setProcessedFilters(processedFilters);
-          setConfiguration(validatedConfiguration);
-          setIsLoading(false);
-        } catch (error) {
-          setErrorMessage(
-            generateErrorMessage(error, { displayErrorMessage: false })
-          );
-        }
+        setProcessedFilters(processedFilters);
+        setConfiguration(validatedConfiguration);
+        setIsLoading(false);
+      } catch (error) {
+        setErrorMessage(
+          generateErrorMessage(error, { displayErrorMessage: false })
+        );
       }
     };
 

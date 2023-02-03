@@ -48,7 +48,7 @@ export const checkDataAndConfigForErrors = ({
 }) => {
   if (!data || data.length === 0) {
     throw "no data";
-  } else if (!configuration || configuration.length === 0) {
+  } else if (!configuration) {
     throw "no config";
   }
   let isAllUndefined = true;
