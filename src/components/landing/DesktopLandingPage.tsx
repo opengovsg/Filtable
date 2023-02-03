@@ -10,7 +10,7 @@ import {
 import { Input } from "@opengovsg/design-system-react";
 import type { ChangeEventHandler, FC } from "react";
 import { TEMPLATE_LINK, H4PG_LINK } from "../../utils/constants";
-import LandingSection from "../LandingSection";
+import LandingSection from "./LandingSection";
 
 type Props = {
   sheetsLink: string;
