@@ -1,40 +1,30 @@
 import { useEffect, useState } from "react";
-import {
-  fetchSheetDataAndConfig,
-  fetchSheetDataAndDecodeUrlConfig,
-  fetchSingleSheetDataAndConfig,
-} from "../api/sheets";
+import { fetchGoogleSheetsConfig } from "../api/sheets";
 import type { ConfigLocation, HeadingConfig } from "../types/configuration";
-import type { Filter, FilterKeywords } from "../types/filter";
+import type { FilterKeywords } from "../types/filter";
 import {
   processExtractedFilters,
   extractFilters,
   initEmptyHeadingConfig,
   initEmptyProcessedFilters,
+  decodeUrlConfig,
 } from "../utils/configuration";
 import { generateErrorMessage } from "../utils/errors";
-import {
-  doesListingPassFilter,
-  initEmptyFilters,
-  initUnselectedFilters,
-} from "../utils/filter";
 import { stripQueryParams } from "../utils/strings";
-import { GoogleSheetResponse, ConfigurationResponse } from "../zodSchemas";
+import { ConfigurationResponse } from "../zodSchemas";
 
-const useGoogleSheet = ({
+const useConfigData = ({
   configLocation,
   googleSheetId,
   urlConfig,
 }: {
   configLocation: ConfigLocation;
-  googleSheetId: string | string[] | undefined;
-  urlConfig?: string;
+  googleSheetId?: string | string[] | undefined;
+  urlConfig?: string | string[] | undefined;
 }) => {
   const [isLoading, setIsLoading] = useState(true);
 
   const [errorMessage, setErrorMessage] = useState("");
-  const [filter, setFilter] = useState<Filter>(initEmptyFilters());
-  const [data, setData] = useState<Array<Record<string, string>>>([]);
   const [configuration, setConfiguration] = useState<HeadingConfig>(
     initEmptyHeadingConfig()
   );
@@ -47,48 +37,53 @@ const useGoogleSheet = ({
   );
 
   useEffect(() => {
-    const getDataAndConfig = async (
-      configLocation: ConfigLocation,
-      strippedSheetId: string
-    ) => {
+    /**
+     * Get the right data based on ('csvKey' OR 'googleSheetId') AND configLocation
+     */
+    const getCorrespondingConfig = async ({
+      configLocation,
+      googleSheetId,
+      urlConfig,
+    }: {
+      configLocation: ConfigLocation;
+      googleSheetId: string | string[] | undefined;
+      urlConfig?: string | string[] | undefined;
+    }) => {
       switch (configLocation) {
         case "secondSheet":
-          return await fetchSheetDataAndConfig(strippedSheetId);
-        case "singleSheet":
-          return await fetchSingleSheetDataAndConfig(strippedSheetId);
+          if (!googleSheetId) {
+            throw "no google sheet ID provided for config";
+          }
+          const strippedGoogleSheetId = stripQueryParams(googleSheetId);
+          return await fetchGoogleSheetsConfig(strippedGoogleSheetId);
         case "url":
-          return await fetchSheetDataAndDecodeUrlConfig(
-            strippedSheetId,
-            urlConfig
-          );
+          if (!urlConfig) {
+            throw "no url config provided";
+          }
+          const decodedConfiguration = [decodeUrlConfig(urlConfig)];
+          return { configuration: decodedConfiguration };
       }
-
-      throw "unable to fetch data and config";
+      throw "unable to fetch config";
     };
 
     const fetchData = async () => {
       if (googleSheetId) {
-        const strippedSheetId = stripQueryParams(googleSheetId);
-
         try {
-          const { data, configuration } = await getDataAndConfig(
+          const { configuration } = await getCorrespondingConfig({
             configLocation,
-            strippedSheetId
-          );
+            googleSheetId,
+            urlConfig,
+          });
 
-          const validatedData = GoogleSheetResponse.parse(data);
           const validatedConfiguration = ConfigurationResponse.parse(
             configuration
           )[0] as HeadingConfig;
 
-          // Setting up initial filters
           const processedFilters = processExtractedFilters(
             extractFilters(validatedConfiguration)
           );
 
-          setFilter(initUnselectedFilters(validatedData, processedFilters));
           setProcessedFilters(processedFilters);
-          setData(validatedData);
           setConfiguration(validatedConfiguration);
           setIsLoading(false);
         } catch (error) {
@@ -102,17 +97,9 @@ const useGoogleSheet = ({
     void fetchData();
   }, [configLocation, googleSheetId, urlConfig]);
 
-  const filteredData = data.filter((listing) =>
-    doesListingPassFilter(listing, filter)
-  );
-
   const value = {
     isLoading,
     errorMessage,
-    filter,
-    setFilter,
-    data,
-    filteredData,
     configuration,
     processedFilters,
   };
@@ -120,4 +107,4 @@ const useGoogleSheet = ({
   return value;
 };
 
-export default useGoogleSheet;
+export default useConfigData;

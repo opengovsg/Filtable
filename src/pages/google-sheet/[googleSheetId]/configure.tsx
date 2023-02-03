@@ -15,7 +15,7 @@ import { useState } from "react";
 import ErrorPage from "../../../components/emptyStates/ErrorPage";
 import LoadingPage from "../../../components/emptyStates/LoadingPage";
 import PreviewListing from "../../../components/filtable/PreviewListing";
-import useHeadingsAndFirstRow from "../../../hooks/useHeadingsAndFirstRow";
+import useSheetsData from "../../../hooks/useSheetsData";
 import type { HeadingConfig } from "../../../types/configuration";
 import type { Headings } from "../../../types/headings";
 import {
@@ -28,15 +28,16 @@ import { ROUTES } from "../../../utils/routes";
 
 const Configure: NextPage = () => {
   const router = useRouter();
-  const { sheetId } = router.query;
+  const { googleSheetId } = router.query;
 
   const [configuration, setConfiguration] = useState<HeadingConfig>(
     initEmptyHeadingConfig()
   );
   // Allow users to dynamically create more checkboxes
   const [checkboxes, setCheckboxes] = useState<Array<string>>([""]);
-  const { headings, firstRow, isLoading, errorMessage } =
-    useHeadingsAndFirstRow({ googleSheetId: String(sheetId) });
+  const { headings, firstRow, isLoading, errorMessage } = useSheetsData({
+    googleSheetId,
+  });
 
   const selectHeadings: Array<Headings> = ["Title", "Description", "Link URL"];
   const headingsAsSelectItems = headings.map((heading) => ({ value: heading }));
@@ -100,7 +101,7 @@ const Configure: NextPage = () => {
     const urlConfig = encodeConfig(config);
 
     void router.push(
-      `/${ROUTES.GOOGLE_SHEETS}/${String(sheetId)}?urlConfig=${urlConfig}`
+      `/${ROUTES.GOOGLE_SHEETS}/${String(googleSheetId)}?urlConfig=${urlConfig}`
     );
   };
 

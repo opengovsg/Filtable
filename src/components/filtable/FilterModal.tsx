@@ -123,7 +123,6 @@ const FilterModal: FC<Props> = ({
             );
           }
         )}
-        {/* TODO: Add apply filters functionality */}
         <Button mt="auto" onClick={closeAndApplyFilters}>
           Apply filters
         </Button>

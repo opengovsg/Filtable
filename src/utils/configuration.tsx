@@ -132,8 +132,8 @@ export const encodeConfig = (config: Array<Record<string, string>>) => {
   return encodedUrlConfig;
 };
 
-export const decodeUrlConfig = (urlConfig: string) => {
-  const decodedUrlConfig = atob(urlConfig);
+export const decodeUrlConfig = (urlConfig: string | string[]) => {
+  const decodedUrlConfig = atob(String(urlConfig));
   const parsedConfig = JSON.parse(decodedUrlConfig);
 
   return parsedConfig as Record<string, string>;

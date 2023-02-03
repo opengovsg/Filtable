@@ -1,4 +1,5 @@
 import type { ZodError } from "zod";
+import { HeadingConfig } from "../types/configuration";
 
 export const generateErrorMessage = (
   error: unknown,
@@ -43,7 +44,7 @@ export const checkDataAndConfigForErrors = ({
   configuration,
 }: {
   data: Array<Record<string, string>>;
-  configuration: Array<Record<string, string>>;
+  configuration: HeadingConfig;
 }) => {
   if (!data || data.length === 0) {
     throw "no data";
@@ -53,12 +54,11 @@ export const checkDataAndConfigForErrors = ({
   let isAllUndefined = true;
   const actualHeadingsSet = new Set(Object.keys(data[0] ?? {}));
 
-  configuration[0] &&
-    Object.values(configuration[0]).forEach((configHeading) => {
-      if (actualHeadingsSet.has(configHeading)) {
-        isAllUndefined = false;
-      }
-    });
+  Object.values(configuration).forEach((configHeading) => {
+    if (actualHeadingsSet.has(configHeading)) {
+      isAllUndefined = false;
+    }
+  });
 
   if (isAllUndefined) {
     throw "no mapping";
