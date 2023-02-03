@@ -12,6 +12,9 @@ type Props = {
   link: string | undefined;
 };
 
+/**
+ * To be used in ListingModal and PreviewListing
+ */
 const ListingFullContent: FC<Props> = ({
   title,
   description,
