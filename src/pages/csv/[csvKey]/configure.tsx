@@ -4,10 +4,8 @@ import ConfigureFiltablePage from "../../../components/configureFiltable/Configu
 
 const Configure: NextPage = () => {
   const router = useRouter();
-  const { googleSheetId } = router.query;
+  const { csvKey } = router.query;
 
-  return (
-    <ConfigureFiltablePage router={router} googleSheetId={googleSheetId} />
-  );
+  return <ConfigureFiltablePage router={router} csvKey={csvKey} />;
 };
 export default Configure;

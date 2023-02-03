@@ -43,16 +43,16 @@ const GoogleSheetFiltable: NextPage = () => {
    * Check if there are no mappings across data and config
    */
   let errorMessage = errorMessageSheetsData ?? errorMessageConfigData;
-  // try {
-  //   checkDataAndConfigForErrors({
-  //     data: sheetsData.data,
-  //     configuration: configData.configuration,
-  //   });
-  // } catch (error) {
-  //   // errorMessage = generateErrorMessage(
-  //   //   error instanceof Error ? error.message : String(error)
-  //   // );
-  // }
+  try {
+    checkDataAndConfigForErrors({
+      data: sheetsData.data,
+      configuration: configData.configuration,
+    });
+  } catch (error) {
+    errorMessage = generateErrorMessage(
+      error instanceof Error ? error.message : String(error)
+    );
+  }
 
   return (
     <FiltablePage

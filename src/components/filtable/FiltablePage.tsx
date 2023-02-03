@@ -62,10 +62,10 @@ const FiltablePage: FC<Props> = ({
     setIsFilterModalOpen(false);
   }, []);
 
-  if (errorMessage !== "") {
-    return <ErrorPage errorMessage={errorMessage} />;
-  } else if (isLoading) {
+  if (isLoading) {
     return <LoadingPage />;
+  } else if (errorMessage !== "") {
+    return <ErrorPage errorMessage={errorMessage} />;
   }
 
   return (

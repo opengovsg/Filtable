@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { fetchCsvData } from "../api/csv";
 import { fetchGoogleSheetsData } from "../api/sheets";
 import { generateErrorMessage } from "../utils/errors";
 import { stripQueryParams } from "../utils/strings";
@@ -36,7 +37,7 @@ const useSheetsData = ({
         return await fetchGoogleSheetsData(strippedGoogleSheetId);
       } else if (csvKey) {
         const strippedCsvKey = stripQueryParams(csvKey);
-        //TODO:
+        return await fetchCsvData(strippedCsvKey);
       }
 
       throw "unable to fetch data and config";

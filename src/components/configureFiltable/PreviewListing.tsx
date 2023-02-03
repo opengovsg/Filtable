@@ -2,7 +2,7 @@ import type { FC } from "react";
 // Components
 import { Box } from "@chakra-ui/react";
 import { BxX } from "@opengovsg/design-system-react";
-import ListingFullContent from "./ListingFullContent";
+import ListingFullContent from "../filtable/ListingFullContent";
 
 type Props = {
   title: string | undefined;

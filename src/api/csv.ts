@@ -1,16 +1,17 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 //TODO: FIX ABOVE
-export const getCsvData = async (fileKey: string) => {
+export const fetchCsvData = async (fileKey: string) => {
   const res = await fetch(`/api/csv/${fileKey}`);
-  const data = await res.json();
-  console.log("Fetched with data:", data);
-};
+  const data = (await res.json()) as Array<Record<string, string>>;
+  const headings = Object.keys(data[0] ?? []);
+  const firstRow = data[0];
 
-export const getFixedCsvData = async () => {
-  const res = await fetch("/api/csv/e93935d5-de8c-4ee3-9e30-4bc7badeeb79.csv");
-  const data = await res.json();
-  console.log("Fetched fixed with data:", data);
+  if (!data || !data.length || !headings || !headings.length || !firstRow) {
+    throw "no csv file data";
+  }
+
+  return { data, headings, firstRow };
 };
 
 export const uploadCsvFile = async (file: File): Promise<string> => {
