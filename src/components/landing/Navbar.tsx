@@ -54,7 +54,9 @@ const Navbar: FC<Props> = ({ filtableTitle }) => {
           <>
             <Hide above="md">
               <Box display="flex" alignItems="center" gap="8px">
-                <FiltableIcon size="sm" />
+                <Link href="/">
+                  <FiltableIcon size="sm" />
+                </Link>
                 <Tag variant="solid" size="sm">
                   BETA
                 </Tag>
@@ -62,7 +64,9 @@ const Navbar: FC<Props> = ({ filtableTitle }) => {
             </Hide>
             <Show above="md">
               <Box display="flex" alignItems="center" gap="16px" w="full">
-                <FiltableIcon size="lg" />
+                <Link href={"/"}>
+                  <FiltableIcon size="lg" />
+                </Link>
                 <Tag variant="solid">BETA</Tag>
                 <Link
                   ml="auto"
