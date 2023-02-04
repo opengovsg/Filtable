@@ -1,27 +1,33 @@
 import {
   Box,
   Table,
-  TableCaption,
   TableContainer,
   Tbody,
   Td,
   Text,
-  Tfoot,
   Th,
   Thead,
   Tr,
 } from "@chakra-ui/react";
-import { Input } from "@opengovsg/design-system-react";
+import { Button, BxRightArrowAlt, Input } from "@opengovsg/design-system-react";
 import type { ChangeEvent, Dispatch, FC, SetStateAction } from "react";
 import type { HeadingConfig } from "../../../types/configuration";
 
 type Props = {
   data: Array<Record<string, string>>;
+  headings: Array<string>;
   configuration: HeadingConfig;
   setConfiguration: Dispatch<SetStateAction<HeadingConfig>>;
+  handleNext: () => void;
 };
 
-const PageOne: FC<Props> = ({ data, configuration, setConfiguration }) => {
+const PageOne: FC<Props> = ({
+  data,
+  headings,
+  configuration,
+  setConfiguration,
+  handleNext,
+}) => {
   /**
    * Currying helper functions
    */
@@ -36,8 +42,10 @@ const PageOne: FC<Props> = ({ data, configuration, setConfiguration }) => {
 
   return (
     <Box>
-      <Text textStyle="h4">Name your Filtable</Text>
-      <Text textStyle="body-2" mt="4px">
+      <Text textStyle="h4" color="base.content.strong">
+        Name your Filtable
+      </Text>
+      <Text textStyle="body-2" mt="4px" color="base.content.medium">
         Filtable Title
       </Text>
       <Input
@@ -45,14 +53,19 @@ const PageOne: FC<Props> = ({ data, configuration, setConfiguration }) => {
         value={configuration["Filtable Title"]}
         onChange={generateConfigurationTextInputHandleChange("Filtable Title")}
       />
-      <Text textStyle="subhead-1" mt="32px">
+      <Text textStyle="subhead-1" mt="32px" color="base.content.strong">
         {`${data.length} row${data.length !== 1 ? "s" : ""} detected`}
       </Text>
-      <Text textStyle="body-2">
+      <Text textStyle="body-2" color="base.content.default">
         In the next step we’ll choose which of these columns to use as filters
       </Text>
       {data && data.length ? (
-        <TableContainer mt="16px" maxHeight="240px" overflowY="scroll">
+        <TableContainer
+          mt="16px"
+          mb="64px"
+          maxHeight="240px"
+          overflowY="scroll"
+        >
           <Table variant="unstyled">
             <Thead
               bgColor="brand.primary.100"
@@ -61,9 +74,13 @@ const PageOne: FC<Props> = ({ data, configuration, setConfiguration }) => {
               zIndex="docked"
             >
               <Tr>
-                {Object.keys(data[0] ?? {}).map((heading) => (
+                {headings.map((heading) => (
                   <Th key={heading} px="16px" py="14px">
-                    <Text textStyle="caption-1" color="brand.primary.500">
+                    <Text
+                      textStyle="caption-1"
+                      textTransform="none"
+                      color="brand.primary.500"
+                    >
                       {heading}
                     </Text>
                   </Th>
@@ -87,6 +104,20 @@ const PageOne: FC<Props> = ({ data, configuration, setConfiguration }) => {
           </Table>
         </TableContainer>
       ) : null}
+      <Box mb="240px" display="flex" alignItems="center" gap="32px">
+        <Button
+          textStyle="subhead-1"
+          display="flex"
+          alignItems="center"
+          rightIcon={<BxRightArrowAlt fontSize="lg" />}
+          onClick={handleNext}
+        >
+          Next
+        </Button>
+        <Text textStyle="caption-2" color="base.content.medium">
+          1 of 3
+        </Text>
+      </Box>
     </Box>
   );
 };

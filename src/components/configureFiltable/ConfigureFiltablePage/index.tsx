@@ -27,6 +27,8 @@ import BxLeftArrowAlt from "../../icons/BxLeftArrowAlt";
 import Navbar from "../../landing/Navbar";
 import PreviewListing from "../PreviewListing";
 import PageOne from "./PageOne";
+import PageThree from "./PageThree";
+import PageTwo from "./PageTwo";
 
 type Props = {
   router: NextRouter;
@@ -90,18 +92,8 @@ const ConfigureFiltablePage: FC<Props> = ({
     setCheckboxes((checkboxes) => [...checkboxes, ""]);
   };
 
-  const mergeCheckboxesWithConfig = (
-    configuration: HeadingConfig,
-    checkboxes: Array<string>
-  ): Array<Record<string, string>> => {
-    return checkboxes.reduce((acc, checkboxValue, idx) => {
-      return { ...acc, [`Checkbox ${idx + 1}`]: checkboxValue };
-    }, configuration as Array<Record<string, string>>);
-  };
-
   const createFiltable = () => {
-    const config = mergeCheckboxesWithConfig(configuration, checkboxes);
-    const urlConfig = encodeConfig(config);
+    const urlConfig = encodeConfig([configuration]);
 
     if (googleSheetId) {
       void router.push(
@@ -117,13 +109,22 @@ const ConfigureFiltablePage: FC<Props> = ({
   };
 
   const convertedCollectionOfTags = useMemo(() => {
-    return convertCollectionOfTags(
-      extractTags(
-        firstRow,
-        mergeCheckboxesWithConfig(configuration, checkboxes)
-      )
-    );
+    return convertCollectionOfTags(extractTags(firstRow, configuration));
   }, [configuration, checkboxes, firstRow]);
+
+  const handleBack = () => {
+    if (page === 1) {
+      void router.push("/");
+    } else {
+      setPage((page) => page - 1);
+    }
+  };
+
+  const handleNext = () => {
+    if (page !== 3) {
+      setPage((page) => page + 1);
+    }
+  };
 
   if (errorMessage !== "") {
     return <ErrorPage errorMessage={errorMessage} />;
@@ -145,7 +146,9 @@ const ConfigureFiltablePage: FC<Props> = ({
           w="full"
           display="flex"
           justifyContent="center"
-          px="264px"
+          // px="264px" // Gives content max width of 912px
+          px="208px" // Gives content max width of 1024px
+          // px="148px" // Give content max width of 1144px
         >
           <Box w="full" display="flex" justifyContent="center">
             <Box w="full" position="relative">
@@ -161,15 +164,41 @@ const ConfigureFiltablePage: FC<Props> = ({
                 cursor="pointer"
               >
                 <BxLeftArrowAlt />
-                <Text textStyle="subhead-1" userSelect="none">
+                <Text
+                  textStyle="subhead-1"
+                  userSelect="none"
+                  color="interaction.links.neutral-default"
+                  _hover={{ color: "base.content.strong" }}
+                  onClick={handleBack}
+                >
                   Back
                 </Text>
               </Box>
               {page === 1 ? (
                 <PageOne
                   data={data}
+                  headings={headings}
                   configuration={configuration}
                   setConfiguration={setConfiguration}
+                  handleNext={handleNext}
+                />
+              ) : null}
+              {page === 2 ? (
+                <PageTwo
+                  data={data}
+                  headings={headings}
+                  configuration={configuration}
+                  setConfiguration={setConfiguration}
+                  handleNext={handleNext}
+                />
+              ) : null}
+              {page === 3 ? (
+                <PageThree
+                  firstRow={firstRow}
+                  headings={headings}
+                  configuration={configuration}
+                  setConfiguration={setConfiguration}
+                  createFiltable={createFiltable}
                 />
               ) : null}
             </Box>

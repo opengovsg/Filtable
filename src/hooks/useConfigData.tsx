@@ -3,11 +3,10 @@ import { fetchGoogleSheetsConfig } from "../api/sheets";
 import type { ConfigLocation, HeadingConfig } from "../types/configuration";
 import type { FilterKeywords } from "../types/filter";
 import {
-  processExtractedFilters,
-  extractFilters,
   initEmptyHeadingConfig,
   initEmptyProcessedFilters,
   decodeUrlConfig,
+  processConfigurationToFilters,
 } from "../utils/configuration";
 import { generateErrorMessage } from "../utils/errors";
 import { stripQueryParams } from "../utils/strings";
@@ -78,8 +77,8 @@ const useConfigData = ({
           configuration
         )[0] as HeadingConfig;
 
-        const processedFilters = processExtractedFilters(
-          extractFilters(validatedConfiguration)
+        const processedFilters = processConfigurationToFilters(
+          validatedConfiguration
         );
 
         setProcessedFilters(processedFilters);

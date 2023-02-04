@@ -13,15 +13,7 @@ type Props = {
 
 const PreviewListing: FC<Props> = (props) => {
   return (
-    <Box
-      w="680px"
-      rounded="4px"
-      shadow="md"
-      position="relative"
-      minH="240px"
-      p="24px"
-      bg="white"
-    >
+    <Box w="full" rounded="8px" shadow="md" h="full" p="24px" bg="white">
       <BxX position="absolute" top="24px" right="24px" />
       <ListingFullContent {...props} />
     </Box>
