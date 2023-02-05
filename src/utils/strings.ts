@@ -18,33 +18,18 @@ export const extractId = (sheetsLink: string) => {
 
 export const extractUrlHost = (link: string | undefined) => {
   if (link === undefined || link === "") {
-    return "No link provided";
+    return "No link";
   }
 
-  try {
-    return new URL(link).host;
-  } catch (error) {
-    return link;
-  }
+  return link;
 };
 
-export const isValidLink = (link: string | undefined) => {
+export const isDefinedLink = (link: string | undefined) => {
   if (link === undefined || link === "") {
     return false;
   }
 
-  //TODO: Build a proper link validator
   return true;
-  // const pattern = new RegExp(
-  //   "^(https?:\\/\\/)?" + // protocol
-  //     "((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|" + // domain name
-  //     "((\\d{1,3}\\.){3}\\d{1,3}))" + // OR ip (v4) address
-  //     "(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*" + // port and path
-  //     "(\\?[;&a-z\\d%_.~+=-]*)?" + // query string
-  //     "(\\#[-a-z\\d_]*)?$",
-  //   "i"
-  // ); // fragment locator
-  // return !!pattern.test(link);
 };
 
 export const splitConcatenatedTags = (concatenatedTags: string | undefined) => {

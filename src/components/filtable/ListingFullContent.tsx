@@ -1,9 +1,16 @@
 import type { FC } from "react";
 // Components
-import { Box, Link, Text } from "@chakra-ui/react";
-import { BxRightArrowAlt, BxX, Tag } from "@opengovsg/design-system-react";
+import { Box, Text } from "@chakra-ui/react";
+import {
+  BxRightArrowAlt,
+  IconButton,
+  Tag,
+  useToast,
+  Link,
+} from "@opengovsg/design-system-react";
 // Utils
-import { isValidLink, extractUrlHost } from "../../utils/strings";
+import { isDefinedLink, extractUrlHost } from "../../utils/strings";
+import BxShareAlt from "../icons/BxShareAlt";
 
 type Props = {
   title: string | undefined;
@@ -23,6 +30,24 @@ const ListingFullContent: FC<Props> = ({
   convertedCollectionOfTags,
   link,
 }) => {
+  const toast = useToast();
+
+  const handleCopyUrl = () => {
+    if (link) {
+      void navigator.clipboard.writeText(link);
+      toast({
+        position: "bottom",
+        title: "Copied link to clipboard!",
+        status: "success",
+        duration: 3000,
+        isClosable: true,
+        containerStyle: {
+          zIndex: 9999,
+        },
+      });
+    }
+  };
+
   return (
     <>
       {/* mr=32px is to avoid the 'X' button at the top right of the modal */}
@@ -62,23 +87,37 @@ const ListingFullContent: FC<Props> = ({
           })}
         </Box>
       ) : null}
-      {isValidLink(link) ? (
+      <Box
+        display="flex"
+        alignItems="center"
+        justifyContent="space-between"
+        mt="24px"
+      >
+        {/* TODO: The styles below get overridden when disabled (e.g. padding) */}
         <Link
           variant="standalone"
           href={link}
           p="0px"
-          mt="24px"
           display="flex"
           flexDir="row"
           alignItems="center"
           gap="4px"
           rel="noreferrer"
           target="_blank"
+          isDisabled={!isDefinedLink(link)}
         >
           {extractUrlHost(link)}
-          <BxRightArrowAlt />
+          {isDefinedLink(link) ? <BxRightArrowAlt /> : null}
         </Link>
-      ) : null}
+        <IconButton
+          aria-label="Share Link"
+          icon={<BxShareAlt />}
+          colorScheme="brand.secondary"
+          variant="outline"
+          isDisabled={!isDefinedLink(link)}
+          onClick={handleCopyUrl}
+        />
+      </Box>
     </>
   );
 };

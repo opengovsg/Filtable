@@ -119,9 +119,9 @@ const PageThree: FC<Props> = ({
 
   return (
     <Box>
-      <Grid gridTemplateColumns="repeat(2, 1fr)" gap="132px">
+      <Grid gridTemplateColumns="repeat(2, 1fr)" gap="132px" mb="240px">
         <GridItem colSpan={1}>
-          <Box w="full">
+          <Box w="full" mb="64px">
             <Text textStyle="h4" color="base.content.strong">
               Design the listing
             </Text>
@@ -199,6 +199,20 @@ const PageThree: FC<Props> = ({
               </Box>
             </Box>
           </Box>
+          <Box display="flex" alignItems="center" gap="32px">
+            <Button
+              textStyle="subhead-1"
+              display="flex"
+              alignItems="center"
+              rightIcon={<BxRightArrowAlt fontSize="lg" />}
+              onClick={createFiltable}
+            >
+              Create Filtable
+            </Button>
+            <Text textStyle="caption-2" color="base.content.medium">
+              3 of 3
+            </Text>
+          </Box>
         </GridItem>
         <GridItem colSpan={1}>
           <PreviewListing
@@ -214,20 +228,6 @@ const PageThree: FC<Props> = ({
           />
         </GridItem>
       </Grid>
-      <Box mb="240px" display="flex" alignItems="center" gap="32px">
-        <Button
-          textStyle="subhead-1"
-          display="flex"
-          alignItems="center"
-          rightIcon={<BxRightArrowAlt fontSize="lg" />}
-          onClick={createFiltable}
-        >
-          Create Filtable
-        </Button>
-        <Text textStyle="caption-2" color="base.content.medium">
-          3 of 3
-        </Text>
-      </Box>
     </Box>
   );
 };

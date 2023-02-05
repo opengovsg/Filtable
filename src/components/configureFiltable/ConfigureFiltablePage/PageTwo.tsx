@@ -75,16 +75,16 @@ const PageTwo: FC<Props> = ({
 
   return (
     <Box>
-      <Grid gridTemplateColumns="repeat(2, 1fr)" gap="132px">
+      <Grid gridTemplateColumns="repeat(2, 1fr)" gap="132px" mb="240px">
         <GridItem colSpan={1}>
-          <Box w="full">
+          <Box w="full" mb="64px">
             <Text textStyle="h4" color="base.content.strong">
               Select column headers to use as filters
             </Text>
             <Text textStyle="body-2" mt="4px" color="base.content.medium">
               Select a checkbox to preview the filter and tags under it
             </Text>
-            <Box mt="32px" mb="64px">
+            <Box mt="32px">
               {headings.map((heading) => (
                 <Checkbox
                   key={heading}
@@ -96,6 +96,20 @@ const PageTwo: FC<Props> = ({
                 </Checkbox>
               ))}
             </Box>
+          </Box>
+          <Box display="flex" alignItems="center" gap="32px">
+            <Button
+              textStyle="subhead-1"
+              display="flex"
+              alignItems="center"
+              rightIcon={<BxRightArrowAlt fontSize="lg" />}
+              onClick={handleNext}
+            >
+              Next
+            </Button>
+            <Text textStyle="caption-2" color="base.content.medium">
+              2 of 3
+            </Text>
           </Box>
         </GridItem>
         <GridItem colSpan={1}>
@@ -166,20 +180,6 @@ const PageTwo: FC<Props> = ({
           </Box>
         </GridItem>
       </Grid>
-      <Box mb="240px" display="flex" alignItems="center" gap="32px">
-        <Button
-          textStyle="subhead-1"
-          display="flex"
-          alignItems="center"
-          rightIcon={<BxRightArrowAlt fontSize="lg" />}
-          onClick={handleNext}
-        >
-          Next
-        </Button>
-        <Text textStyle="caption-2" color="base.content.medium">
-          2 of 3
-        </Text>
-      </Box>
     </Box>
   );
 };
