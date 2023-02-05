@@ -16,8 +16,12 @@ const useFilter = ({
   const [filter, setFilter] = useState<Filter>(initEmptyFilters());
 
   useEffect(() => {
-    setFilter(initUnselectedFilters(data, processedFilters));
+    resetFilter();
   }, [data, processedFilters]);
+
+  const resetFilter = () => {
+    setFilter(initUnselectedFilters(data, processedFilters));
+  };
 
   const filteredData = data.filter((listing) =>
     doesListingPassFilter(listing, filter)
@@ -26,6 +30,7 @@ const useFilter = ({
   const value = {
     filter,
     setFilter,
+    resetFilter,
     filteredData,
   };
 

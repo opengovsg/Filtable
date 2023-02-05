@@ -3,7 +3,7 @@ import type { Dispatch, FC, SetStateAction } from "react";
 import { useCallback, useState } from "react";
 // Components
 import { Box, Text } from "@chakra-ui/react";
-import { BxX, IconButton, Tag } from "@opengovsg/design-system-react";
+import { IconButton, MultiSelect } from "@opengovsg/design-system-react";
 import BxFilterAlt from "../icons/BxFilterAlt";
 import BxShareAlt from "../icons/BxShareAlt";
 import Listing from "./Listing";
@@ -14,8 +14,8 @@ import LoadingPage from "../emptyStates/LoadingPage";
 // Utils
 import {
   currentlySelectedFilters,
+  enumerateAllFilterOptions,
   generateToggleOrChangeFilterOption,
-  isAnyFilterSelected,
 } from "../../utils/filter";
 import { generateShowingResults } from "../../utils/strings";
 // Types
@@ -27,6 +27,7 @@ type Props = {
   errorMessage: string;
   filter: Filter;
   setFilter: Dispatch<SetStateAction<Filter>>;
+  resetFilter: () => void;
   data: Array<Record<string, string>>;
   filteredData: Array<Record<string, string>>;
   configuration: HeadingConfig;
@@ -38,6 +39,7 @@ const FiltablePage: FC<Props> = ({
   errorMessage,
   filter,
   setFilter,
+  resetFilter,
   data,
   filteredData,
   configuration,
@@ -61,6 +63,44 @@ const FiltablePage: FC<Props> = ({
   const closeFilterModal = useCallback(() => {
     setIsFilterModalOpen(false);
   }, []);
+
+  const Searchbar = () => {
+    return (
+      <MultiSelect
+        name="searchbar"
+        onChange={() => ({})}
+        downshiftMultiSelectProps={{
+          onSelectedItemsChange: (changes) => {
+            resetFilter();
+            changes.selectedItems?.forEach(({ value, heading }: any) =>
+              setFilter(
+                generateToggleOrChangeFilterOption(
+                  value as string,
+                  heading as string,
+                  true
+                )
+              )
+            );
+          },
+        }}
+        values={currentlySelectedFilters(filter).reduce(
+          (acc, val) => [...acc, ...val],
+          []
+        )}
+        // Converting all possible filter options to a flattened string array
+        items={Object.entries(
+          enumerateAllFilterOptions(data, processedFilters)["Checkbox"] ?? {}
+        )
+          .map(([heading, set]) => [
+            ...Array.from(set as Set<string>).map((value) => ({
+              value,
+              heading,
+            })),
+          ])
+          .reduce((acc, val) => [...acc, ...val], [])}
+      />
+    );
+  };
 
   if (isLoading) {
     return <LoadingPage />;
@@ -104,7 +144,7 @@ const FiltablePage: FC<Props> = ({
       >
         <Box maxW="1144px" mx="auto" w="full">
           <Box position="sticky" top="0" py="24px" bg="brand.primary.50">
-            <Box display="flex" flexDir="row" w="full" gap="16px">
+            <Box display="flex" flexDir="row" w="full" gap="16px" mb="16px">
               <Text textStyle="h5" noOfLines={2}>
                 {configuration["Filtable Title"]}
               </Text>
@@ -118,41 +158,7 @@ const FiltablePage: FC<Props> = ({
                 />
               </Box>
             </Box>
-            {isAnyFilterSelected(filter) ? (
-              <Box
-                mt="16px"
-                display="flex"
-                flexDir="row"
-                gap="8px"
-                overflowY="scroll"
-                flexWrap="nowrap"
-              >
-                {currentlySelectedFilters(filter).map(
-                  ([tag, colorScheme, heading]) => (
-                    <Tag
-                      key={tag}
-                      colorScheme={colorScheme}
-                      minW="fit-content"
-                      display="flex"
-                      flexDir="row"
-                      alignItems="center"
-                      gap="4px"
-                    >
-                      <Text textStyle="subhead-2">{tag}</Text>
-                      <BxX
-                        fontSize="xl"
-                        cursor="pointer"
-                        onClick={() =>
-                          setFilter(
-                            generateToggleOrChangeFilterOption(tag, heading)
-                          )
-                        }
-                      />
-                    </Tag>
-                  )
-                )}
-              </Box>
-            ) : null}
+            <Searchbar />
           </Box>
           <Text textStyle="body-2" mb="12px">
             {generateShowingResults(filteredData.length)}
