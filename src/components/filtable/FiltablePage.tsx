@@ -84,6 +84,17 @@ const FiltablePage: FC<Props> = ({
           setFilter={setFilter}
           processedFilters={processedFilters}
         />
+        <IconButton
+          aria-label="Filter"
+          variant="solid"
+          colorScheme="brand.primary"
+          icon={<BxFilterAlt />}
+          onClick={openFilterModal}
+          position="fixed"
+          rounded="50%"
+          inset="auto 32px 32px auto"
+          shadow="md"
+        />
       </Box>
       <Box p="24px" backgroundColor="blue.50" display="flex" flexDir="row">
         <Box maxW="1144px" mx="auto" w="full">
@@ -98,13 +109,6 @@ const FiltablePage: FC<Props> = ({
                 colorScheme="brand.secondary"
                 icon={<BxShareAlt />}
                 onClick={openShareModal}
-              />
-              <IconButton
-                aria-label="Filter"
-                variant={isAnyFilterSelected(filter) ? "solid" : "outline"}
-                colorScheme="brand.primary"
-                icon={<BxFilterAlt />}
-                onClick={openFilterModal}
               />
             </Box>
           </Box>
