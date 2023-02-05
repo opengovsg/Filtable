@@ -35,6 +35,12 @@ const PageTwo: FC<Props> = ({
     processedFilters
   )["Checkbox"];
 
+  const selectedHeadings: Set<string> = new Set(
+    Object.entries(configuration)
+      .filter(([key]) => key.split(" ")[0] === "Checkbox")
+      .map(([_, value]) => value)
+  );
+
   /**
    * Currying function to embed a checkbox heading
    * - If the checkbox is checked: Add a new entry in configuration 'Checkbox n': heading
@@ -83,6 +89,7 @@ const PageTwo: FC<Props> = ({
                 <Checkbox
                   key={heading}
                   colorScheme="brand.secondary"
+                  isChecked={selectedHeadings.has(heading)}
                   onChange={generateConfigurationHandleCheck(heading)}
                 >
                   {heading}
