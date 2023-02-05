@@ -5,6 +5,7 @@ import {
   BxRightArrowAlt,
   IconButton,
   SingleSelect,
+  Tooltip,
 } from "@opengovsg/design-system-react";
 import { NextRouter } from "next/router";
 import type { Dispatch, FC, SetStateAction } from "react";
@@ -117,6 +118,8 @@ const PageThree: FC<Props> = ({
     return convertCollectionOfTags(extractTags(firstRow, configuration));
   }, [configuration, firstRow]);
 
+  const isValid = configuration["Title"];
+
   return (
     <Box>
       <Grid gridTemplateColumns="repeat(2, 1fr)" gap="132px" mb="240px">
@@ -200,15 +203,23 @@ const PageThree: FC<Props> = ({
             </Box>
           </Box>
           <Box display="flex" alignItems="center" gap="32px">
-            <Button
-              textStyle="subhead-1"
-              display="flex"
-              alignItems="center"
-              rightIcon={<BxRightArrowAlt fontSize="lg" />}
-              onClick={createFiltable}
+            <Tooltip
+              label={
+                isValid ? "" : "Select a column header for at least the title"
+              }
+              placement="top"
             >
-              Create Filtable
-            </Button>
+              <Button
+                textStyle="subhead-1"
+                display="flex"
+                alignItems="center"
+                rightIcon={<BxRightArrowAlt fontSize="lg" />}
+                onClick={createFiltable}
+                isDisabled={!isValid}
+              >
+                Create Filtable
+              </Button>
+            </Tooltip>
             <Text textStyle="caption-2" color="base.content.medium">
               3 of 3
             </Text>

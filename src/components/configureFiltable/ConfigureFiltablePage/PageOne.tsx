@@ -10,7 +10,7 @@ import {
   Tr,
 } from "@chakra-ui/react";
 import { Button, BxRightArrowAlt, Input } from "@opengovsg/design-system-react";
-import type { ChangeEvent, Dispatch, FC, SetStateAction } from "react";
+import { ChangeEvent, Dispatch, FC, SetStateAction, useState } from "react";
 import React from "react";
 import type { HeadingConfig } from "../../../types/configuration";
 
@@ -40,6 +40,8 @@ const PageOne: FC<Props> = ({
       }));
     };
   };
+
+  const isValid = Boolean(configuration["Filtable Title"]);
 
   return (
     <Box>
@@ -112,6 +114,7 @@ const PageOne: FC<Props> = ({
           alignItems="center"
           rightIcon={<BxRightArrowAlt fontSize="lg" />}
           onClick={handleNext}
+          isDisabled={!isValid}
         >
           Next
         </Button>
