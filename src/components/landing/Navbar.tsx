@@ -6,7 +6,6 @@ import { Link, Tag } from "@opengovsg/design-system-react";
 import { useRouter } from "next/router";
 // Types
 import type { FC } from "react";
-import { TEMPLATE_LINK } from "../../utils/constants";
 import FiltableIcon from "../icons/FiltableIcon";
 
 type Props = {
@@ -15,6 +14,14 @@ type Props = {
 
 const Navbar: FC<Props> = ({ filtableTitle }) => {
   const router = useRouter();
+
+  const navbarLinks = [
+    {
+      label: "How it works",
+      href: "/#how-it-works",
+    },
+    { label: "Pro tips", href: "/#pro-tips" },
+  ];
 
   const handleBack = () => {
     router.back();
@@ -68,15 +75,16 @@ const Navbar: FC<Props> = ({ filtableTitle }) => {
                   <FiltableIcon size="lg" />
                 </Link>
                 <Tag variant="solid">BETA</Tag>
-                <Link
-                  ml="auto"
-                  href={TEMPLATE_LINK}
-                  target="_blank"
-                  rel="noreferrer"
-                  variant="standalone"
-                >
-                  Google sheets template
-                </Link>
+
+                <Box ml="auto" display="flex" gap="40px">
+                  {navbarLinks.map(({ label, href }) => {
+                    return (
+                      <Link key={label} href={href} variant="standalone">
+                        {label}
+                      </Link>
+                    );
+                  })}
+                </Box>
               </Box>
             </Show>
           </>
