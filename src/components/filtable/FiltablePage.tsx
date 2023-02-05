@@ -2,8 +2,12 @@
 import type { Dispatch, FC, SetStateAction } from "react";
 import { useCallback, useState } from "react";
 // Components
-import { Box, Text } from "@chakra-ui/react";
-import { IconButton, MultiSelect } from "@opengovsg/design-system-react";
+import { Box, Hide, Show, Text } from "@chakra-ui/react";
+import {
+  Button,
+  IconButton,
+  MultiSelect,
+} from "@opengovsg/design-system-react";
 import BxFilterAlt from "../icons/BxFilterAlt";
 import BxShareAlt from "../icons/BxShareAlt";
 import Listing from "./Listing";
@@ -156,13 +160,25 @@ const FiltablePage: FC<Props> = ({
                 {configuration["Filtable Title"]}
               </Text>
               <Box display="flex" flexDir="row" gap="8px" ml="auto">
-                <IconButton
-                  aria-label="Share"
-                  variant="outline"
-                  colorScheme="brand.secondary"
-                  icon={<BxShareAlt />}
-                  onClick={openShareModal}
-                />
+                <Show above="md">
+                  <Button
+                    rightIcon={<BxShareAlt />}
+                    colorScheme="brand.secondary"
+                    variant="outline"
+                    onClick={openShareModal}
+                  >
+                    <Text textStyle="subhead-1">Share</Text>
+                  </Button>
+                </Show>
+                <Hide above="md">
+                  <IconButton
+                    aria-label="Share"
+                    variant="outline"
+                    colorScheme="brand.secondary"
+                    icon={<BxShareAlt />}
+                    onClick={openShareModal}
+                  />
+                </Hide>
               </Box>
             </Box>
             <Searchbar />
