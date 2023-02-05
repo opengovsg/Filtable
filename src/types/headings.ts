@@ -8,7 +8,7 @@ export const optionalHeadings = [
   "Filtable Title",
   "Title",
   "Description",
-  "Link URL",
+  "Link",
 ] as const;
 export type OptionalHeadings = (typeof optionalHeadings)[number];
 

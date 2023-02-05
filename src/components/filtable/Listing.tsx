@@ -31,8 +31,8 @@ const Listing: FC<ListingProps> = ({ listing, configuration }) => {
   const description = configuration["Description"]
     ? listing[configuration["Description"]]
     : undefined;
-  const link = configuration["Link URL"]
-    ? listing[configuration["Link URL"]]
+  const link = configuration["Link"]
+    ? listing[configuration["Link"]]
     : undefined;
 
   const convertedCollectionOfTags = useMemo(() => {

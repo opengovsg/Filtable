@@ -27,7 +27,7 @@ const ListingFullContent: FC<Props> = ({
         {title}
       </Text>
       {description ? (
-        <Text textStyle="body-2" mt="8px">
+        <Text textStyle="body-2" mt="8px" whiteSpace="pre">
           {description}
         </Text>
       ) : null}
