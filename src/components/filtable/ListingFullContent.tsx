@@ -18,6 +18,7 @@ type Props = {
   listOfTexts: Array<string>;
   convertedCollectionOfTags: Array<Array<string>>;
   link: string | undefined;
+  onClose?: () => void;
 };
 
 /**
@@ -29,21 +30,22 @@ const ListingFullContent: FC<Props> = ({
   listOfTexts,
   convertedCollectionOfTags,
   link,
+  onClose,
 }) => {
   const toast = useToast();
 
   const handleCopyUrl = () => {
     if (link) {
       void navigator.clipboard.writeText(link);
+      if (onClose) {
+        onClose();
+      }
       toast({
         position: "bottom",
         title: "Copied link to clipboard!",
         status: "success",
         duration: 3000,
         isClosable: true,
-        containerStyle: {
-          zIndex: 9999,
-        },
       });
     }
   };

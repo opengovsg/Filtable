@@ -25,7 +25,7 @@ const ListingModal: FC<Props> = ({ isOpen, onClose, ...remainingProps }) => {
       <ModalOverlay />
       <ModalContent w="100vw" mt="auto" mb={{ base: "0", md: "auto" }} p="24px">
         <ModalCloseButton top="24px" right="24px" />
-        <ListingFullContent {...remainingProps} />
+        <ListingFullContent {...remainingProps} onClose={onClose} />
       </ModalContent>
     </Modal>
   );
