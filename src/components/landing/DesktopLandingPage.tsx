@@ -182,6 +182,9 @@ const DesktopLandingPage: FC<Props> = ({
                   gap="10px"
                   variant="standalone"
                   p="0"
+                  rel="noreferrer"
+                  target="_blank"
+                  href={TEMPLATE_LINK}
                 >
                   <Text textStyle="subhead-1">
                     Use our sample sheet to try it out
