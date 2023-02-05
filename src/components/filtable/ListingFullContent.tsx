@@ -55,7 +55,7 @@ const ListingFullContent: FC<Props> = ({
         {title}
       </Text>
       {description ? (
-        <Text textStyle="body-2" mt="8px" whiteSpace="pre">
+        <Text textStyle="body-2" mt="8px" whiteSpace="pre-wrap" w="full">
           {description}
         </Text>
       ) : null}
@@ -63,7 +63,7 @@ const ListingFullContent: FC<Props> = ({
         <Box mt="24px" display="flex" flexDir="column" gap="16px">
           {listOfTexts.map((text) => {
             return (
-              <Text textStyle="body-2" whiteSpace="pre" key={text}>
+              <Text textStyle="body-2" whiteSpace="pre-wrap" key={text}>
                 {text}
               </Text>
             );
@@ -92,23 +92,30 @@ const ListingFullContent: FC<Props> = ({
         alignItems="center"
         justifyContent="space-between"
         mt="24px"
+        gap="8px"
       >
         {/* TODO: The styles below get overridden when disabled (e.g. padding) */}
-        <Link
-          variant="standalone"
-          href={link}
-          p="0px"
-          display="flex"
-          flexDir="row"
-          alignItems="center"
-          gap="4px"
-          rel="noreferrer"
-          target="_blank"
-          isDisabled={!isDefinedLink(link)}
-        >
-          {extractUrlHost(link)}
-          {isDefinedLink(link) ? <BxRightArrowAlt /> : null}
-        </Link>
+        {/* TODO: The width below is hardcoded to remove IconButton width and gap width */}
+        <Box w="calc(100% - 44px - 8px)">
+          <Link
+            variant="standalone"
+            href={link}
+            p="0px"
+            display="flex"
+            flexDir="row"
+            alignItems="center"
+            gap="4px"
+            rel="noreferrer"
+            target="_blank"
+            isDisabled={!isDefinedLink(link)}
+            w="full"
+          >
+            <Text w="full" noOfLines={1}>
+              {extractUrlHost(link)}
+            </Text>
+            {isDefinedLink(link) ? <BxRightArrowAlt /> : null}
+          </Link>
+        </Box>
         <IconButton
           aria-label="Share Link"
           icon={<BxShareAlt />}

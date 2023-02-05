@@ -3,6 +3,6 @@
 @tailwind utilities;
 
 html {
-  height: -webkit-fill-available;
+  height: fill-available;
   scroll-behavior: smooth;
 }

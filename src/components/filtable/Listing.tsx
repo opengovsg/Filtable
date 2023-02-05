@@ -9,11 +9,7 @@ import { Box, Text } from "@chakra-ui/react";
 // Types
 import type { HeadingConfig } from "../../types/configuration";
 // Utils
-import {
-  extractUrlHost,
-  isDefinedLink,
-  isValidLink,
-} from "../../utils/strings";
+import { extractUrlHost, isDefinedLink } from "../../utils/strings";
 import {
   convertCollectionOfTags,
   extractTags,
@@ -112,23 +108,33 @@ const Listing: FC<ListingProps> = ({ listing, configuration }) => {
             maxCount={2}
           />
         </Box>
-        {isDefinedLink(link) ? (
+        <Box
+          display="flex"
+          alignItems="center"
+          justifyContent="space-between"
+          mt="24px"
+        >
+          {/* TODO: The styles below get overridden when disabled (e.g. padding) */}
           <Link
             variant="standalone"
             href={link}
             p="0px"
-            mt="16px"
             display="flex"
             flexDir="row"
             alignItems="center"
             gap="4px"
             rel="noreferrer"
             target="_blank"
+            isDisabled={!isDefinedLink(link)}
+            w="full"
+            textOverflow="ellipsis"
           >
-            {extractUrlHost(link)}
-            <BxRightArrowAlt />
+            <Text w="full" noOfLines={1}>
+              {extractUrlHost(link)}
+            </Text>
+            {isDefinedLink(link) ? <BxRightArrowAlt /> : null}
           </Link>
-        ) : null}
+        </Box>
       </Box>
     </>
   );

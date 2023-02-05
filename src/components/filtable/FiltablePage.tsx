@@ -143,7 +143,13 @@ const FiltablePage: FC<Props> = ({
         flexDir="row"
       >
         <Box maxW="1144px" mx="auto" w="full">
-          <Box position="sticky" top="0px" py="24px" bg="brand.primary.50">
+          <Box
+            position="sticky"
+            top="0px"
+            py="24px"
+            bg="brand.primary.50"
+            zIndex="1"
+          >
             <Box display="flex" flexDir="row" w="full" gap="16px" mb="16px">
               <Text textStyle="h5" noOfLines={2}>
                 {configuration["Filtable Title"]}

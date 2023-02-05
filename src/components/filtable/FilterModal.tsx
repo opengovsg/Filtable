@@ -71,7 +71,7 @@ const FilterModal: FC<Props> = ({
       <ModalContent
         p="24px"
         pt="42px"
-        minH={"fill-available"}
+        minH="-webkit-fill-available"
         h={{ base: "100%", md: "fit-content" }}
       >
         <ModalCloseButton top="42px" right="24px" />
