@@ -134,6 +134,7 @@ const FiltablePage: FC<Props> = ({
           rounded="50%"
           inset="auto 32px 32px auto"
           shadow="md"
+          zIndex="1"
         />
       </Box>
       <Box
