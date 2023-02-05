@@ -51,6 +51,7 @@ export const checkDataAndConfigForErrors = ({
   } else if (!configuration) {
     throw "no config";
   }
+
   let isAllUndefined = true;
   const actualHeadingsSet = new Set(Object.keys(data[0] ?? {}));
 

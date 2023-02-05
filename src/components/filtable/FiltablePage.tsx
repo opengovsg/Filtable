@@ -153,9 +153,9 @@ const FiltablePage: FC<Props> = ({
             gap="12px"
             minH="calc(100vh - 192px)" //TODO: 192px is the sum of height of (GovMastHead, Top Padding, Title, Tag height, Showing x results height)
           >
-            {filteredData.map((listing, idx) => (
+            {filteredData.map((listing) => (
               <Listing
-                key={idx}
+                key={JSON.stringify(listing)}
                 listing={listing}
                 configuration={configuration}
               />

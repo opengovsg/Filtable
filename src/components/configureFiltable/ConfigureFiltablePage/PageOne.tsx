@@ -11,6 +11,7 @@ import {
 } from "@chakra-ui/react";
 import { Button, BxRightArrowAlt, Input } from "@opengovsg/design-system-react";
 import type { ChangeEvent, Dispatch, FC, SetStateAction } from "react";
+import React from "react";
 import type { HeadingConfig } from "../../../types/configuration";
 
 type Props = {
@@ -88,12 +89,12 @@ const PageOne: FC<Props> = ({
               </Tr>
             </Thead>
             <Tbody>
-              {data.map((entry, idx) => {
+              {data.map((entry) => {
                 const values = Object.values(entry);
                 return (
-                  <Tr key={idx}>
-                    {values.map((value) => (
-                      <Td key={value} px="16px" py="14px">
+                  <Tr key={JSON.stringify(entry)}>
+                    {values.map((value, idx) => (
+                      <Td key={`${value}-${idx}`} px="16px" py="14px">
                         <Text textStyle="caption-2">{value}</Text>
                       </Td>
                     ))}
@@ -121,4 +122,4 @@ const PageOne: FC<Props> = ({
     </Box>
   );
 };
-export default PageOne;
+export default React.memo(PageOne);

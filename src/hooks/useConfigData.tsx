@@ -59,7 +59,7 @@ const useConfigData = ({
           if (!urlConfig) {
             throw "no url config provided";
           }
-          const decodedConfiguration = [decodeUrlConfig(urlConfig)];
+          const decodedConfiguration = decodeUrlConfig(urlConfig);
           return { configuration: decodedConfiguration };
       }
       throw "unable to fetch config";

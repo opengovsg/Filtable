@@ -13,6 +13,7 @@ import { extractUrlHost, isValidLink } from "../../utils/strings";
 import {
   convertCollectionOfTags,
   extractTags,
+  extractTexts,
 } from "../../utils/configuration";
 import Overflow from "rc-overflow";
 
@@ -35,6 +36,8 @@ const Listing: FC<ListingProps> = ({ listing, configuration }) => {
     ? listing[configuration["Link"]]
     : undefined;
 
+  const listOfTexts = extractTexts(listing, configuration);
+
   const convertedCollectionOfTags = useMemo(() => {
     return convertCollectionOfTags(extractTags(listing, configuration));
   }, [configuration, listing]);
@@ -54,6 +57,7 @@ const Listing: FC<ListingProps> = ({ listing, configuration }) => {
         onClose={closeModal}
         title={title}
         description={description}
+        listOfTexts={listOfTexts}
         convertedCollectionOfTags={convertedCollectionOfTags}
         link={link}
       />

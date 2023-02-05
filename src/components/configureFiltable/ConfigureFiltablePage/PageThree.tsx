@@ -151,7 +151,7 @@ const PageThree: FC<Props> = ({
                 const label = `Text ${idx + 1}`;
 
                 return (
-                  <Box key={idx}>
+                  <Box key={label}>
                     <Text textStyle="subhead-1" mb="12px">
                       {label}
                     </Text>
