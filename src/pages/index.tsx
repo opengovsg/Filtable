@@ -17,6 +17,7 @@ const Home: NextPage = () => {
   const [sheetsLink, setSheetsLink] = useState("");
   const [file, setFile] = useState<File | undefined>(undefined);
   const [sheetsError, setSheetsError] = useState("");
+  const [isUploadingCsv, setIsUploadingCsv] = useState(false);
 
   const handleChangeSheetsLink = (event: ChangeEvent<HTMLInputElement>) => {
     setSheetsLink(event.target.value);
@@ -37,13 +38,15 @@ const Home: NextPage = () => {
   };
 
   const createFiltableFromCsv = async () => {
+    setIsUploadingCsv(true);
     try {
       if (file) {
         const key = await uploadCsvFile(file);
         void router.push(`${ROUTES.CSV}/${key}/configure`);
       }
     } catch (error) {
-      alert("Error");
+      setSheetsError("An error has occurred");
+      setIsUploadingCsv(false);
     }
   };
 
@@ -58,6 +61,7 @@ const Home: NextPage = () => {
         file={file}
         handleUploadFile={handleUploadFile}
         createFiltableFromCsv={createFiltableFromCsv}
+        isUploadingCsv={isUploadingCsv}
       />
       <MobileLandingPage
         sheetsLink={sheetsLink}

@@ -26,6 +26,7 @@ type Props = {
   file: File | undefined;
   handleUploadFile: (file?: File | undefined) => void;
   createFiltableFromCsv: () => Promise<void>;
+  isUploadingCsv: boolean;
 };
 
 const DesktopLandingPage: FC<Props> = ({
@@ -36,6 +37,7 @@ const DesktopLandingPage: FC<Props> = ({
   file,
   handleUploadFile,
   createFiltableFromCsv,
+  isUploadingCsv,
 }) => {
   const [fileUploadError, setFileUploadError] = useState("");
 
@@ -143,6 +145,7 @@ const DesktopLandingPage: FC<Props> = ({
                       onClick={() => {
                         void createFiltableFromCsv();
                       }}
+                      isLoading={isUploadingCsv}
                     >
                       Upload .CSV file
                     </Button>
