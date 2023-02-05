@@ -122,7 +122,11 @@ const PageThree: FC<Props> = ({
 
   return (
     <Box>
-      <Grid gridTemplateColumns="repeat(2, 1fr)" gap="132px" mb="240px">
+      <Grid
+        gridTemplateColumns="repeat(2, minmax(0, 1fr))"
+        gap="132px"
+        mb="240px"
+      >
         <GridItem colSpan={1}>
           <Box w="full" mb="64px">
             <Text textStyle="h4" color="base.content.strong">

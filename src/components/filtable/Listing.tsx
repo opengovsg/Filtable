@@ -87,18 +87,20 @@ const Listing: FC<ListingProps> = ({ listing, configuration }) => {
               flexDirection: "row",
               flexWrap: "wrap",
               gap: "8px",
-              maxHeight: "64px",
+              overflow: "hidden",
             }}
             data={convertedCollectionOfTags}
             renderItem={([tag, colorScheme]) => {
               return (
                 <Tag
                   minW="fit-content"
-                  whiteSpace="nowrap"
+                  whiteSpace="pre-wrap"
+                  textStyle="body-2"
+                  noOfLines={1}
                   variant="subtle"
                   colorScheme={colorScheme as string}
                 >
-                  <Text textStyle="body-2">{tag}</Text>
+                  {tag}
                 </Tag>
               );
             }}

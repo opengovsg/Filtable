@@ -75,7 +75,11 @@ const PageTwo: FC<Props> = ({
 
   return (
     <Box>
-      <Grid gridTemplateColumns="repeat(2, 1fr)" gap="132px" mb="240px">
+      <Grid
+        gridTemplateColumns="repeat(2, minmax(0, 1fr))"
+        gap="132px"
+        mb="240px"
+      >
         <GridItem colSpan={1}>
           <Box w="full" mb="64px">
             <Text textStyle="h4" color="base.content.strong">
@@ -137,21 +141,24 @@ const PageTwo: FC<Props> = ({
                         flexDir="row"
                         flexWrap="wrap"
                         gap="8px"
+                        overflow="hidden"
                       >
                         {Array.from(set as Set<string>).map((option) => {
                           return (
                             <Tag
                               key={`${heading}-${option}`}
                               minW="fit-content"
-                              whiteSpace="nowrap"
+                              whiteSpace="pre-wrap"
                               cursor="pointer"
                               display="flex"
                               flexDirection="row"
                               gap="4px"
+                              textStyle="body-2"
+                              noOfLines={1}
                               alignItems="center"
                               colorScheme={getTagColorScheme(idx)}
                             >
-                              <Text textStyle="body-2">{option}</Text>
+                              {option}
                             </Tag>
                           );
                         })}

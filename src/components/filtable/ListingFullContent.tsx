@@ -73,17 +73,26 @@ const ListingFullContent: FC<Props> = ({
         </Box>
       ) : null}
       {convertedCollectionOfTags && convertedCollectionOfTags.length ? (
-        <Box display="flex" flexDir="row" flexWrap="wrap" gap="8px" mt="24px">
+        <Box
+          display="flex"
+          flexDir="row"
+          flexWrap="wrap"
+          gap="8px"
+          mt="24px"
+          overflow="hidden"
+        >
           {convertedCollectionOfTags.map(([tag, colorScheme]) => {
             return (
               <Tag
                 key={tag as string}
                 minW="fit-content"
-                whiteSpace="nowrap"
+                whiteSpace="pre-wrap"
+                noOfLines={1}
+                textStyle="body-2"
                 variant="subtle"
                 colorScheme={colorScheme as string}
               >
-                <Text textStyle="body-2">{tag}</Text>
+                {tag}
               </Tag>
             );
           })}
