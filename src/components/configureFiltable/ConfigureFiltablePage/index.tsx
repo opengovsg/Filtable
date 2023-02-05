@@ -4,11 +4,7 @@ import type { FC } from "react";
 import { useState } from "react";
 import useSheetsData from "../../../hooks/useSheetsData";
 import type { HeadingConfig } from "../../../types/configuration";
-import {
-  initEmptyHeadingConfig,
-  encodeConfig,
-} from "../../../utils/configuration";
-import { ROUTES } from "../../../utils/routes";
+import { initEmptyHeadingConfig } from "../../../utils/configuration";
 import ErrorPage from "../../emptyStates/ErrorPage";
 import LoadingPage from "../../emptyStates/LoadingPage";
 import BxLeftArrowAlt from "../../icons/BxLeftArrowAlt";
@@ -37,22 +33,6 @@ const ConfigureFiltablePage: FC<Props> = ({
     googleSheetId,
     csvKey,
   });
-
-  const createFiltable = () => {
-    const urlConfig = encodeConfig([configuration]);
-
-    if (googleSheetId) {
-      void router.push(
-        `/${ROUTES.GOOGLE_SHEETS}/${String(
-          googleSheetId
-        )}?urlConfig=${urlConfig}`
-      );
-    } else if (csvKey) {
-      void router.push(
-        `/${ROUTES.CSV}/${String(csvKey)}?urlConfig=${urlConfig}`
-      );
-    }
-  };
 
   const handleBack = () => {
     if (page === 1) {
@@ -140,7 +120,9 @@ const ConfigureFiltablePage: FC<Props> = ({
                   headings={headings}
                   configuration={configuration}
                   setConfiguration={setConfiguration}
-                  createFiltable={createFiltable}
+                  googleSheetId={googleSheetId}
+                  csvKey={csvKey}
+                  router={router}
                 />
               ) : null}
             </Box>

@@ -8,6 +8,7 @@ import { isValidLink, extractUrlHost } from "../../utils/strings";
 type Props = {
   title: string | undefined;
   description: string | undefined;
+  listOfTexts: Array<string>;
   convertedCollectionOfTags: Array<Array<string>>;
   link: string | undefined;
 };
@@ -18,11 +19,13 @@ type Props = {
 const ListingFullContent: FC<Props> = ({
   title,
   description,
+  listOfTexts,
   convertedCollectionOfTags,
   link,
 }) => {
   return (
     <>
+      {/* mr=32px is to avoid the 'X' button at the top right of the modal */}
       <Text textStyle="h6" noOfLines={2} mr="32px">
         {title}
       </Text>
@@ -30,6 +33,17 @@ const ListingFullContent: FC<Props> = ({
         <Text textStyle="body-2" mt="8px" whiteSpace="pre">
           {description}
         </Text>
+      ) : null}
+      {listOfTexts && listOfTexts.length ? (
+        <Box mt="24px" display="flex" flexDir="column" gap="16px">
+          {listOfTexts.map((text) => {
+            return (
+              <Text textStyle="body-2" whiteSpace="pre" key={text}>
+                {text}
+              </Text>
+            );
+          })}
+        </Box>
       ) : null}
       {convertedCollectionOfTags && convertedCollectionOfTags.length ? (
         <Box display="flex" flexDir="row" flexWrap="wrap" gap="8px" mt="24px">

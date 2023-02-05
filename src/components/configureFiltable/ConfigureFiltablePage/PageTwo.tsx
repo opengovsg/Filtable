@@ -34,7 +34,6 @@ const PageTwo: FC<Props> = ({
     data,
     processedFilters
   )["Checkbox"];
-  console.log(checkboxFilterOptions);
 
   /**
    * Currying function to embed a checkbox heading

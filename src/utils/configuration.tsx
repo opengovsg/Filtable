@@ -128,6 +128,22 @@ export const getTagColorScheme = (idx: number): string => {
   );
 };
 
+export const extractTexts = (
+  listing: Record<string, string>,
+  configuration: HeadingConfig
+): Array<string> => {
+  const extractedTexts: Array<string> = [];
+
+  Object.entries(configuration)
+    .filter(([heading]) => heading.split(" ")[0] === "Text")
+    .forEach(([_, value]) => {
+      const extractedText = listing[value];
+      extractedTexts.push(extractedText ?? "");
+    });
+
+  return extractedTexts;
+};
+
 export const encodeConfig = (config: Array<Record<string, string>>) => {
   const stringifiedConfig = JSON.stringify(config);
   const encodedUrlConfig = btoa(stringifiedConfig);

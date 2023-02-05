@@ -6,13 +6,17 @@ import {
   IconButton,
   SingleSelect,
 } from "@opengovsg/design-system-react";
+import { NextRouter } from "next/router";
 import type { Dispatch, FC, SetStateAction } from "react";
 import { useMemo, useState } from "react";
 import type { HeadingConfig } from "../../../types/configuration";
 import {
   convertCollectionOfTags,
+  encodeConfig,
   extractTags,
+  extractTexts,
 } from "../../../utils/configuration";
+import { ROUTES } from "../../../utils/routes";
 import BxMinusCircle from "../../icons/BxMinusCircle";
 import PreviewListing from "../PreviewListing";
 
@@ -21,7 +25,9 @@ type Props = {
   headings: Array<string>;
   configuration: HeadingConfig;
   setConfiguration: Dispatch<SetStateAction<HeadingConfig>>;
-  createFiltable: () => void;
+  googleSheetId?: string | string[] | undefined;
+  csvKey?: string | string[] | undefined;
+  router: NextRouter;
 };
 
 const PageThree: FC<Props> = ({
@@ -29,7 +35,9 @@ const PageThree: FC<Props> = ({
   headings,
   configuration,
   setConfiguration,
-  createFiltable,
+  googleSheetId,
+  csvKey,
+  router,
 }) => {
   const [texts, setTexts] = useState<Array<string>>([]);
 
@@ -38,6 +46,34 @@ const PageThree: FC<Props> = ({
    */
   const handleAddText = () => {
     setTexts((texts) => [...texts, ""]);
+  };
+
+  const mergeTextsIntoConfig = (
+    configuration: HeadingConfig,
+    texts: Array<string>
+  ) => {
+    const newConfiguration = { ...configuration };
+    texts.forEach((text, idx) => {
+      newConfiguration[`Text ${idx + 1}`] = text;
+    });
+    return newConfiguration;
+  };
+
+  const createFiltable = () => {
+    const mergedConfiguration = mergeTextsIntoConfig(configuration, texts);
+    const urlConfig = encodeConfig([mergedConfiguration]);
+
+    if (googleSheetId) {
+      void router.push(
+        `/${ROUTES.GOOGLE_SHEETS}/${String(
+          googleSheetId
+        )}?urlConfig=${urlConfig}`
+      );
+    } else if (csvKey) {
+      void router.push(
+        `/${ROUTES.CSV}/${String(csvKey)}?urlConfig=${urlConfig}`
+      );
+    }
   };
 
   /**
@@ -71,6 +107,11 @@ const PageThree: FC<Props> = ({
       });
     };
   };
+
+  const listOfTexts = extractTexts(
+    firstRow,
+    mergeTextsIntoConfig(configuration, texts)
+  );
 
   const convertedCollectionOfTags = useMemo(() => {
     return convertCollectionOfTags(extractTags(firstRow, configuration));
@@ -161,10 +202,15 @@ const PageThree: FC<Props> = ({
         </GridItem>
         <GridItem colSpan={1}>
           <PreviewListing
-            title={firstRow[configuration["Title"] ?? ""]}
-            description={firstRow[configuration["Description"] ?? ""]}
-            link={firstRow[configuration["Link"] ?? ""]}
+            title={firstRow[configuration["Title"] ?? ""] ?? "<Title>"}
+            description={
+              firstRow[configuration["Description"] ?? ""] ?? "<Description>"
+            }
+            listOfTexts={listOfTexts.map((text, idx) =>
+              Boolean(text) ? text : `<Text ${idx + 1}>`
+            )}
             convertedCollectionOfTags={convertedCollectionOfTags}
+            link={firstRow[configuration["Link"] ?? ""] ?? "<link>"}
           />
         </GridItem>
       </Grid>

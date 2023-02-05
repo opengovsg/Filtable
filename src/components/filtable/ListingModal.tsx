@@ -14,6 +14,7 @@ type Props = {
   onClose: () => void;
   title: string | undefined;
   description: string | undefined;
+  listOfTexts: Array<string>;
   convertedCollectionOfTags: Array<Array<string>>;
   link: string | undefined;
 };
