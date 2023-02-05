@@ -1,3 +1,5 @@
+import { useMemo, useState } from "react";
+// Components
 import { Box, Grid, GridItem, Text } from "@chakra-ui/react";
 import {
   Button,
@@ -7,10 +9,9 @@ import {
   SingleSelect,
   Tooltip,
 } from "@opengovsg/design-system-react";
-import { NextRouter } from "next/router";
-import type { Dispatch, FC, SetStateAction } from "react";
-import { useMemo, useState } from "react";
-import type { HeadingConfig } from "../../../types/configuration";
+import BxMinusCircle from "../../icons/BxMinusCircle";
+import PreviewListing from "../PreviewListing";
+// Utils
 import {
   convertCollectionOfTags,
   encodeConfig,
@@ -18,8 +19,10 @@ import {
   extractTexts,
 } from "../../../utils/configuration";
 import { ROUTES } from "../../../utils/routes";
-import BxMinusCircle from "../../icons/BxMinusCircle";
-import PreviewListing from "../PreviewListing";
+// Types
+import type { NextRouter } from "next/router";
+import type { Dispatch, FC, SetStateAction } from "react";
+import type { HeadingConfig } from "../../../types/configuration";
 
 type Props = {
   firstRow: Record<string, string>;

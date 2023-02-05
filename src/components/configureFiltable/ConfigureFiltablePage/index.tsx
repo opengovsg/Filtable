@@ -1,10 +1,6 @@
+import { useEffect, useState } from "react";
+// Components
 import { Box, Text } from "@chakra-ui/react";
-import type { NextRouter } from "next/router";
-import { FC, useEffect } from "react";
-import { useState } from "react";
-import useSheetsData from "../../../hooks/useSheetsData";
-import type { HeadingConfig } from "../../../types/configuration";
-import { initEmptyHeadingConfig } from "../../../utils/configuration";
 import ErrorPage from "../../emptyStates/ErrorPage";
 import LoadingPage from "../../emptyStates/LoadingPage";
 import BxLeftArrowAlt from "../../icons/BxLeftArrowAlt";
@@ -12,6 +8,13 @@ import Navbar from "../../landing/Navbar";
 import PageOne from "./PageOne";
 import PageThree from "./PageThree";
 import PageTwo from "./PageTwo";
+// Utils
+import useSheetsData from "../../../hooks/useSheetsData";
+import { initEmptyHeadingConfig } from "../../../utils/configuration";
+// Types
+import type { NextRouter } from "next/router";
+import type { FC } from "react";
+import type { HeadingConfig } from "../../../types/configuration";
 
 type Props = {
   router: NextRouter;

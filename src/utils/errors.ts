@@ -1,5 +1,5 @@
 import type { ZodError } from "zod";
-import { HeadingConfig } from "../types/configuration";
+import type { HeadingConfig } from "../types/configuration";
 
 export const generateErrorMessage = (
   error: unknown,

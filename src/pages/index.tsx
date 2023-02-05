@@ -3,14 +3,15 @@ import { useState } from "react";
 import Navbar from "../components/landing/Navbar";
 import DesktopLandingPage from "../components/landing/DesktopLandingPage";
 import MobileLandingPage from "../components/landing/MobileLandingPage";
-// Utils
-import { extractId, isDefinedLink, isValidLink } from "../utils/strings";
-import { useRouter } from "next/router";
-// Types
-import type { ChangeEvent, ChangeEventHandler } from "react";
-import { type NextPage } from "next";
+// Apis
 import { uploadCsvFile } from "../api/csv";
+// Utils
+import { extractId, isDefinedLink } from "../utils/strings";
+import { useRouter } from "next/router";
 import { ROUTES } from "../utils/routes";
+// Types
+import type { ChangeEvent } from "react";
+import { type NextPage } from "next";
 
 const Home: NextPage = () => {
   const router = useRouter();

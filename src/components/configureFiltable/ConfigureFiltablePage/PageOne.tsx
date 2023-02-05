@@ -1,19 +1,11 @@
-import {
-  Box,
-  Table,
-  TableContainer,
-  Tbody,
-  Td,
-  Text,
-  Th,
-  Thead,
-  Tr,
-} from "@chakra-ui/react";
-import { Button, BxRightArrowAlt, Input } from "@opengovsg/design-system-react";
-import { ChangeEvent, Dispatch, FC, SetStateAction, useState } from "react";
 import React from "react";
-import type { HeadingConfig } from "../../../types/configuration";
+// Components
+import { Box, Text } from "@chakra-ui/react";
+import { Button, BxRightArrowAlt, Input } from "@opengovsg/design-system-react";
 import DataTable from "./DataTable";
+// Types
+import type { ChangeEvent, Dispatch, FC, SetStateAction } from "react";
+import type { HeadingConfig } from "../../../types/configuration";
 
 type Props = {
   data: Array<Record<string, string>>;

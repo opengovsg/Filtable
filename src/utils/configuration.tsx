@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unsafe-return */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
+// TODO: Fix above
 // Utils
 import { z } from "zod";
 import {
@@ -65,7 +66,7 @@ const processExtractedFilters = (config: Partial<HeadingConfig>) => {
   configArray.forEach(([key, val]) => {
     const keyFirstToken = extractFirstToken(key);
 
-    if (isFilterKeyword(keyFirstToken)) {
+    if (isFilterKeyword(keyFirstToken) && val) {
       processedFilters[keyFirstToken as FilterKeywords].push(val);
     }
   });
