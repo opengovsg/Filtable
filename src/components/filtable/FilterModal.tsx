@@ -63,16 +63,17 @@ const FilterModal: FC<Props> = ({
       isOpen={isOpen}
       onClose={closeAndResetFilters}
       size={{
-        base: "full",
+        base: "md",
         md: "sm",
       }}
     >
       <ModalOverlay />
       <ModalContent
-        p="24px"
-        pt="42px"
+        p="42px 24px 24px"
         minH="-webkit-fill-available"
         h={{ base: "100%", md: "fit-content" }}
+        m={{ base: "0", md: "128px" }}
+        overflowY="scroll"
       >
         <ModalCloseButton top="42px" right="24px" />
         <Text textStyle="h5" mb="26px">
