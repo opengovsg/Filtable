@@ -96,58 +96,65 @@ const FiltablePage: FC<Props> = ({
           shadow="md"
         />
       </Box>
-      <Box p="24px" backgroundColor="blue.50" display="flex" flexDir="row">
+      <Box
+        p="24px"
+        backgroundColor="brand.primary.50"
+        display="flex"
+        flexDir="row"
+      >
         <Box maxW="1144px" mx="auto" w="full">
-          <Box display="flex" flexDir="row" w="full" gap="16px">
-            <Text textStyle="h5" noOfLines={2}>
-              {configuration["Filtable Title"]}
-            </Text>
-            <Box display="flex" flexDir="row" gap="8px" ml="auto">
-              <IconButton
-                aria-label="Share"
-                variant="outline"
-                colorScheme="brand.secondary"
-                icon={<BxShareAlt />}
-                onClick={openShareModal}
-              />
+          <Box position="sticky" top="0" py="24px" bg="brand.primary.50">
+            <Box display="flex" flexDir="row" w="full" gap="16px">
+              <Text textStyle="h5" noOfLines={2}>
+                {configuration["Filtable Title"]}
+              </Text>
+              <Box display="flex" flexDir="row" gap="8px" ml="auto">
+                <IconButton
+                  aria-label="Share"
+                  variant="outline"
+                  colorScheme="brand.secondary"
+                  icon={<BxShareAlt />}
+                  onClick={openShareModal}
+                />
+              </Box>
             </Box>
+            {isAnyFilterSelected(filter) ? (
+              <Box
+                mt="16px"
+                display="flex"
+                flexDir="row"
+                gap="8px"
+                overflowY="scroll"
+                flexWrap="nowrap"
+              >
+                {currentlySelectedFilters(filter).map(
+                  ([tag, colorScheme, heading]) => (
+                    <Tag
+                      key={tag}
+                      colorScheme={colorScheme}
+                      minW="fit-content"
+                      display="flex"
+                      flexDir="row"
+                      alignItems="center"
+                      gap="4px"
+                    >
+                      <Text textStyle="subhead-2">{tag}</Text>
+                      <BxX
+                        fontSize="xl"
+                        cursor="pointer"
+                        onClick={() =>
+                          setFilter(
+                            generateToggleOrChangeFilterOption(tag, heading)
+                          )
+                        }
+                      />
+                    </Tag>
+                  )
+                )}
+              </Box>
+            ) : null}
           </Box>
-          {isAnyFilterSelected(filter) ? (
-            <Box
-              mt="16px"
-              display="flex"
-              flexDir="row"
-              gap="8px"
-              overflowY="scroll"
-              flexWrap="nowrap"
-            >
-              {currentlySelectedFilters(filter).map(
-                ([tag, colorScheme, heading]) => (
-                  <Tag
-                    key={tag}
-                    colorScheme={colorScheme}
-                    minW="fit-content"
-                    display="flex"
-                    flexDir="row"
-                    alignItems="center"
-                    gap="4px"
-                  >
-                    <Text textStyle="subhead-2">{tag}</Text>
-                    <BxX
-                      fontSize="xl"
-                      cursor="pointer"
-                      onClick={() =>
-                        setFilter(
-                          generateToggleOrChangeFilterOption(tag, heading)
-                        )
-                      }
-                    />
-                  </Tag>
-                )
-              )}
-            </Box>
-          ) : null}
-          <Text textStyle="body-2" mt="16px" mb="12px">
+          <Text textStyle="body-2" mb="12px">
             {generateShowingResults(filteredData.length)}
           </Text>
           <Box
