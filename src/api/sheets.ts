@@ -25,7 +25,12 @@ export const fetchGoogleSheetsData = async (id: string) => {
     throw "no google sheets data";
   }
 
-  return { data: formattedData, headings, firstRow };
+  return {
+    data: formattedData,
+    headings,
+    firstRow,
+    title: dataData.title as string,
+  };
 };
 
 /**

@@ -58,3 +58,25 @@ export const generateShowingResults = (count: number) => {
 export const stripQueryParams = (link: string | string[]) => {
   return String(link).split("?")[0] ?? "";
 };
+
+const removeCsvType = (fileName: string) => {
+  return fileName.slice(0, fileName.lastIndexOf(".csv"));
+};
+
+const addCsvType = (fileName: string) => {
+  return `${fileName}.csv`;
+};
+
+export const joinTitleAndUuid = (fileName: string, uuid: string) => {
+  return addCsvType(`${removeCsvType(fileName)};${uuid}`);
+};
+
+export const splitTitleAndUuid = (csvKey: string) => {
+  const csvKeyRemoved = removeCsvType(csvKey);
+  const delimiterIdx = csvKeyRemoved.lastIndexOf(";");
+  const title = csvKeyRemoved.slice(0, delimiterIdx);
+  const uuid = csvKeyRemoved.slice(delimiterIdx);
+  const fileName = addCsvType(title);
+
+  return { title, uuid, fileName };
+};

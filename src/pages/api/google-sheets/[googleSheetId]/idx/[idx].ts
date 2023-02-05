@@ -30,6 +30,7 @@ export default async function googleSheetIdx(
     }
 
     const data: any = await response.json();
+
     const sheetTitle: string = data.sheets[idx].properties.title as string;
 
     const dataResponse = await fetch(
@@ -38,8 +39,7 @@ export default async function googleSheetIdx(
       }`
     );
     const dataData = await dataResponse.json();
-
-    res.status(200).json(dataData);
+    res.status(200).json({ ...dataData, title: data.properties.title });
   }
 
   res.status(200);

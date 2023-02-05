@@ -34,7 +34,6 @@ export const generateErrorMessage = (
   if (Boolean(config?.displayErrorMessage)) {
     returnErrorMessage += ` (Error: ${String(error)})`;
   }
-  console.error(error);
 
   return returnErrorMessage;
 };

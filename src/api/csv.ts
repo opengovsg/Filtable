@@ -1,5 +1,8 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
+
+import { splitTitleAndUuid } from "../utils/strings";
+
 //TODO: FIX ABOVE
 export const fetchCsvData = async (fileKey: string) => {
   const res = await fetch(`/api/csv/${fileKey}`);
@@ -11,12 +14,14 @@ export const fetchCsvData = async (fileKey: string) => {
     throw "no csv file data";
   }
 
-  return { data, headings, firstRow };
+  const { title } = splitTitleAndUuid(fileKey);
+
+  return { data, headings, firstRow, title };
 };
 
 export const uploadCsvFile = async (file: File): Promise<string> => {
   if (file) {
-    const res = await fetch("/api/csv/upload", {
+    const res = await fetch(`/api/csv/upload?fileName=${file.name}`, {
       method: "PUT",
       body: file,
     });

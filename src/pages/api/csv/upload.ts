@@ -3,6 +3,7 @@
 import { S3 } from "aws-sdk";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { v4 as uuidv4 } from "uuid";
+import { joinTitleAndUuid } from "../../../utils/strings";
 
 const s3 = new S3({
   region: process.env.AWS_REGION,
@@ -13,12 +14,13 @@ const s3 = new S3({
 export default function uploadCsv(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === "PUT") {
     const file = req.body;
+    const fileName = String(req.query.fileName);
 
     const BUCKET_NAME = process.env.S3_BUCKET_NAME;
 
     const params = {
       Bucket: String(BUCKET_NAME),
-      Key: `${String(uuidv4())}.csv`,
+      Key: joinTitleAndUuid(fileName, String(uuidv4())),
       Body: file,
     };
 

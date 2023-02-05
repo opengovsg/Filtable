@@ -18,6 +18,7 @@ const useSheetsData = ({
   const [data, setData] = useState<Array<Record<string, string>>>([]);
   const [headings, setHeadings] = useState<Array<string>>([]);
   const [firstRow, setFirstRow] = useState<Record<string, string>>({});
+  const [title, setTitle] = useState("");
 
   useEffect(() => {
     /**
@@ -46,15 +47,17 @@ const useSheetsData = ({
     const fetchData = async () => {
       if (googleSheetId || csvKey) {
         try {
-          const { data, headings, firstRow } = await getCorrespondingData({
-            googleSheetId,
-            csvKey,
-          });
+          const { data, headings, firstRow, title } =
+            await getCorrespondingData({
+              googleSheetId,
+              csvKey,
+            });
 
           const validatedData = GoogleSheetResponse.parse(data);
           setData(validatedData);
           setHeadings(headings);
           setFirstRow(firstRow);
+          setTitle(title);
           setIsLoading(false);
         } catch (error) {
           setErrorMessage(
@@ -73,6 +76,7 @@ const useSheetsData = ({
     data,
     headings,
     firstRow,
+    title,
   };
 
   return value;

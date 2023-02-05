@@ -1,6 +1,6 @@
 import { Box, Text } from "@chakra-ui/react";
 import type { NextRouter } from "next/router";
-import type { FC } from "react";
+import { FC, useEffect } from "react";
 import { useState } from "react";
 import useSheetsData from "../../../hooks/useSheetsData";
 import type { HeadingConfig } from "../../../types/configuration";
@@ -29,10 +29,11 @@ const ConfigureFiltablePage: FC<Props> = ({
   const [configuration, setConfiguration] = useState<HeadingConfig>(
     initEmptyHeadingConfig()
   );
-  const { data, headings, firstRow, isLoading, errorMessage } = useSheetsData({
-    googleSheetId,
-    csvKey,
-  });
+  const { title, data, headings, firstRow, isLoading, errorMessage } =
+    useSheetsData({
+      googleSheetId,
+      csvKey,
+    });
 
   const handleBack = () => {
     if (page === 1) {
@@ -47,6 +48,13 @@ const ConfigureFiltablePage: FC<Props> = ({
       setPage((page) => page + 1);
     }
   };
+
+  useEffect(() => {
+    setConfiguration((configuration) => ({
+      ...configuration,
+      ["Filtable Title"]: title,
+    }));
+  }, [title]);
 
   if (errorMessage !== "") {
     return <ErrorPage errorMessage={errorMessage} />;
