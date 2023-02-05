@@ -21,6 +21,7 @@ import LandingSection from "./LandingSection";
 type Props = {
   sheetsLink: string;
   handleChangeSheetsLink: ChangeEventHandler<HTMLInputElement>;
+  sheetsError: string;
   createFiltableFromLink: () => void;
   file: File | undefined;
   handleUploadFile: (file?: File | undefined) => void;
@@ -30,6 +31,7 @@ type Props = {
 const DesktopLandingPage: FC<Props> = ({
   sheetsLink,
   handleChangeSheetsLink,
+  sheetsError,
   createFiltableFromLink,
   file,
   handleUploadFile,
@@ -73,11 +75,24 @@ const DesktopLandingPage: FC<Props> = ({
                 mb="128px"
               >
                 <Box>
-                  <Text mb="12px" textStyle="subhead-1">
-                    Paste a google sheets link
-                  </Text>
+                  <Box
+                    display="flex"
+                    justifyContent="space-between"
+                    alignItems="center"
+                    mb="12px"
+                  >
+                    <Text textStyle="subhead-1">
+                      Paste a google sheets link
+                    </Text>
+                    {sheetsError ? (
+                      <Text color="red.500" textStyle="subhead-2">
+                        {sheetsError}
+                      </Text>
+                    ) : null}
+                  </Box>
                   <Box display="flex" gap="8px">
                     <Input
+                      isInvalid={Boolean(sheetsError)}
                       value={sheetsLink}
                       onChange={handleChangeSheetsLink}
                       placeholder="docs.google.com/spreadsheets/"
@@ -101,15 +116,21 @@ const DesktopLandingPage: FC<Props> = ({
                 </Box>
 
                 <Box display="flex" flexDir="column">
-                  <Box display="flex" justifyContent="space-between">
-                    <Text textStyle="subhead-1" mb="12px">
-                      Upload a .CSV file
-                    </Text>
+                  <Box
+                    display="flex"
+                    justifyContent="space-between"
+                    alignItems="center"
+                    mb="12px"
+                  >
+                    <Text textStyle="subhead-1">Upload a .CSV file</Text>
                     {fileUploadError ? (
-                      <Text color="red.400">{fileUploadError}</Text>
+                      <Text color="red.500" textStyle="subhead-2">
+                        {fileUploadError}
+                      </Text>
                     ) : null}
                   </Box>
                   <Attachment
+                    isInvalid={Boolean(fileUploadError)}
                     name="file"
                     value={file}
                     onChange={handleUploadFile}

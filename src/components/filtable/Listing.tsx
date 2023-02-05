@@ -9,7 +9,11 @@ import { Box, Text } from "@chakra-ui/react";
 // Types
 import type { HeadingConfig } from "../../types/configuration";
 // Utils
-import { extractUrlHost, isValidLink } from "../../utils/strings";
+import {
+  extractUrlHost,
+  isDefinedLink,
+  isValidLink,
+} from "../../utils/strings";
 import {
   convertCollectionOfTags,
   extractTags,
@@ -108,7 +112,7 @@ const Listing: FC<ListingProps> = ({ listing, configuration }) => {
             maxCount={2}
           />
         </Box>
-        {isValidLink(link) ? (
+        {isDefinedLink(link) ? (
           <Link
             variant="standalone"
             href={link}
