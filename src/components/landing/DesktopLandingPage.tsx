@@ -14,9 +14,12 @@ import {
   Input,
 } from "@opengovsg/design-system-react";
 import type { ChangeEventHandler, FC } from "react";
+import { useEffect } from "react";
 import { useState } from "react";
 import { TEMPLATE_LINK, H4PG_LINK } from "../../utils/constants";
 import LandingSection from "./LandingSection";
+import Lottie from "lottie-react";
+import landingPageAnimation from "../../../public/landing-page-animation.json";
 
 type Props = {
   sheetsLink: string;
@@ -52,6 +55,20 @@ const DesktopLandingPage: FC<Props> = ({
   const handleFileUploadError = (error: string) => {
     setFileUploadError(error);
   };
+
+  // useEffect(() => {
+  //   const container = document.querySelector("#landing-animation");
+
+  //   if (container) {
+  //     lottie.loadAnimation({
+  //       container, // the dom element that will contain the animation
+  //       renderer: "svg",
+  //       loop: true,
+  //       autoplay: true,
+  //       path: "landing-page-animation.json",
+  //     });
+  //   }
+  // }, []);
 
   return (
     <Show above="md">
@@ -168,8 +185,8 @@ const DesktopLandingPage: FC<Props> = ({
                 </Box>
               </Box>
             </GridItem>
-            <GridItem colSpan={1} display="grid" placeItems="flex-start">
-              <img src="landing-page-1.png" alt="Sheets Image" />
+            <GridItem colSpan={1} display="grid" placeItems="center">
+              <Lottie animationData={landingPageAnimation} />
             </GridItem>
           </Grid>
         </Box>
