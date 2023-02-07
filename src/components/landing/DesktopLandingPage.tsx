@@ -14,12 +14,12 @@ import {
   Input,
 } from "@opengovsg/design-system-react";
 import type { ChangeEventHandler, FC } from "react";
-import { useEffect } from "react";
 import { useState } from "react";
 import { TEMPLATE_LINK, H4PG_LINK } from "../../utils/constants";
 import LandingSection from "./LandingSection";
 import Lottie from "lottie-react";
 import landingPageAnimation from "../../../public/landing-page-animation.json";
+import { Fade } from "react-awesome-reveal";
 
 type Props = {
   sheetsLink: string;
@@ -74,14 +74,13 @@ const DesktopLandingPage: FC<Props> = ({
     <Show above="md">
       <Box bg="brand.primary.50" display="flex" flexDir="column" px="64px">
         <Box maxW="1144px" w="full" mx="auto" display="flex" flexDir="column">
-          <Grid templateColumns="repeat(2 ,1fr)">
+          <Grid templateColumns="repeat(2 ,1fr)" gap="132px">
             <GridItem
               colSpan={1}
               display="flex"
               flexDir="column"
               justifyContent="center"
               gap="32px"
-              pr="40px"
             >
               <Text textStyle="h1">Turn tables into filterable lists</Text>
               <Box
@@ -200,86 +199,106 @@ const DesktopLandingPage: FC<Props> = ({
           alignItems="center"
           id="how-it-works"
         >
-          <Text textStyle="h2" mr="auto" my="64px">
-            How it works 🤔
-          </Text>
+          <Fade triggerOnce>
+            <Text textStyle="h2" mr="auto" my="64px">
+              How it works 🤔
+            </Text>
+          </Fade>
           <Box display="flex" flexDir="column" gap="64px" mb="80px">
             <Grid templateColumns="repeat(2 ,1fr)" gap="40px">
-              <GridItem colSpan={1} display="flex" flexDir="column" gap="16px">
-                <img
-                  src="sheets-logo.png"
-                  alt="Google Sheets Logo"
-                  width="46.55px"
-                />
-                <Text textStyle="h4">Paste a google sheets link</Text>
-                <Text textStyle="body-2">
-                  Make sure to change your permissions so that “Anyone with the
-                  link” can view the google sheet. Any new edits to your google
-                  sheet will be automatically updated to the Filtable.
-                </Text>
-                <Link
+              <Fade direction="left" delay={150} triggerOnce>
+                <GridItem
+                  colSpan={1}
                   display="flex"
-                  alignItems="center"
-                  gap="10px"
-                  variant="standalone"
-                  p="0"
-                  rel="noreferrer"
-                  target="_blank"
-                  href={TEMPLATE_LINK}
+                  flexDir="column"
+                  gap="16px"
                 >
-                  <Text textStyle="subhead-1">
-                    Use our sample sheet to try it out
+                  <img
+                    src="sheets-logo.png"
+                    alt="Google Sheets Logo"
+                    width="46.55px"
+                  />
+                  <Text textStyle="h4">Paste a google sheets link</Text>
+                  <Text textStyle="body-2">
+                    Make sure to change your permissions so that “Anyone with
+                    the link” can view the google sheet. Any new edits to your
+                    google sheet will be automatically updated to the Filtable.
                   </Text>
-                  <BxRightArrowAlt fontSize="lg" />
-                </Link>
-              </GridItem>
-              <GridItem colSpan={1} display="flex" flexDir="column" gap="16px">
-                <img
-                  src="excel-logo.png"
-                  alt="Microsoft Excel Logo"
-                  width="68.77px"
-                />
-                <Text textStyle="h4">Or upload a .CSV file</Text>
-                <Text textStyle="body-2">
-                  .csv files cannot be updated/changed after the Filtable has
-                  been made. You’d have to re-upload a new file and create a new
-                  Filtable.
-                </Text>
-              </GridItem>
+                  <Link
+                    display="flex"
+                    alignItems="center"
+                    gap="10px"
+                    variant="standalone"
+                    p="0"
+                    rel="noreferrer"
+                    target="_blank"
+                    href={TEMPLATE_LINK}
+                  >
+                    <Text textStyle="subhead-1">
+                      Use our sample sheet to try it out
+                    </Text>
+                    <BxRightArrowAlt fontSize="lg" />
+                  </Link>
+                </GridItem>
+              </Fade>
+              <Fade direction="right" delay={300} triggerOnce>
+                <GridItem
+                  colSpan={1}
+                  display="flex"
+                  flexDir="column"
+                  gap="16px"
+                >
+                  <img
+                    src="excel-logo.png"
+                    alt="Microsoft Excel Logo"
+                    width="68.77px"
+                  />
+                  <Text textStyle="h4">Or upload a .CSV file</Text>
+                  <Text textStyle="body-2">
+                    .csv files cannot be updated/changed after the Filtable has
+                    been made. You’d have to re-upload a new file and create a
+                    new Filtable.
+                  </Text>
+                </GridItem>
+              </Fade>
             </Grid>
-            <LandingSection
-              contentSide="left"
-              heading="Transform rows in a table into listings"
-              imgUrl="transform-rows.png"
-              contentBody={
-                <>
+            <Fade triggerOnce>
+              <LandingSection
+                contentSide="left"
+                heading="Transform rows in a table into listings"
+                imgUrl="transform-rows.png"
+                contentBody={
+                  <>
+                    <Text textStyle="body-1">
+                      After uploading or sharing your table, Filtable will
+                      analyse your data and turn each row into one listing in
+                      the list. You can design how the listing looks like by
+                      mapping your table’s columns to a <strong>Title</strong>,{" "}
+                      <strong>Description</strong>, <strong>Link</strong>, and{" "}
+                      <strong>Tag</strong> field.
+                    </Text>
+                    <Text textStyle="body-1" mt="24px">
+                      Filtable also supports the addition of{" "}
+                      <strong>multiple text or tag columns</strong>.
+                    </Text>
+                  </>
+                }
+              />
+            </Fade>
+            <Fade triggerOnce>
+              <LandingSection
+                contentSide="right"
+                heading="Your Filtable users can then use filters to narrow their search"
+                imgUrl="narrow-search.png"
+                contentBody={
                   <Text textStyle="body-1">
-                    After uploading or sharing your table, Filtable will analyse
-                    your data and turn each row into one listing in the list.
-                    You can design how the listing looks like by mapping your
-                    table’s columns to a <strong>Title</strong>,{" "}
-                    <strong>Description</strong>, <strong>Link</strong>, and{" "}
-                    <strong>Tag</strong> field.
+                    After creation, users of your Filtable can then select
+                    specific tags and return results, visit links directly, and
+                    share resources with others.
                   </Text>
-                  <Text textStyle="body-1" mt="24px">
-                    Filtable also supports the addition of{" "}
-                    <strong>multiple text or tag columns</strong>.
-                  </Text>
-                </>
-              }
-            />
-            <LandingSection
-              contentSide="right"
-              heading="Your Filtable users can then use filters to narrow their search"
-              imgUrl="narrow-search.png"
-              contentBody={
-                <Text textStyle="body-1">
-                  After creation, users of your Filtable can then select
-                  specific tags and return results, visit links directly, and
-                  share resources with others.
-                </Text>
-              }
-            />
+                }
+              />
+            </Fade>
           </Box>
         </Box>
       </Box>
@@ -292,61 +311,69 @@ const DesktopLandingPage: FC<Props> = ({
           alignItems="center"
           id="pro-tips"
         >
-          <Text textStyle="h2" mr="auto" mt="80px" mb="48px">
-            Pro tips 💡
-          </Text>
+          <Fade triggerOnce>
+            <Text textStyle="h2" mr="auto" mt="80px" mb="48px">
+              Pro tips 💡
+            </Text>
+          </Fade>
           <Box display="flex" flexDir="column" gap="48px" mb="80px">
-            <LandingSection
-              contentSide="left"
-              heading="Create multiple filters"
-              imgUrl="create-multiple-filters.png"
-              contentBody={
-                <>
+            <Fade triggerOnce>
+              <LandingSection
+                contentSide="left"
+                heading="Create multiple filters"
+                imgUrl="create-multiple-filters.png"
+                contentBody={
+                  <>
+                    <Text textStyle="body-1">
+                      Multiple layers of filters allow users to search through
+                      your list more efficiently! Filtable will assign different
+                      colour schemes to different filter categories.
+                    </Text>
+                    <Text textStyle="body-1" fontStyle="italic" mt="24px">
+                      Filtable currently does not allow users to exclude a
+                      specific tag.
+                    </Text>
+                  </>
+                }
+              />
+            </Fade>
+            <Fade triggerOnce>
+              <LandingSection
+                contentSide="right"
+                heading="Add multiple tags"
+                imgUrl="add-multiple-tags.png"
+                contentBody={
+                  <>
+                    <Text textStyle="body-1">
+                      A listing can be associated with more than one tag. Add
+                      multiple tags by splitting them with a semicolon(;) in
+                      your table.
+                    </Text>
+                    <Text textStyle="code-1" my="24px">
+                      tag 1;tag 2;tag 3{" "}
+                    </Text>
+                    <Text textStyle="body-1">
+                      Be careful! Commas will not split tags – instead they’ll
+                      be included in tags.
+                    </Text>
+                  </>
+                }
+              />
+            </Fade>
+            <Fade triggerOnce>
+              <LandingSection
+                contentSide="left"
+                heading="Add additional lines of text"
+                imgUrl="add-additional-text.png"
+                contentBody={
                   <Text textStyle="body-1">
-                    Multiple layers of filters allow users to search through
-                    your list more efficiently! Filtable will assign different
-                    colour schemes to different filter categories.
+                    Split up useful info across multiple fields so it’s easier
+                    for users to read through! Only description fields appear in
+                    preview.
                   </Text>
-                  <Text textStyle="body-1" fontStyle="italic" mt="24px">
-                    Filtable currently does not allow users to exclude a
-                    specific tag.
-                  </Text>
-                </>
-              }
-            />
-            <LandingSection
-              contentSide="right"
-              heading="Add multiple tags"
-              imgUrl="add-multiple-tags.png"
-              contentBody={
-                <>
-                  <Text textStyle="body-1">
-                    A listing can be associated with more than one tag. Add
-                    multiple tags by splitting them with a semicolon(;) in your
-                    table.
-                  </Text>
-                  <Text textStyle="code-1" my="24px">
-                    tag 1;tag 2;tag 3{" "}
-                  </Text>
-                  <Text textStyle="body-1">
-                    Be careful! Commas will not split tags – instead they’ll be
-                    included in tags.
-                  </Text>
-                </>
-              }
-            />
-            <LandingSection
-              contentSide="left"
-              heading="Add additional lines of text"
-              imgUrl="add-additional-text.png"
-              contentBody={
-                <Text textStyle="body-1">
-                  Split up useful info across multiple fields so it’s easier for
-                  users to read through! Only description fields appear in
-                  preview.
-                </Text>
-              }
-            />
+                }
+              />
+            </Fade>
           </Box>
         </Box>
       </Box>
