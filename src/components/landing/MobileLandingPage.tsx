@@ -1,7 +1,6 @@
 import { Hide, Box, Button, Text } from "@chakra-ui/react";
 import { BxPlus, Input } from "@opengovsg/design-system-react";
 import type { ChangeEventHandler, FC } from "react";
-import { PLACEHOLDER_SHEETS_LINK } from "../../utils/constants";
 
 type Props = {
   sheetsLink: string;
@@ -33,7 +32,7 @@ const MobileLandingPage: FC<Props> = ({
           <Input
             value={sheetsLink}
             onChange={handleChangeSheetsLink}
-            placeholder={PLACEHOLDER_SHEETS_LINK}
+            placeholder="docs.google.com/spreadsheets/"
             mt="32px"
             mb="16px"
           />
