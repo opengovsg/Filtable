@@ -3,10 +3,12 @@ kessler,stuff,@chakra-ui/react,perpetual,material,MIT,git+https://github.com/cha
 kessler,stuff,@opengovsg/design-system-react,perpetual,material,SEE LICENSE IN LICENSE.md,https://github.com/opengovsg/design-system/react#readme,0.1.0-alpha.8,0.1.0-alpha.8,^0.1.0-alpha.8,n/a
 kessler,stuff,aws-sdk,perpetual,material,Apache-2.0,git://github.com/aws/aws-sdk-js.git,2.1310.0,2.1307.0,^2.1307.0,Amazon Web Services https://aws.amazon.com/
 kessler,stuff,csv-parser,perpetual,material,MIT,https://github.com/mafintosh/csv-parser.git,3.0.0,3.0.0,^3.0.0,mafintosh
+kessler,stuff,lottie-react,perpetual,material,MIT,git+https://github.com/Gamote/lottie-react.git,2.3.1,2.3.1,^2.3.1,David Gamote
 kessler,stuff,next,perpetual,material,MIT,git+https://github.com/vercel/next.js.git,13.1.1,13.1.1,13.1.1,n/a
 kessler,stuff,npm,perpetual,material,Artistic-2.0,git+https://github.com/npm/cli.git,9.4.1,9.3.1,^9.3.1,GitHub Inc.
 kessler,stuff,rc-overflow,perpetual,material,MIT,git+ssh://git@github.com/react-component/overflow.git,1.2.8,1.2.8,^1.2.8,n/a
 kessler,stuff,react,perpetual,material,MIT,git+https://github.com/facebook/react.git,18.2.0,18.2.0,18.2.0,n/a
+kessler,stuff,react-awesome-reveal,perpetual,material,MIT,git+https://github.com/morellodev/react-awesome-reveal.git,4.2.3,4.2.3,^4.2.3,Dennis Morello dennis@morello.dev https://morello.dev
 kessler,stuff,react-dom,perpetual,material,MIT,git+https://github.com/facebook/react.git,18.2.0,18.2.0,18.2.0,n/a
 kessler,stuff,react-markdown,perpetual,material,MIT,git+https://github.com/remarkjs/react-markdown.git,6.0.3,6.0.3,^6.0.3,Espen Hovlandsdal <espen@hovlandsdal.com>
 kessler,stuff,uuid,perpetual,material,MIT,git+https://github.com/uuidjs/uuid.git,9.0.0,9.0.0,^9.0.0,n/a
