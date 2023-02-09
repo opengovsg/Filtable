@@ -6,8 +6,7 @@ import { Link, Tag } from "@opengovsg/design-system-react";
 import { useRouter } from "next/router";
 // Types
 import type { FC } from "react";
-import { TEMPLATE_LINK } from "../utils/constants";
-import FiltableIcon from "./icons/FiltableIcon";
+import FiltableIcon from "../icons/FiltableIcon";
 
 type Props = {
   filtableTitle?: string;
@@ -15,6 +14,14 @@ type Props = {
 
 const Navbar: FC<Props> = ({ filtableTitle }) => {
   const router = useRouter();
+
+  const navbarLinks = [
+    {
+      label: "How it works",
+      href: "/#how-it-works",
+    },
+    { label: "Pro tips", href: "/#pro-tips" },
+  ];
 
   const handleBack = () => {
     router.back();
@@ -54,7 +61,9 @@ const Navbar: FC<Props> = ({ filtableTitle }) => {
           <>
             <Hide above="md">
               <Box display="flex" alignItems="center" gap="8px">
-                <FiltableIcon size="sm" />
+                <Link href="/">
+                  <FiltableIcon size="sm" />
+                </Link>
                 <Tag variant="solid" size="sm">
                   BETA
                 </Tag>
@@ -62,17 +71,20 @@ const Navbar: FC<Props> = ({ filtableTitle }) => {
             </Hide>
             <Show above="md">
               <Box display="flex" alignItems="center" gap="16px" w="full">
-                <FiltableIcon size="lg" />
-                <Tag variant="solid">BETA</Tag>
-                <Link
-                  ml="auto"
-                  href={TEMPLATE_LINK}
-                  target="_blank"
-                  rel="noreferrer"
-                  variant="standalone"
-                >
-                  Google sheets template
+                <Link href={"/"}>
+                  <FiltableIcon size="lg" />
                 </Link>
+                <Tag variant="solid">BETA</Tag>
+
+                <Box ml="auto" display="flex" gap="40px">
+                  {navbarLinks.map(({ label, href }) => {
+                    return (
+                      <Link key={label} href={href} variant="standalone">
+                        {label}
+                      </Link>
+                    );
+                  })}
+                </Box>
               </Box>
             </Show>
           </>

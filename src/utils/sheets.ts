@@ -2,37 +2,9 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 // TODO: Fix TypeScript errors
 
-export const formatSingleSheetToDataAndConfig = (sheetData: any) => {
-  const values = sheetData.values as Array<Array<string>>;
-
-  // Format configuration
-  const configRows = values.slice(0, 2);
-  const configArrayOfRecords = formatRawValuesToArrayOfRecords(configRows);
-
-  // Format data
-  const rows = values.slice(1);
-  const dataArrayOfRecords = formatRawValuesToArrayOfRecords(rows);
-
-  return { configuration: configArrayOfRecords, data: dataArrayOfRecords };
-};
-
-export const formatSheetsToDataAndConfig = (
-  sheetData: any,
-  configData: any
-) => {
-  const sheetDataArrayOfRecords = formatRawValuesToArrayOfRecords(
-    sheetData.values
-  );
-  const configDataArrayOfRecords = formatRawValuesToArrayOfRecords(
-    configData.values
-  );
-
-  return {
-    configuration: configDataArrayOfRecords,
-    data: sheetDataArrayOfRecords,
-  };
-};
-
+/**
+ * To convert a 2d array of cells into an array of JSON where each object has key value pairs where key is column heading and value is row cell value
+ */
 export const formatRawValuesToArrayOfRecords = (
   rawValues: Array<Array<string>>
 ) => {

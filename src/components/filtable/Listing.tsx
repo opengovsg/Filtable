@@ -7,10 +7,14 @@ import { BxRightArrowAlt, Link, Tag } from "@opengovsg/design-system-react";
 import ListingModal from "./ListingModal";
 import { Box, Text } from "@chakra-ui/react";
 // Types
-import type { HeadingConfig } from "../types/configuration";
+import type { HeadingConfig } from "../../types/configuration";
 // Utils
-import { extractUrlHost, isValidLink } from "../utils/strings";
-import { convertCollectionOfTags, extractTags } from "../utils/configuration";
+import { extractUrlHost, isDefinedLink } from "../../utils/strings";
+import {
+  convertCollectionOfTags,
+  extractTags,
+  extractTexts,
+} from "../../utils/configuration";
 import Overflow from "rc-overflow";
 
 type ListingProps = {
@@ -28,9 +32,11 @@ const Listing: FC<ListingProps> = ({ listing, configuration }) => {
   const description = configuration["Description"]
     ? listing[configuration["Description"]]
     : undefined;
-  const link = configuration["Link URL"]
-    ? listing[configuration["Link URL"]]
+  const link = configuration["Link"]
+    ? listing[configuration["Link"]]
     : undefined;
+
+  const listOfTexts = extractTexts(listing, configuration);
 
   const convertedCollectionOfTags = useMemo(() => {
     return convertCollectionOfTags(extractTags(listing, configuration));
@@ -51,6 +57,7 @@ const Listing: FC<ListingProps> = ({ listing, configuration }) => {
         onClose={closeModal}
         title={title}
         description={description}
+        listOfTexts={listOfTexts}
         convertedCollectionOfTags={convertedCollectionOfTags}
         link={link}
       />
@@ -80,18 +87,20 @@ const Listing: FC<ListingProps> = ({ listing, configuration }) => {
               flexDirection: "row",
               flexWrap: "wrap",
               gap: "8px",
-              maxHeight: "64px",
+              overflow: "hidden",
             }}
             data={convertedCollectionOfTags}
             renderItem={([tag, colorScheme]) => {
               return (
                 <Tag
                   minW="fit-content"
-                  whiteSpace="nowrap"
+                  whiteSpace="pre-wrap"
+                  textStyle="body-2"
+                  noOfLines={1}
                   variant="subtle"
                   colorScheme={colorScheme as string}
                 >
-                  <Text textStyle="body-2">{tag}</Text>
+                  {tag}
                 </Tag>
               );
             }}
@@ -101,23 +110,33 @@ const Listing: FC<ListingProps> = ({ listing, configuration }) => {
             maxCount={2}
           />
         </Box>
-        {isValidLink(link) ? (
+        <Box
+          display="flex"
+          alignItems="center"
+          justifyContent="space-between"
+          mt="24px"
+        >
+          {/* TODO: The styles below get overridden when disabled (e.g. padding) */}
           <Link
             variant="standalone"
             href={link}
             p="0px"
-            mt="16px"
             display="flex"
             flexDir="row"
             alignItems="center"
             gap="4px"
             rel="noreferrer"
             target="_blank"
+            isDisabled={!isDefinedLink(link)}
+            w="full"
+            textOverflow="ellipsis"
           >
-            {extractUrlHost(link)}
-            <BxRightArrowAlt />
+            <Text w="full" noOfLines={1}>
+              {extractUrlHost(link)}
+            </Text>
+            {isDefinedLink(link) ? <BxRightArrowAlt /> : null}
           </Link>
-        ) : null}
+        </Box>
       </Box>
     </>
   );

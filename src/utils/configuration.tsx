@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/no-unsafe-return */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+// TODO: Fix above
 // Utils
 import { z } from "zod";
 import {
@@ -37,9 +40,7 @@ export const initZodHeadingConfig = (): Record<Headings, ZodTypeAny> => {
 /**
  * Extract key-value pairs from the configuration such that the key's first word is a filter keyword
  */
-export const extractFilters = (
-  config: HeadingConfig
-): Partial<HeadingConfig> => {
+const extractFilters = (config: HeadingConfig): Partial<HeadingConfig> => {
   const configArray = Object.entries(config);
   const filteredConfigArray = configArray.filter(([key]) => {
     return isFilterKeyword(extractFirstToken(key));
@@ -52,7 +53,7 @@ export const extractFilters = (
 /**
  * Process config key-value pairs to return a new map where the key is a filter keyword and the value is an array of specified column headings to render as a filter type
  */
-export const processExtractedFilters = (config: Partial<HeadingConfig>) => {
+const processExtractedFilters = (config: Partial<HeadingConfig>) => {
   const processedFilters: Record<
     FilterKeywords,
     Array<string>
@@ -65,12 +66,19 @@ export const processExtractedFilters = (config: Partial<HeadingConfig>) => {
   configArray.forEach(([key, val]) => {
     const keyFirstToken = extractFirstToken(key);
 
-    if (isFilterKeyword(keyFirstToken)) {
+    if (isFilterKeyword(keyFirstToken) && val) {
       processedFilters[keyFirstToken as FilterKeywords].push(val);
     }
   });
 
   return processedFilters;
+};
+
+/**
+ * Combines processExtractedFilters and extractFilters
+ */
+export const processConfigurationToFilters = (configuration: HeadingConfig) => {
+  return processExtractedFilters(extractFilters(configuration));
 };
 
 export const initEmptyProcessedFilters = () => {
@@ -84,13 +92,11 @@ export const extractTags = (
   listing: Record<string, string>,
   configuration: HeadingConfig
 ): Array<Array<string>> => {
-  const processedExtractedFilters = processExtractedFilters(
-    extractFilters(configuration)
-  );
+  const processedFilters = processConfigurationToFilters(configuration);
 
   const collectionOfTags: Array<Array<string>> = [];
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  Object.entries(processedExtractedFilters).forEach(([_, columnHeadings]) => {
+  Object.entries(processedFilters).forEach(([_, columnHeadings]) => {
     columnHeadings.forEach((columnHeading) => {
       const concatenatedTags = listing[columnHeading];
       const tags = splitConcatenatedTags(concatenatedTags);
@@ -121,4 +127,34 @@ export const getTagColorScheme = (idx: number): string => {
     tagColorSchemes[idx] ??
     (tagColorSchemes[tagColorSchemes.length - 1] as string)
   );
+};
+
+export const extractTexts = (
+  listing: Record<string, string>,
+  configuration: HeadingConfig
+): Array<string> => {
+  const extractedTexts: Array<string> = [];
+
+  Object.entries(configuration)
+    .filter(([heading]) => heading.split(" ")[0] === "Text")
+    .forEach(([_, value]) => {
+      const extractedText = listing[value];
+      extractedTexts.push(extractedText ?? "");
+    });
+
+  return extractedTexts;
+};
+
+export const encodeConfig = (config: Array<Record<string, string>>) => {
+  const stringifiedConfig = JSON.stringify(config);
+  const encodedUrlConfig = btoa(stringifiedConfig);
+
+  return encodedUrlConfig;
+};
+
+export const decodeUrlConfig = (urlConfig: string | string[]) => {
+  const decodedUrlConfig = atob(String(urlConfig));
+  const parsedConfig = JSON.parse(decodedUrlConfig);
+
+  return parsedConfig as Record<string, string>;
 };

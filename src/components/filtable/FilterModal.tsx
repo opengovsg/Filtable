@@ -10,14 +10,14 @@ import {
 } from "@chakra-ui/react";
 import { Button, BxCheck, Tag } from "@opengovsg/design-system-react";
 // Utils
-import { getTagColorScheme } from "../utils/configuration";
+import { getTagColorScheme } from "../../utils/configuration";
 import {
   enumerateAllFilterOptions,
   generateToggleOrChangeFilterOption,
-} from "../utils/filter";
+} from "../../utils/filter";
 // Types
 import type { Dispatch, FC, SetStateAction } from "react";
-import type { Filter, FilterKeywords } from "../types/filter";
+import type { Filter, FilterKeywords } from "../../types/filter";
 
 type Props = {
   isOpen: boolean;
@@ -63,16 +63,17 @@ const FilterModal: FC<Props> = ({
       isOpen={isOpen}
       onClose={closeAndResetFilters}
       size={{
-        base: "full",
+        base: "md",
         md: "sm",
       }}
     >
       <ModalOverlay />
       <ModalContent
-        p="24px"
-        pt="42px"
-        minH={"fill-available"}
+        p="42px 24px 24px"
+        minH="-webkit-fill-available"
         h={{ base: "100%", md: "fit-content" }}
+        m={{ base: "0", md: "128px" }}
+        overflowY="scroll"
       >
         <ModalCloseButton top="42px" right="24px" />
         <Text textStyle="h5" mb="26px">
@@ -123,7 +124,6 @@ const FilterModal: FC<Props> = ({
             );
           }
         )}
-        {/* TODO: Add apply filters functionality */}
         <Button mt="auto" onClick={closeAndApplyFilters}>
           Apply filters
         </Button>

@@ -1,18 +1,17 @@
 import { Hide, Box, Button, Text } from "@chakra-ui/react";
 import { BxPlus, Input } from "@opengovsg/design-system-react";
 import type { ChangeEventHandler, FC } from "react";
-import { PLACEHOLDER_SHEETS_LINK } from "../utils/constants";
 
 type Props = {
   sheetsLink: string;
   handleChangeSheetsLink: ChangeEventHandler<HTMLInputElement>;
-  handleFilter: () => void;
+  createFiltableFromLink: () => void;
 };
 
 const MobileLandingPage: FC<Props> = ({
   sheetsLink,
   handleChangeSheetsLink,
-  handleFilter,
+  createFiltableFromLink,
 }) => {
   return (
     <Hide above="md">
@@ -33,12 +32,12 @@ const MobileLandingPage: FC<Props> = ({
           <Input
             value={sheetsLink}
             onChange={handleChangeSheetsLink}
-            placeholder={PLACEHOLDER_SHEETS_LINK}
+            placeholder="docs.google.com/spreadsheets/"
             mt="32px"
             mb="16px"
           />
           <Button
-            onClick={handleFilter}
+            onClick={createFiltableFromLink}
             background="brand.secondary.700"
             leftIcon={<BxPlus />}
             w="full"

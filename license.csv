@@ -1,0 +1,37 @@
+kessler,stuff,@chakra-ui/icons,perpetual,material,MIT,git+https://github.com/chakra-ui/chakra-ui.git,2.0.17,2.0.17,^2.0.17,Segun Adebayo <sage@adebayosegun.com>
+kessler,stuff,@chakra-ui/react,perpetual,material,MIT,git+https://github.com/chakra-ui/chakra-ui.git,2.4.9,2.4.9,^2.4.9,Segun Adebayo <sage@adebayosegun.com>
+kessler,stuff,@opengovsg/design-system-react,perpetual,material,SEE LICENSE IN LICENSE.md,https://github.com/opengovsg/design-system/react#readme,0.1.0-alpha.8,0.1.0-alpha.8,^0.1.0-alpha.8,n/a
+kessler,stuff,aws-sdk,perpetual,material,Apache-2.0,git://github.com/aws/aws-sdk-js.git,2.1310.0,2.1307.0,^2.1307.0,Amazon Web Services https://aws.amazon.com/
+kessler,stuff,csv-parser,perpetual,material,MIT,https://github.com/mafintosh/csv-parser.git,3.0.0,3.0.0,^3.0.0,mafintosh
+kessler,stuff,lottie-react,perpetual,material,MIT,git+https://github.com/Gamote/lottie-react.git,2.3.1,2.3.1,^2.3.1,David Gamote
+kessler,stuff,next,perpetual,material,MIT,git+https://github.com/vercel/next.js.git,13.1.1,13.1.1,13.1.1,n/a
+kessler,stuff,npm,perpetual,material,Artistic-2.0,git+https://github.com/npm/cli.git,9.4.1,9.3.1,^9.3.1,GitHub Inc.
+kessler,stuff,rc-overflow,perpetual,material,MIT,git+ssh://git@github.com/react-component/overflow.git,1.2.8,1.2.8,^1.2.8,n/a
+kessler,stuff,react,perpetual,material,MIT,git+https://github.com/facebook/react.git,18.2.0,18.2.0,18.2.0,n/a
+kessler,stuff,react-awesome-reveal,perpetual,material,MIT,git+https://github.com/morellodev/react-awesome-reveal.git,4.2.3,4.2.3,^4.2.3,Dennis Morello dennis@morello.dev https://morello.dev
+kessler,stuff,react-dom,perpetual,material,MIT,git+https://github.com/facebook/react.git,18.2.0,18.2.0,18.2.0,n/a
+kessler,stuff,react-markdown,perpetual,material,MIT,git+https://github.com/remarkjs/react-markdown.git,6.0.3,6.0.3,^6.0.3,Espen Hovlandsdal <espen@hovlandsdal.com>
+kessler,stuff,uuid,perpetual,material,MIT,git+https://github.com/uuidjs/uuid.git,9.0.0,9.0.0,^9.0.0,n/a
+kessler,stuff,zod,perpetual,material,MIT,git+https://github.com/colinhacks/zod.git,3.20.2,3.20.2,^3.20.2,Colin McDonnell <colin@colinhacks.com>
+kessler,stuff,@testing-library/jest-dom,perpetual,material,MIT,git+https://github.com/testing-library/jest-dom.git,5.16.5,5.16.5,^5.16.5,Ernesto Garcia <gnapse@gmail.com> (http://gnapse.github.io)
+kessler,stuff,@testing-library/react,perpetual,material,MIT,git+https://github.com/testing-library/react-testing-library.git,13.4.0,13.4.0,^13.4.0,Kent C. Dodds <me@kentcdodds.com> (https://kentcdodds.com)
+kessler,stuff,@types/cors,perpetual,material,MIT,https://github.com/DefinitelyTyped/DefinitelyTyped.git,2.8.13,2.8.13,^2.8.13,n/a
+kessler,stuff,@types/jest,perpetual,material,MIT,https://github.com/DefinitelyTyped/DefinitelyTyped.git,29.4.0,29.4.0,^29.4.0,n/a
+kessler,stuff,@types/multer,perpetual,material,MIT,https://github.com/DefinitelyTyped/DefinitelyTyped.git,1.4.7,1.4.7,^1.4.7,n/a
+kessler,stuff,@types/node,perpetual,material,MIT,https://github.com/DefinitelyTyped/DefinitelyTyped.git,18.13.0,18.11.18,^18.11.18,n/a
+kessler,stuff,@types/prettier,perpetual,material,MIT,https://github.com/DefinitelyTyped/DefinitelyTyped.git,2.7.2,2.7.2,^2.7.2,n/a
+kessler,stuff,@types/react,perpetual,material,MIT,https://github.com/DefinitelyTyped/DefinitelyTyped.git,18.0.27,18.0.26,^18.0.26,n/a
+kessler,stuff,@types/react-dom,perpetual,material,MIT,https://github.com/DefinitelyTyped/DefinitelyTyped.git,18.0.10,18.0.10,^18.0.10,n/a
+kessler,stuff,@types/uuid,perpetual,material,MIT,https://github.com/DefinitelyTyped/DefinitelyTyped.git,9.0.0,9.0.0,^9.0.0,n/a
+kessler,stuff,@typescript-eslint/eslint-plugin,perpetual,material,MIT,git+https://github.com/typescript-eslint/typescript-eslint.git,5.51.0,5.48.1,^5.47.1,n/a
+kessler,stuff,@typescript-eslint/parser,perpetual,material,BSD-2-Clause,git+https://github.com/typescript-eslint/typescript-eslint.git,5.51.0,5.48.1,^5.47.1,n/a
+kessler,stuff,autoprefixer,perpetual,material,MIT,git+https://github.com/postcss/autoprefixer.git,10.4.13,10.4.13,^10.4.7,Andrey Sitnik <andrey@sitnik.ru>
+kessler,stuff,eslint,perpetual,material,MIT,git+https://github.com/eslint/eslint.git,8.33.0,8.31.0,^8.30.0,Nicholas C. Zakas <nicholas+npm@nczconsulting.com>
+kessler,stuff,eslint-config-next,perpetual,material,MIT,git+https://github.com/vercel/next.js.git,13.1.1,13.1.1,13.1.1,n/a
+kessler,stuff,jest,perpetual,material,MIT,git+https://github.com/facebook/jest.git,29.4.1,29.4.1,^29.4.1,n/a
+kessler,stuff,jest-environment-jsdom,perpetual,material,MIT,git+https://github.com/facebook/jest.git,29.4.1,29.4.1,^29.4.1,n/a
+kessler,stuff,postcss,perpetual,material,MIT,git+https://github.com/postcss/postcss.git,8.4.21,8.4.21,^8.4.14,Andrey Sitnik <andrey@sitnik.ru>
+kessler,stuff,prettier,perpetual,material,MIT,git+https://github.com/prettier/prettier.git,2.8.3,2.8.2,^2.8.1,James Long
+kessler,stuff,prettier-plugin-tailwindcss,perpetual,material,MIT,git+https://github.com/tailwindlabs/prettier-plugin-tailwindcss.git,0.2.2,0.2.1,^0.2.1,n/a
+kessler,stuff,tailwindcss,perpetual,material,MIT,git+https://github.com/tailwindlabs/tailwindcss.git,3.2.4,3.2.4,^3.2.0,n/a
+kessler,stuff,typescript,perpetual,material,Apache-2.0,git+https://github.com/Microsoft/TypeScript.git,4.9.5,4.9.4,^4.9.4,Microsoft Corp.

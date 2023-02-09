@@ -15,7 +15,7 @@ const LandingSection: FC<Props> = ({
   contentBody,
 }) => {
   return (
-    <Grid templateColumns="repeat(2 ,1fr)" py="48px" gap="40px">
+    <Grid templateColumns="repeat(2 ,1fr)" gap="40px">
       {contentSide === "left" ? (
         <GridItem
           colSpan={1}
@@ -23,7 +23,7 @@ const LandingSection: FC<Props> = ({
           flexDir="column"
           justifyContent="center"
         >
-          <Text textStyle="h3" mb="16px">
+          <Text textStyle="h4" mb="16px">
             {heading}
           </Text>
           {contentBody}
@@ -41,7 +41,7 @@ const LandingSection: FC<Props> = ({
           flexDir="column"
           justifyContent="center"
         >
-          <Text textStyle="h3" mb="16px">
+          <Text textStyle="h4" mb="16px">
             {heading}
           </Text>
           {contentBody}
