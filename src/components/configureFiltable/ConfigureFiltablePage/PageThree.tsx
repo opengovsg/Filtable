@@ -29,7 +29,7 @@ type Props = {
   headings: Array<string>;
   configuration: HeadingConfig;
   setConfiguration: Dispatch<SetStateAction<HeadingConfig>>;
-  googleSheetId?: string | string[] | undefined;
+  combinedIdAndGid?: string | string[] | undefined;
   csvKey?: string | string[] | undefined;
   router: NextRouter;
 };
@@ -39,7 +39,7 @@ const PageThree: FC<Props> = ({
   headings,
   configuration,
   setConfiguration,
-  googleSheetId,
+  combinedIdAndGid,
   csvKey,
   router,
 }) => {
@@ -67,10 +67,10 @@ const PageThree: FC<Props> = ({
     const mergedConfiguration = mergeTextsIntoConfig(configuration, texts);
     const urlConfig = encodeConfig([mergedConfiguration]);
 
-    if (googleSheetId) {
+    if (combinedIdAndGid) {
       void router.push(
         `/${ROUTES.GOOGLE_SHEETS}/${String(
-          googleSheetId
+          combinedIdAndGid
         )}?urlConfig=${urlConfig}`
       );
     } else if (csvKey) {

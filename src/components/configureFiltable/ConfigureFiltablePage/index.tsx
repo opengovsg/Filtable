@@ -18,13 +18,13 @@ import type { HeadingConfig } from "../../../types/configuration";
 
 type Props = {
   router: NextRouter;
-  googleSheetId?: string | string[] | undefined;
+  combinedIdAndGid?: string | string[] | undefined;
   csvKey?: string | string[] | undefined;
 };
 
 const ConfigureFiltablePage: FC<Props> = ({
   router,
-  googleSheetId,
+  combinedIdAndGid,
   csvKey,
 }) => {
   const [page, setPage] = useState(1);
@@ -34,7 +34,7 @@ const ConfigureFiltablePage: FC<Props> = ({
   );
   const { title, data, headings, firstRow, isLoading, errorMessage } =
     useSheetsData({
-      googleSheetId,
+      combinedIdAndGid,
       csvKey,
     });
 
@@ -131,7 +131,7 @@ const ConfigureFiltablePage: FC<Props> = ({
                   headings={headings}
                   configuration={configuration}
                   setConfiguration={setConfiguration}
-                  googleSheetId={googleSheetId}
+                  combinedIdAndGid={combinedIdAndGid}
                   csvKey={csvKey}
                   router={router}
                 />

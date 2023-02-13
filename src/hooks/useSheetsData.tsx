@@ -2,14 +2,14 @@ import { useEffect, useState } from "react";
 import { fetchCsvData } from "../api/csv";
 import { fetchGoogleSheetsData } from "../api/sheets";
 import { generateErrorMessage } from "../utils/errors";
-import { stripQueryParams } from "../utils/strings";
+import { separateIdAndGid, stripQueryParams } from "../utils/strings";
 import { GoogleSheetResponse } from "../zodSchemas";
 
 const useSheetsData = ({
-  googleSheetId,
+  combinedIdAndGid,
   csvKey,
 }: {
-  googleSheetId?: string | string[] | undefined;
+  combinedIdAndGid?: string | string[] | undefined;
   csvKey?: string | string[] | undefined;
 }) => {
   const [isLoading, setIsLoading] = useState(true);
@@ -25,17 +25,18 @@ const useSheetsData = ({
      * Get the right data based on ('csvKey' OR 'googleSheetId') AND configLocation
      */
     const getCorrespondingData = async ({
-      googleSheetId,
+      combinedIdAndGid,
       csvKey,
     }: {
-      googleSheetId: string | string[] | undefined;
+      combinedIdAndGid: string | string[] | undefined;
       csvKey: string | string[] | undefined;
     }) => {
-      if ((googleSheetId && csvKey) || (!googleSheetId && !csvKey)) {
-        throw "either BOTH googleSheetId and csvKey were provided or NEITHER";
-      } else if (googleSheetId) {
-        const strippedGoogleSheetId = stripQueryParams(googleSheetId);
-        return await fetchGoogleSheetsData(strippedGoogleSheetId);
+      if ((combinedIdAndGid && csvKey) || (!combinedIdAndGid && !csvKey)) {
+        throw "either BOTH combinedIdAndGid and csvKey were provided or NEITHER";
+      } else if (combinedIdAndGid) {
+        const stripped = stripQueryParams(combinedIdAndGid);
+        const { id, gid } = separateIdAndGid(stripped);
+        return await fetchGoogleSheetsData(id, gid);
       } else if (csvKey) {
         const strippedCsvKey = stripQueryParams(csvKey);
         return await fetchCsvData(strippedCsvKey);
@@ -45,11 +46,11 @@ const useSheetsData = ({
     };
 
     const fetchData = async () => {
-      if (googleSheetId || csvKey) {
+      if (combinedIdAndGid || csvKey) {
         try {
           const { data, headings, firstRow, title } =
             await getCorrespondingData({
-              googleSheetId,
+              combinedIdAndGid,
               csvKey,
             });
 
@@ -68,7 +69,7 @@ const useSheetsData = ({
     };
 
     void fetchData();
-  }, [csvKey, googleSheetId]);
+  }, [csvKey, combinedIdAndGid]);
 
   const value = {
     isLoading,

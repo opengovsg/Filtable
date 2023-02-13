@@ -6,8 +6,14 @@ import { formatRawValuesToArrayOfRecords } from "../utils/sheets";
 /**
  * For JUST Google Sheet Data
  */
-export const fetchGoogleSheetsData = async (id: string) => {
-  const dataRes = await fetch(`/api/google-sheets/${id}/idx/0`);
+export const fetchGoogleSheetsData = async (
+  id: string,
+  gid: string | undefined
+) => {
+  // If gid exists, fetch based on gid, else fetch first sheet
+  const dataRes = await (gid
+    ? fetch(`/api/google-sheets/${id}/gid/${gid}`)
+    : fetch(`/api/google-sheets/${id}/idx/0`));
   const dataData = await dataRes.json();
   const values = dataData.values as Array<Array<string>>;
 
@@ -34,6 +40,7 @@ export const fetchGoogleSheetsData = async (id: string) => {
 };
 
 /**
+ * @deprecated
  * Fetch Google Sheets (2nd sheet) config
  */
 export const fetchGoogleSheetsConfig = async (id: string) => {

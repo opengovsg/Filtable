@@ -11,24 +11,22 @@ import {
 
 const GoogleSheetFiltable: NextPage = () => {
   const router = useRouter();
-  const { googleSheetId, urlConfig } = router.query;
+  const { combinedIdAndGid, urlConfig } = router.query;
 
   const {
     isLoading: isLoadingSheetsData,
     errorMessage: errorMessageSheetsData,
     ...sheetsData
   } = useSheetsData({
-    googleSheetId,
+    combinedIdAndGid,
   });
 
-  const configLocation = Boolean(urlConfig) ? "url" : "secondSheet";
   const {
     isLoading: isLoadingConfigData,
     errorMessage: errorMessageConfigData,
     ...configData
   } = useConfigData({
-    configLocation,
-    googleSheetId,
+    configLocation: "url", // Currently url config is the ONLY way
     urlConfig,
   });
 

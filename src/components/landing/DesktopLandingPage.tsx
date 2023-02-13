@@ -20,6 +20,7 @@ import LandingSection from "./LandingSection";
 import Lottie from "lottie-react";
 import landingPageAnimation from "../../../public/landing-page-animation.json";
 import { Fade } from "react-awesome-reveal";
+import { extractIdAndGid } from "../../utils/strings";
 
 type Props = {
   sheetsLink: string;
@@ -44,31 +45,9 @@ const DesktopLandingPage: FC<Props> = ({
 }) => {
   const [fileUploadError, setFileUploadError] = useState("");
 
-  const handleFileValidation = (file: File) => {
-    if (file.type !== "text/csv") {
-      return "Please upload a .CSV file";
-    }
-    setFileUploadError("");
-    return null;
-  };
-
   const handleFileUploadError = (error: string) => {
     setFileUploadError(error);
   };
-
-  // useEffect(() => {
-  //   const container = document.querySelector("#landing-animation");
-
-  //   if (container) {
-  //     lottie.loadAnimation({
-  //       container, // the dom element that will contain the animation
-  //       renderer: "svg",
-  //       loop: true,
-  //       autoplay: true,
-  //       path: "landing-page-animation.json",
-  //     });
-  //   }
-  // }, []);
 
   return (
     <Show above="md">
@@ -152,8 +131,8 @@ const DesktopLandingPage: FC<Props> = ({
                     name="file"
                     value={file}
                     onChange={handleUploadFile}
-                    onFileValidation={handleFileValidation}
                     onError={handleFileUploadError}
+                    accept="text/csv"
                   />
                   {file ? (
                     <Button

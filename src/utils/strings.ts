@@ -1,3 +1,4 @@
+import { string } from "zod";
 import { filterKeywords } from "../types/filter";
 
 export const isFilterKeyword = (key: string | undefined): boolean => {
@@ -12,8 +13,40 @@ export const extractFirstToken = (word: string) => {
   return word.split(" ")[0];
 };
 
+/**
+ * @deprecated
+ */
 export const extractId = (sheetsLink: string) => {
   return sheetsLink.split("/")[5] || "";
+};
+
+export const extractIdAndGid = (sheetsLink: string) => {
+  const id = sheetsLink.split("/")[5];
+  const gid = sheetsLink.split("/")[6]?.split("#")[1]?.split("=")[1];
+
+  if (!id || !gid) {
+    throw "Invalid GSheet Link";
+  }
+
+  return { id, gid };
+};
+
+export const combinedIdAndGid = (id: string, gid: string) => {
+  return `${id};${gid}`;
+};
+
+export const separateIdAndGid = (s: string) => {
+  if (s.split(";").length === 2) {
+    console.log("A link with ID;GID was detected");
+    const id = s.split(";")[0] as string;
+    const gid = s.split(";")[1];
+
+    return { id, gid };
+  } else {
+    console.log("A link with only ID was detected");
+
+    return { id: s, gid: undefined };
+  }
 };
 
 export const extractUrlHost = (link: string | undefined) => {

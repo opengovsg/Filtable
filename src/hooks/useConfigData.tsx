@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { fetchGoogleSheetsConfig } from "../api/sheets";
 import type { ConfigLocation, HeadingConfig } from "../types/configuration";
 import type { FilterKeywords } from "../types/filter";
 import {
@@ -9,16 +8,13 @@ import {
   processConfigurationToFilters,
 } from "../utils/configuration";
 import { generateErrorMessage } from "../utils/errors";
-import { stripQueryParams } from "../utils/strings";
 import { ConfigurationResponse } from "../zodSchemas";
 
 const useConfigData = ({
   configLocation,
-  googleSheetId,
   urlConfig,
 }: {
   configLocation: ConfigLocation;
-  googleSheetId?: string | string[] | undefined;
   urlConfig?: string | string[] | undefined;
 }) => {
   const [isLoading, setIsLoading] = useState(true);
@@ -39,22 +35,14 @@ const useConfigData = ({
     /**
      * Get the right data based on ('csvKey' OR 'googleSheetId') AND configLocation
      */
-    const getCorrespondingConfig = async ({
+    const getCorrespondingConfig = ({
       configLocation,
-      googleSheetId,
       urlConfig,
     }: {
       configLocation: ConfigLocation;
-      googleSheetId: string | string[] | undefined;
       urlConfig?: string | string[] | undefined;
     }) => {
       switch (configLocation) {
-        case "secondSheet":
-          if (!googleSheetId) {
-            throw "no google sheet ID provided for config";
-          }
-          const strippedGoogleSheetId = stripQueryParams(googleSheetId);
-          return await fetchGoogleSheetsConfig(strippedGoogleSheetId);
         case "url":
           if (!urlConfig) {
             throw "no url config provided";
@@ -65,11 +53,10 @@ const useConfigData = ({
       throw "unable to fetch config";
     };
 
-    const fetchData = async () => {
+    const fetchData = () => {
       try {
-        const { configuration } = await getCorrespondingConfig({
+        const { configuration } = getCorrespondingConfig({
           configLocation,
-          googleSheetId,
           urlConfig,
         });
 
@@ -92,7 +79,7 @@ const useConfigData = ({
     };
 
     void fetchData();
-  }, [configLocation, googleSheetId, urlConfig]);
+  }, [configLocation, urlConfig]);
 
   const value = {
     isLoading,

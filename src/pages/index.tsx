@@ -6,7 +6,12 @@ import MobileLandingPage from "../components/landing/MobileLandingPage";
 // Apis
 import { uploadCsvFile } from "../api/csv";
 // Utils
-import { extractId, isDefinedLink } from "../utils/strings";
+import {
+  combinedIdAndGid,
+  extractId,
+  extractIdAndGid,
+  isDefinedLink,
+} from "../utils/strings";
 import { useRouter } from "next/router";
 import { ROUTES } from "../utils/routes";
 // Types
@@ -26,12 +31,18 @@ const Home: NextPage = () => {
 
   const createFiltableFromLink = () => {
     setSheetsLink("");
-    if (isDefinedLink(sheetsLink) && extractId(sheetsLink)) {
-      const sheetId = extractId(sheetsLink);
-      void router.push(`${ROUTES.GOOGLE_SHEETS}/${sheetId}/configure`);
-    } else {
-      setSheetsError("Please input a google sheets link");
+    try {
+      if (!isDefinedLink(sheetsLink)) {
+        throw "Please input a google sheets link";
+      }
+      extractIdAndGid(sheetsLink);
+    } catch (error) {
+      setSheetsError(error instanceof Error ? error.message : String(error));
     }
+    const { id, gid } = extractIdAndGid(sheetsLink);
+    void router.push(
+      `${ROUTES.GOOGLE_SHEETS}/${combinedIdAndGid(id, gid)}/configure`
+    );
   };
 
   const handleUploadFile = (file?: File | undefined) => {
