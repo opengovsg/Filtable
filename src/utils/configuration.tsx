@@ -8,6 +8,7 @@ import {
   isFilterKeyword,
   splitConcatenatedTags,
 } from "./strings";
+import { Base64 } from "js-base64";
 // Types
 import type { ZodTypeAny } from "zod";
 import type { Headings } from "../types/headings";
@@ -147,13 +148,13 @@ export const extractTexts = (
 
 export const encodeConfig = (config: Array<Record<string, string>>) => {
   const stringifiedConfig = JSON.stringify(config);
-  const encodedUrlConfig = btoa(stringifiedConfig);
+  const encodedUrlConfig = Base64.encode(stringifiedConfig);
 
   return encodedUrlConfig;
 };
 
 export const decodeUrlConfig = (urlConfig: string | string[]) => {
-  const decodedUrlConfig = atob(String(urlConfig));
+  const decodedUrlConfig = Base64.decode(String(urlConfig));
   const parsedConfig = JSON.parse(decodedUrlConfig);
 
   return parsedConfig as Record<string, string>;
