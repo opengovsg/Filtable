@@ -7,6 +7,11 @@ import { z } from "zod";
  */
 export const serverSchema = z.object({
   NODE_ENV: z.enum(["development", "test", "production"]),
+  GOOGLE_API_KEY: z.string(),
+  S3_BUCKET_NAME: z.string(),
+  AWS_REGION: z.string(),
+  AWS_ACCESS_KEY_ID: z.string(),
+  AWS_SECRET_ACCESS_KEY: z.string()
 });
 
 /**
@@ -15,5 +20,4 @@ export const serverSchema = z.object({
  * To expose them to the client, prefix them with `NEXT_PUBLIC_`.
  */
 export const clientSchema = z.object({
-  NEXT_PUBLIC_OPEN_SHEET_API: z.string(),
 });
