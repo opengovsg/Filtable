@@ -10,9 +10,10 @@ These instructions will get you a copy of the project up and running on your loc
 
 To setup the project, ensure that you have Node (v16.15.0) installed on your system.
 
+To check that you have Node installed, run
+
 ```
-// To check that you have Node installed, run the following command
-node -v
+node -v // It will return the node version if you have Node installed
 ```
 
 Set up your environment variables using the `.env.example` file
