@@ -77,9 +77,9 @@ export const splitConcatenatedTags = (concatenatedTags: string | undefined) => {
 };
 
 export const generateIFrame = (url: string, title: string | undefined) => {
-  const iframeTag = `<iframe width="560" height="315" src=${url} title=${`Filtable - ${
+  const iframeTag = `<iframe width="560" height="315" src="${url}" title="${`Filtable - ${
     title ?? ""
-  }`} frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>`;
+  }`}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>`;
 
   return iframeTag;
 };
